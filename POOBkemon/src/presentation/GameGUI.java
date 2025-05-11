@@ -295,12 +295,12 @@ public class GameGUI extends JFrame {
     private String getSpritePath(String pokemonName, boolean back) {
         String normalizedName = pokemonName.toLowerCase().trim();
 
-        // Sprites para el jugador 1 (vista frontal)
+        // Sprites para el jugador 1 (vista trasera)
         if (!back) {
             switch (normalizedName) {
                 case "charizard": return "/resources/pokemon_back_sprites/6.png";
                 case "blastoise": return "/resources/pokemon_back_sprites/9.png";
-                case "venusaur": return "/resources/pokemon_back_sprites/3.png";
+                case "Venusaur": return "/resources/pokemon_back_sprites/3.png";
                 case "gengar": return "/resources/pokemon_back_sprites/94.png";
                 case "machamp": return "/resources/pokemon_back_sprites/68.png";
                 case "raichu": return "/resources/pokemon_back_sprites/26.png";
@@ -312,10 +312,20 @@ public class GameGUI extends JFrame {
                 case "dragonite": return "/resources/pokemon_back_sprites/149.png";
                 case "metagross": return "/resources/pokemon_back_sprites/376.png";
                 case "gardevoir": return "/resources/pokemon_back_sprites/282.png";
+                case "zangoose": return "/resources/pokemon_back_sprites/335.png";
+                case "sceptile": return "/resources/pokemon_back_sprites/254.png";
+                case "grumpig": return "/resources/pokemon_back_sprites/326.png";
+                case "solrock": return "/resources/pokemon_back_sprites/338.png";
+                case "absol": return "/resources/pokemon_back_sprites/359.png";
+                case "umbreon": return "/resources/pokemon_back_sprites/197.png";
+                case "flygon": return "/resources/pokemon_back_sprites/330.png";
+                case "seviper": return "/resources/pokemon_back_sprites/336.png";
+                case "crobat": return "/resources/pokemon_back_sprites/169.png";
+                case "pidgeot": return "/resources/pokemon_back_sprites/18.png";
                 default: return "/resources/pokemon_back_sprites/unknown.png";
             }
         }
-        // Sprites para el jugador 2 (vista trasera - sin cambios)
+        // Sprites para el jugador 2 (vista frontal)
         else {
             switch (normalizedName) {
                 case "charizard": return "/resources/pokemon_sprites/6g.gif";
@@ -332,6 +342,16 @@ public class GameGUI extends JFrame {
                 case "dragonite": return "/resources/pokemon_sprites/149.gif";
                 case "metagross": return "/resources/pokemon_sprites/376g.gif";
                 case "gardevoir": return "/resources/pokemon_sprites/282g.gif";
+                case "zangoose": return "/resources/pokemon_sprites/335g.gif";
+                case "sceptile": return "/resources/pokemon_sprites/254g.gif";
+                case "grumpig": return "/resources/pokemon_sprites/326g.gif";
+                case "solrock": return "/resources/pokemon_sprites/338g.gif";
+                case "absol": return "/resources/pokemon_sprites/359g.gif";
+                case "umbreon": return "/resources/pokemon_sprites/197g.gif";
+                case "flygon": return "/resources/pokemon_sprites/330g.gif";
+                case "seviper": return "/resources/pokemon_sprites/336g.gif";
+                case "crobat": return "/resources/pokemon_sprites/169g.gif";
+                case "pidgeot": return "/resources/pokemon_sprites/18g.gif";
                 default: return "/resources/pokemon_sprites/unknown.png";
             }
         }
