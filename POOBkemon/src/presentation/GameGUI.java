@@ -318,20 +318,20 @@ public class GameGUI extends JFrame {
         // Sprites para el jugador 2 (vista trasera - sin cambios)
         else {
             switch (normalizedName) {
-                case "charizard": return "/resources/pokemon_sprites/6g.gif";
-                case "blastoise": return "/resources/pokemon_sprites/9g.gif";
-                case "venusaur": return "/resources/pokemon_sprites/3g.gif";
-                case "gengar": return "/resources/pokemon_sprites/94g.gif";
-                case "machamp": return "/resources/pokemon_sprites/68g.gif";
-                case "raichu": return "/resources/pokemon_sprites/26g.gif";
-                case "snorlax": return "/resources/pokemon_sprites/143g.gif";
-                case "tyranitar": return "/resources/pokemon_sprites/248g.gif";
-                case "donphan": return "/resources/pokemon_sprites/232g.gif";
-                case "delibird": return "/resources/pokemon_sprites/225g.gif";
-                case "togetic": return "/resources/pokemon_sprites/176g.gif";
+                case "charizard": return "/resources/pokemon_sprites/6.gif";
+                case "blastoise": return "/resources/pokemon_sprites/9.gif";
+                case "venusaur": return "/resources/pokemon_sprites/3.gif";
+                case "gengar": return "/resources/pokemon_sprites/94.gif";
+                case "machamp": return "/resources/pokemon_sprites/68.gif";
+                case "raichu": return "/resources/pokemon_sprites/26.gif";
+                case "snorlax": return "/resources/pokemon_sprites/143.gif";
+                case "tyranitar": return "/resources/pokemon_sprites/248.gif";
+                case "donphan": return "/resources/pokemon_sprites/232.gif";
+                case "delibird": return "/resources/pokemon_sprites/225.gif";
+                case "togetic": return "/resources/pokemon_sprites/176.gif";
                 case "dragonite": return "/resources/pokemon_sprites/149.gif";
-                case "metagross": return "/resources/pokemon_sprites/376g.gif";
-                case "gardevoir": return "/resources/pokemon_sprites/282g.gif";
+                case "metagross": return "/resources/pokemon_sprites/376.gif";
+                case "gardevoir": return "/resources/pokemon_sprites/282.gif";
                 default: return "/resources/pokemon_sprites/unknown.png";
             }
         }
