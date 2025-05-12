@@ -62,11 +62,7 @@ public class Charizard extends AbstractPokemon  {
             flameLit = true;
         }
     }
-    
-    @Override
-    public boolean isFainted() {
-        return currentHP == 0;
-    }
+
     
     // Métodos específicos de Charizard
     public boolean isFlameActive() {

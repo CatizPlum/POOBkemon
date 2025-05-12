@@ -1,7 +1,7 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Dragonite extends AbstractPokemon  {
     private boolean flyingMode;  // Estado de vuelo
@@ -18,6 +18,8 @@ public class Dragonite extends AbstractPokemon  {
         this.specialDefense = 328;
         this.speed = 284;
         this.flyingMode = false;
+
+        this.moves = new ArrayList<>();
 
         moves.add(new Move("Wrap", Type.NORMAL, 15, 90, MoveCategory.PHYSICAL));
         moves.add(new Move("Leer", Type.NORMAL, 0, 100, MoveCategory.STATUS));

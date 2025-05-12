@@ -29,6 +29,6 @@ public class Medicham extends AbstractPokemon {
     // Habilidad pasiva: Visión del aura
     public void auraVision() {
         System.out.println("Medicham utiliza su visión del aura para anticipar los movimientos del oponente.");
-        // Lógica para aumentar la evasión o precisión
+
     }
 }

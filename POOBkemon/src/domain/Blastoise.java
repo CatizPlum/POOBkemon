@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Blastoise extends AbstractPokemon  {
 
@@ -19,6 +18,8 @@ public class Blastoise extends AbstractPokemon  {
         this.specialDefense = 339;
         this.speed = 280;
         this.cannonsPowered = true;
+
+        this.moves = new ArrayList<>();
 
         moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Tail Whip", Type.NORMAL, 0, 100, MoveCategory.STATUS));

@@ -40,16 +40,11 @@ public class Crobat extends AbstractPokemon {
         moves.add(new Move("Brave Bird", Type.FLYING, 120, 100, MoveCategory.PHYSICAL)); // Ataque poderoso con retroceso
     }
 
-    @Override
-    public void takeDamage(int amount) {
-        super.takeDamage(amount);
-        // Crobat no tiene habilidades especiales que afecten el daño recibido
-    }
+
 
     @Override
     public void heal(int amount) {
         super.heal(amount);
-        // Sin habilidades especiales de curación
     }
 
     // Método especial para Cross Poison, su ataque característico
