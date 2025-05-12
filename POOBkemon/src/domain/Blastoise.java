@@ -21,6 +21,7 @@ public class Blastoise extends AbstractPokemon  {
 
         this.moves = new ArrayList<>();
 
+        // Movimientos por nivel
         moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Tail Whip", Type.NORMAL, 0, 100, MoveCategory.STATUS));
         moves.add(new Move("Bubble", Type.WATER, 20, 100, MoveCategory.SPECIAL));
@@ -30,14 +31,30 @@ public class Blastoise extends AbstractPokemon  {
         moves.add(new Move("Rapid Spin", Type.NORMAL, 20, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Protect", Type.NORMAL, 0, 0, MoveCategory.STATUS));
         moves.add(new Move("Rain Dance", Type.WATER, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Hydro Pump", Type.WATER, 110, 80, MoveCategory.SPECIAL));
         moves.add(new Move("Skull Bash", Type.NORMAL, 130, 100, MoveCategory.PHYSICAL));
+        moves.add(new Move("Hydro Pump", Type.WATER, 110, 80, MoveCategory.SPECIAL));
+
+        // Movimientos por Huevo
+        moves.add(new Move("Mirror Coat", Type.PSYCHIC, 0, 100, MoveCategory.SPECIAL));
+        moves.add(new Move("Haze", Type.ICE, 0, 0, MoveCategory.STATUS));
+        moves.add(new Move("Foresight", Type.NORMAL, 0, 0, MoveCategory.STATUS));
+        moves.add(new Move("Yawn", Type.NORMAL, 0, 0, MoveCategory.STATUS));
+        moves.add(new Move("Fake Out", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
+
+        // Movimientos por MT/MO
+        moves.add(new Move("Ice Beam", Type.ICE, 95, 100, MoveCategory.SPECIAL));
+        moves.add(new Move("Blizzard", Type.ICE, 110, 70, MoveCategory.SPECIAL));
+        moves.add(new Move("Earthquake", Type.GROUND, 100, 100, MoveCategory.PHYSICAL));
+        moves.add(new Move("Brick Break", Type.FIGHTING, 75, 100, MoveCategory.PHYSICAL));
+        moves.add(new Move("Surf", Type.WATER, 90, 100, MoveCategory.SPECIAL));
+        moves.add(new Move("Strength", Type.NORMAL, 80, 100, MoveCategory.PHYSICAL));
+        moves.add(new Move("Rock Tomb", Type.ROCK, 60, 95, MoveCategory.PHYSICAL));
+        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
     }
 
     @Override
     public void takeDamage(int amount) {
         currentHP = Math.max(0, currentHP - amount);
-        
         // Si los PS bajan demasiado, la potencia de los cañones disminuye
         if (currentHP < maxHP * 0.2) {
             cannonsPowered = false;
@@ -55,12 +72,11 @@ public class Blastoise extends AbstractPokemon  {
             System.out.println("¡Los cañones de Blastoise recuperan su presión normal!");
         }
     }
-    
+
     @Override
     public boolean isFainted() {
         return currentHP == 0;
     }
-    
     // Métodos específicos de Blastoise
     public boolean areCannonsPowered() {
         return cannonsPowered;
