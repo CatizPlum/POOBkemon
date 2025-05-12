@@ -89,4 +89,8 @@ public abstract class AbstractPokemon implements Pokemon {
     public boolean isFainted() {
         return currentHP == 0;
     }
+
+    public void incrementAttack(int amount) {
+        this.attack += amount;
+    }
 }

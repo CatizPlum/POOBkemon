@@ -3,18 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dragonite implements Pokemon {
-    private String name;
-    private Type primaryType;
-    private Type secondaryType;
-    private int maxHP;
-    private int currentHP;
-    private int attack;
-    private int defense;
-    private int specialAttack;
-    private int specialDefense;
-    private int speed;
-    private List<Move> moves;
+public class Dragonite extends AbstractPokemon  {
     private boolean flyingMode;  // Estado de vuelo
     
     public Dragonite() {
@@ -29,69 +18,18 @@ public class Dragonite implements Pokemon {
         this.specialDefense = 328;
         this.speed = 284;
         this.flyingMode = false;
-        
-        // Inicializar movimientos de ejemplo
-        this.moves = new ArrayList<>();
-        moves.add(new Move("Hiperrayo", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
-        moves.add(new Move("Cometa Draco", Type.DRAGON, 130, 90, MoveCategory.SPECIAL));
-        moves.add(new Move("Vuelo", Type.FLYING, 90, 95, MoveCategory.PHYSICAL));
-        moves.add(new Move("Puño Trueno", Type.ELECTRIC, 75, 100, MoveCategory.PHYSICAL));
+
+        moves.add(new Move("Wrap", Type.NORMAL, 15, 90, MoveCategory.PHYSICAL));
+        moves.add(new Move("Leer", Type.NORMAL, 0, 100, MoveCategory.STATUS));
+        moves.add(new Move("Thunder Wave", Type.ELECTRIC, 0, 90, MoveCategory.STATUS));
+        moves.add(new Move("Twister", Type.DRAGON, 40, 100, MoveCategory.SPECIAL));
+        moves.add(new Move("Dragon Rage", Type.DRAGON, 0, 100, MoveCategory.SPECIAL));
+        moves.add(new Move("Slam", Type.NORMAL, 80, 75, MoveCategory.PHYSICAL));
+        moves.add(new Move("Agility", Type.PSYCHIC, 0, 0, MoveCategory.STATUS));
+        moves.add(new Move("Outrage", Type.DRAGON, 120, 100, MoveCategory.PHYSICAL));
+        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
     }
-    
-    @Override
-    public String getName() {
-        return name;
-    }
-    
-    @Override
-    public Type getPrimaryType() {
-        return primaryType;
-    }
-    
-    @Override
-    public Type getSecondaryType() {
-        return secondaryType;
-    }
-    
-    @Override
-    public int getMaxHP() {
-        return maxHP;
-    }
-    
-    @Override
-    public int getCurrentHP() {
-        return currentHP;
-    }
-    
-    @Override
-    public int getAttack() {
-        return attack;
-    }
-    
-    @Override
-    public int getDefense() {
-        return defense;
-    }
-    
-    @Override
-    public int getSpecialAttack() {
-        return specialAttack;
-    }
-    
-    @Override
-    public int getSpecialDefense() {
-        return specialDefense;
-    }
-    
-    @Override
-    public int getSpeed() {
-        return speed;
-    }
-    
-    @Override
-    public List<Move> getMoves() {
-        return moves;
-    }
+
     
     @Override
     public void takeDamage(int amount) {
@@ -109,17 +47,7 @@ public class Dragonite implements Pokemon {
             System.out.println("¡Dragonite pierde su estabilidad aérea y desciende!");
         }
     }
-    
-    @Override
-    public void heal(int amount) {
-        currentHP = Math.min(maxHP, currentHP + amount);
-    }
-    
-    @Override
-    public boolean isFainted() {
-        return currentHP == 0;
-    }
-    
+
     // Métodos específicos de Dragonite
     public boolean isFlying() {
         return flyingMode;

@@ -295,7 +295,7 @@ public class GameGUI extends JFrame {
     private String getSpritePath(String pokemonName, boolean back) {
         String normalizedName = pokemonName.toLowerCase().trim();
 
-        // Sprites para el jugador 1 (vista frontal)
+        // Sprites para el jugador 1 (vista trasera)
         if (!back) {
             switch (normalizedName) {
                 case "charizard": return "/resources/pokemon_back_sprites/6.png";
@@ -312,26 +312,48 @@ public class GameGUI extends JFrame {
                 case "dragonite": return "/resources/pokemon_back_sprites/149.png";
                 case "metagross": return "/resources/pokemon_back_sprites/376.png";
                 case "gardevoir": return "/resources/pokemon_back_sprites/282.png";
+                case "altaria": return "/resources/pokemon_back_sprites/334.png";
+                case "banette": return "/resources/pokemon_back_sprites/354.png";
+                case "blaziken": return "/resources/pokemon_back_sprites/257.png";
+                case "glalie": return "/resources/pokemon_back_sprites/362.png";
+                case "granbull": return "/resources/pokemon_back_sprites/210.png";
+                case "manectric": return "/resources/pokemon_back_sprites/310.png";
+                case "masquerain": return "/resources/pokemon_back_sprites/284.png";
+                case "mawile": return "/resources/pokemon_back_sprites/303.png";
+                case "medicham": return "/resources/pokemon_back_sprites/308.png";
+                case "ninjask": return "/resources/pokemon_back_sprites/291.png";
+                case "swampert": return "/resources/pokemon_back_sprites/260.png";
                 default: return "/resources/pokemon_back_sprites/unknown.png";
             }
         }
-        // Sprites para el jugador 2 (vista trasera - sin cambios)
+        // Sprites para el jugador 2 (vista frontal - sin cambios)
         else {
             switch (normalizedName) {
-                case "charizard": return "/resources/pokemon_sprites/6g.gif";
-                case "blastoise": return "/resources/pokemon_sprites/9g.gif";
-                case "venusaur": return "/resources/pokemon_sprites/3g.gif";
-                case "gengar": return "/resources/pokemon_sprites/94g.gif";
-                case "machamp": return "/resources/pokemon_sprites/68g.gif";
-                case "raichu": return "/resources/pokemon_sprites/26g.gif";
-                case "snorlax": return "/resources/pokemon_sprites/143g.gif";
-                case "tyranitar": return "/resources/pokemon_sprites/248g.gif";
-                case "donphan": return "/resources/pokemon_sprites/232g.gif";
-                case "delibird": return "/resources/pokemon_sprites/225g.gif";
-                case "togetic": return "/resources/pokemon_sprites/176g.gif";
+                case "charizard": return "/resources/pokemon_sprites/6.gif";
+                case "blastoise": return "/resources/pokemon_sprites/9.gif";
+                case "venusaur": return "/resources/pokemon_sprites/3.gif";
+                case "gengar": return "/resources/pokemon_sprites/94.gif";
+                case "machamp": return "/resources/pokemon_sprites/68.gif";
+                case "raichu": return "/resources/pokemon_sprites/26.gif";
+                case "snorlax": return "/resources/pokemon_sprites/143.gif";
+                case "tyranitar": return "/resources/pokemon_sprites/248.gif";
+                case "donphan": return "/resources/pokemon_sprites/232.gif";
+                case "delibird": return "/resources/pokemon_sprites/225.gif";
+                case "togetic": return "/resources/pokemon_sprites/176.gif";
                 case "dragonite": return "/resources/pokemon_sprites/149.gif";
-                case "metagross": return "/resources/pokemon_sprites/376g.gif";
-                case "gardevoir": return "/resources/pokemon_sprites/282g.gif";
+                case "metagross": return "/resources/pokemon_sprites/376.gif";
+                case "gardevoir": return "/resources/pokemon_sprites/282.gif";
+                case "altaria": return "/resources/pokemon_back_sprites/334.gif";
+                case "banette": return "/resources/pokemon_back_sprites/354.gif";
+                case "blaziken": return "/resources/pokemon_back_sprites/257.gif";
+                case "glalie": return "/resources/pokemon_back_sprites/362.gif";
+                case "granbull": return "/resources/pokemon_back_sprites/210.gif";
+                case "manectric": return "/resources/pokemon_back_sprites/310.gif";
+                case "masquerain": return "/resources/pokemon_back_sprites/284.gif";
+                case "mawile": return "/resources/pokemon_back_sprites/303.gif";
+                case "medicham": return "/resources/pokemon_back_sprites/308.gif";
+                case "ninjask": return "/resources/pokemon_back_sprites/291.gif";
+                case "swampert": return "/resources/pokemon_back_sprites/260.gif";
                 default: return "/resources/pokemon_sprites/unknown.png";
             }
         }

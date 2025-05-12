@@ -16,6 +16,7 @@ public class Trainer {
         this.team = team;
         this.items = items;
         this.activePokemonIndex = 0;
+
     }
 
     public Pokemon getCurrentPokemon() {

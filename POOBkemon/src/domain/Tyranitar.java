@@ -3,94 +3,20 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tyranitar implements Pokemon {
-    private String name;
-    private Type primaryType;
-    private Type secondaryType;
-    private int maxHP;
-    private int currentHP;
-    private int attack;
-    private int defense;
-    private int specialAttack;
-    private int specialDefense;
-    private int speed;
-    private List<Move> moves;
+public class Tyranitar extends AbstractPokemon  {
+
     private boolean sandstreamActive;  // Estado de tormenta de arena
     
     public Tyranitar() {
-        this.name = "Tyranitar";
-        this.primaryType = Type.ROCK;
-        this.secondaryType = Type.DARK;
-        this.maxHP = 404;
-        this.currentHP = 404;
-        this.attack = 403;
-        this.defense = 350;
-        this.specialAttack = 317;
-        this.specialDefense = 328;
-        this.speed = 243;
+
         this.sandstreamActive = false;
         
-        // Inicializar movimientos de ejemplo
+
         this.moves = new ArrayList<>();
         moves.add(new Move("Terremoto", Type.GROUND, 100, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Avalancha", Type.ROCK, 75, 90, MoveCategory.PHYSICAL));
         moves.add(new Move("Triturar", Type.DARK, 80, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Hiperrayo", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
-    }
-    
-    @Override
-    public String getName() {
-        return name;
-    }
-    
-    @Override
-    public Type getPrimaryType() {
-        return primaryType;
-    }
-    
-    @Override
-    public Type getSecondaryType() {
-        return secondaryType;
-    }
-    
-    @Override
-    public int getMaxHP() {
-        return maxHP;
-    }
-    
-    @Override
-    public int getCurrentHP() {
-        return currentHP;
-    }
-    
-    @Override
-    public int getAttack() {
-        return attack;
-    }
-    
-    @Override
-    public int getDefense() {
-        return defense;
-    }
-    
-    @Override
-    public int getSpecialAttack() {
-        return specialAttack;
-    }
-    
-    @Override
-    public int getSpecialDefense() {
-        return specialDefense;
-    }
-    
-    @Override
-    public int getSpeed() {
-        return speed;
-    }
-    
-    @Override
-    public List<Move> getMoves() {
-        return moves;
     }
     
     @Override

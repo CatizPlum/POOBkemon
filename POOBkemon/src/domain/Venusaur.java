@@ -3,18 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Venusaur implements Pokemon {
-    private String name;
-    private Type primaryType;
-    private Type secondaryType;
-    private int maxHP;
-    private int currentHP;
-    private int attack;
-    private int defense;
-    private int specialAttack;
-    private int specialDefense;
-    private int speed;
-    private List<Move> moves;
+public class Venusaur extends AbstractPokemon {
+
     private boolean flowerBlossomed;  // Estado de la flor
     
     public Venusaur() {
@@ -22,7 +12,7 @@ public class Venusaur implements Pokemon {
         this.primaryType = Type.PLANT;
         this.secondaryType = Type.POISON;
         this.maxHP = 364;
-        this.currentHP = 364;
+        this.currentHP = maxHP;
         this.attack = 289;
         this.defense = 291;
         this.specialAttack = 328;
@@ -37,62 +27,7 @@ public class Venusaur implements Pokemon {
         moves.add(new Move("Terremoto", Type.GROUND, 100, 100, MoveCategory.PHYSICAL));
         moves.add(new Move("Síntesis", Type.PLANT, 0, 100, MoveCategory.STATUS));
     }
-    
-    @Override
-    public String getName() {
-        return name;
-    }
-    
-    @Override
-    public Type getPrimaryType() {
-        return primaryType;
-    }
-    
-    @Override
-    public Type getSecondaryType() {
-        return secondaryType;
-    }
-    
-    @Override
-    public int getMaxHP() {
-        return maxHP;
-    }
-    
-    @Override
-    public int getCurrentHP() {
-        return currentHP;
-    }
-    
-    @Override
-    public int getAttack() {
-        return attack;
-    }
-    
-    @Override
-    public int getDefense() {
-        return defense;
-    }
-    
-    @Override
-    public int getSpecialAttack() {
-        return specialAttack;
-    }
-    
-    @Override
-    public int getSpecialDefense() {
-        return specialDefense;
-    }
-    
-    @Override
-    public int getSpeed() {
-        return speed;
-    }
-    
-    @Override
-    public List<Move> getMoves() {
-        return moves;
-    }
-    
+
     @Override
     public void takeDamage(int amount) {
         currentHP = Math.max(0, currentHP - amount);
