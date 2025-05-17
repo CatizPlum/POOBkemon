@@ -128,7 +128,7 @@ public class GameGUI extends JFrame {
 
         // Posicionamiento de componentes del jugador 1
         pokemon1Label.setBounds(130, 285, 200, 20);
-        pokemon1Sprite.setBounds(135, 285, 200, 200);
+        pokemon1Sprite.setBounds(135, 300, 200, 200);
         hpBar1.setBounds(50, 230, 200, 20);
 
         pokemon1Panel.add(pokemon1Label);
