@@ -215,23 +215,36 @@ public class GameGUI extends JFrame {
         Trainer current = game.getCurrentTrainer();
         Trainer waiting = game.getWaitingTrainer();
 
+        // Actualizar etiquetas de entrenadores con indicador de turno
         trainer1Label.setText(game.getCurrentTrainer() == game.getTrainer1() ? "▶ " + game.getTrainer1().getName() : game.getTrainer1().getName());
         trainer2Label.setText(game.getCurrentTrainer() == game.getTrainer2() ? "▶ " + game.getTrainer2().getName() : game.getTrainer2().getName());
-        trainer1Label.setBackground(new Color(game.getTrainer1().getColor().getRed(),
+
+        // Configurar colores de fondo para los entrenadores
+        trainer1Label.setBackground(new Color(
+                game.getTrainer1().getColor().getRed(),
                 game.getTrainer1().getColor().getGreen(),
                 game.getTrainer1().getColor().getBlue(), 150));
-        trainer2Label.setBackground(new Color(game.getTrainer2().getColor().getRed(),
+        trainer2Label.setBackground(new Color(
+                game.getTrainer2().getColor().getRed(),
                 game.getTrainer2().getColor().getGreen(),
                 game.getTrainer2().getColor().getBlue(), 150));
+
         trainer1Label.setForeground(Color.WHITE);
         trainer2Label.setForeground(Color.WHITE);
 
         Pokemon p1 = game.getTrainer1().getCurrentPokemon();
         Pokemon p2 = game.getTrainer2().getCurrentPokemon();
 
-        pokemon1Label.setText(p1.getName() + " Lv.50");
-        pokemon2Label.setText(p2.getName() + " Lv.50");
+        // Mostrar nivel según el modo de juego
+        if ("SURVIVAL".equals(mode)) {
+            pokemon1Label.setText(p1.getName() + " Lv.100");
+            pokemon2Label.setText(p2.getName() + " Lv.100");
+        } else {
+            pokemon1Label.setText(p1.getName() + " Lv.50");
+            pokemon2Label.setText(p2.getName() + " Lv.50");
+        }
 
+        // Configurar barras de HP
         hpBar1.setMaximum(p1.getMaxHP());
         hpBar1.setValue(p1.getCurrentHP());
         hpBar1.setString(p1.getCurrentHP() + "/" + p1.getMaxHP());
@@ -242,15 +255,18 @@ public class GameGUI extends JFrame {
         hpBar2.setString(p2.getCurrentHP() + "/" + p2.getMaxHP());
         hpBar2.setForeground(getHpColor(p2.getCurrentHP(), p2.getMaxHP()));
 
-        loadPokemonSprite(pokemon1Sprite, p1, false);
-        loadPokemonSprite(pokemon2Sprite, p2, true);
+        // Cargar sprites de los Pokémon
+        loadPokemonSprite(pokemon1Sprite, p1, false); // Vista trasera para jugador 1
+        loadPokemonSprite(pokemon2Sprite, p2, true);  // Vista frontal para jugador 2
 
+        // Actualizar lista de movimientos
         movesCombo.removeAllItems();
         List<Move> moves = current.getCurrentPokemon().getMoves();
         for (Move move : moves) {
             movesCombo.addItem(move.getName() + " (" + move.getType() + ", " + move.getPower() + " power)");
         }
 
+        // Manejar turno automático para modos con IA
         if (mode.equals("MvsM") || (mode.equals("PvsM") && current == game.getTrainer2())) {
             Timer timer = new Timer(1000, e -> {
                 randomAction();
@@ -259,6 +275,9 @@ public class GameGUI extends JFrame {
             timer.setRepeats(false);
             timer.start();
         }
+
+        // Verificar si el juego ha terminado
+        checkEnd();
     }
 
     private Color getHpColor(int current, int max) {
@@ -489,7 +508,7 @@ public class GameGUI extends JFrame {
                     options[0]);
 
             if (selected != null) {
-                selected.apply(current.getCurrentPokemon());
+                 selected.apply(current.getCurrentPokemon());
                 items.remove(selected);
                 JOptionPane.showMessageDialog(this,
                         "Used " + selected.getName() + "!",

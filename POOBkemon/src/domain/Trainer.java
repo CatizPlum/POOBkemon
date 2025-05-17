@@ -34,8 +34,12 @@ public class Trainer {
     }
 
     public void useItem(Item item) throws PoobkemonException {
-        item.apply(getCurrentPokemon());
-        items.remove(item);
+        try {
+            item.apply(getCurrentPokemon());
+            items.remove(item);
+        } catch (PoobkemonException e) {
+            throw e; // Relanzar la excepción para manejo en la GUI
+        }
     }
 
     public String getName() {

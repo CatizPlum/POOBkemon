@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import java.io.InputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,76 +36,43 @@ public class MainMenuGUI extends JFrame {
     private JPanel createCoverPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        String imageName = "3.0.png";
-        String[] possiblePaths = {
-                "front/" + imageName,
-                "resources/front/" + imageName,
-                "src/main/resources/front/" + imageName,
-                "POOBkemon/resources/front/" + imageName,
-                System.getProperty("user.dir") + "/front/" + imageName,
-                System.getProperty("user.dir") + "/resources/front/" + imageName,
-                System.getProperty("user.dir") + "/src/main/resources/front/" + imageName,
-                System.getProperty("user.dir") + "/POOBkemon/resources/front/" + imageName
-        };
-
         try {
-            BufferedImage image = loadImageFromMultipleLocations(imageName, possiblePaths);
-
+            BufferedImage image = loadCoverImage();
             if (image != null) {
                 Image scaledImage = image.getScaledInstance(800, 500, Image.SCALE_SMOOTH);
                 panel.add(new JLabel(new ImageIcon(scaledImage)), BorderLayout.CENTER);
             } else {
-                image = createFallbackImage();
-                panel.add(new JLabel(new ImageIcon(image)), BorderLayout.CENTER);
-
-                JOptionPane.showMessageDialog(this,
-                        "No se encontró la imagen de portada.\n" +
-                                "Por favor, coloca el archivo '" + imageName + "'\n" +
-                                "en una de estas ubicaciones:\n" +
-                                String.join("\n", possiblePaths),
-                        "Imagen no encontrada",
-                        JOptionPane.WARNING_MESSAGE);
+                panel.add(createFallbackCover(), BorderLayout.CENTER);
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
             panel.add(new JLabel("Error técnico al cargar la portada", SwingConstants.CENTER), BorderLayout.CENTER);
         }
 
         return panel;
     }
 
-    private BufferedImage loadImageFromMultipleLocations(String imageName, String[] paths) {
-        for (String path : paths) {
-            try {
-                System.out.println("Buscando imagen en: " + path);
+    private BufferedImage loadCoverImage() throws IOException {
+        String imageName = "3.0.png";
+        String[] possiblePaths = {
+                "/front/" + imageName,
+                "/resources/front/" + imageName,
+                System.getProperty("user.dir") + "/POOBkemon/resources/front/" + imageName
+        };
 
-                InputStream stream = getClass().getClassLoader().getResourceAsStream(path);
-                if (stream != null) {
-                    BufferedImage image = ImageIO.read(stream);
-                    if (image != null) {
-                        System.out.println("¡Imagen encontrada como recurso!");
-                        return image;
-                    }
-                }
-
-                File file = new File(path);
-                if (file.exists()) {
-                    BufferedImage image = ImageIO.read(file);
-                    if (image != null) {
-                        System.out.println("¡Imagen encontrada en sistema de archivos!");
-                        return image;
-                    }
-                }
-
-            } catch (IOException e) {
-                System.err.println("Error al cargar desde " + path + ": " + e.getMessage());
+        for (String path : possiblePaths) {
+            InputStream stream = getClass().getResourceAsStream(path);
+            if (stream != null) {
+                return ImageIO.read(stream);
+            }
+            File file = new File(path);
+            if (file.exists()) {
+                return ImageIO.read(file);
             }
         }
         return null;
     }
 
-    private BufferedImage createFallbackImage() {
+    private JLabel createFallbackCover() {
         BufferedImage image = new BufferedImage(800, 500, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
@@ -117,16 +83,10 @@ public class MainMenuGUI extends JFrame {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
         String title = "POOBkémon";
-        int titleWidth = g.getFontMetrics().stringWidth(title);
-        g.drawString(title, (800 - titleWidth)/2, 150);
-
-        g.setFont(new Font("Arial", Font.PLAIN, 16));
-        String message = "Imagen de portada no encontrada";
-        int msgWidth = g.getFontMetrics().stringWidth(message);
-        g.drawString(message, (800 - msgWidth)/2, 200);
+        g.drawString(title, (800 - g.getFontMetrics().stringWidth(title))/2, 150);
 
         g.dispose();
-        return image;
+        return new JLabel(new ImageIcon(image));
     }
 
     private JPanel createButtonPanel() {
@@ -138,14 +98,15 @@ public class MainMenuGUI extends JFrame {
         // Panel de selección de modo
         JPanel modePanel = new JPanel();
         modePanel.setBackground(new Color(40, 40, 40));
-        modePanel.add(new JLabel("Modo de juego: "));
+        modePanel.add(new JLabel("Modo de juego:"));
 
         modeComboBox = new JComboBox<>(new String[]{
                 "Jugador vs Jugador",
                 "Jugador vs Máquina",
-                "Máquina vs Máquina"
+                "Máquina vs Máquina",
+                "Supervivencia (PvP)"
         });
-        modeComboBox.setMaximumSize(new Dimension(200, 30));
+        modeComboBox.setPreferredSize(new Dimension(200, 30));
         modePanel.add(modeComboBox);
 
         // Panel de botones
@@ -156,12 +117,17 @@ public class MainMenuGUI extends JFrame {
         JButton startButton = createStyledButton("Iniciar Juego");
         startButton.addActionListener(e -> startGame());
 
+        JButton howToPlayButton = createStyledButton("Cómo Jugar");
+        howToPlayButton.addActionListener(e -> showInstructions());
+
         JButton exitButton = createStyledButton("Salir");
         exitButton.addActionListener(e -> System.exit(0));
 
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(startButton);
-        buttonPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonPanel.add(howToPlayButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonPanel.add(exitButton);
         buttonPanel.add(Box.createHorizontalGlue());
 
@@ -174,16 +140,15 @@ public class MainMenuGUI extends JFrame {
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setPreferredSize(new Dimension(200, 50));
-        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setPreferredSize(new Dimension(180, 45));
+        button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setBackground(new Color(80, 140, 220));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createRaisedBevelBorder(),
-                BorderFactory.createEmptyBorder(5, 25, 5, 25)
+                BorderFactory.createEmptyBorder(5, 15, 5, 15)
         ));
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -197,44 +162,102 @@ public class MainMenuGUI extends JFrame {
         return button;
     }
 
+    private void showInstructions() {
+        String message = "<html><div style='text-align:center;width:300px;'>"
+                + "<h2>Instrucciones</h2>"
+                + "<p><b>Modo Supervivencia:</b> Equipos aleatorios sin ítems</p>"
+                + "<p><b>Otros modos:</b> Selecciona tus Pokémon y usa ítems</p>"
+                + "<p><b>Controles:</b> Elige movimientos y gestiona tu equipo</p></div></html>";
+
+        JOptionPane.showMessageDialog(this, message, "Cómo Jugar", JOptionPane.INFORMATION_MESSAGE);
+    }
+
     private void startGame() {
         String selectedMode = (String) modeComboBox.getSelectedItem();
         String mode = convertModeToInternal(selectedMode);
 
+        // Activar/desactivar modo Supervivencia
+        Item.setSurvivalMode("SURVIVAL".equals(mode));
         dispose();
 
-        // Configuración básica del juego
-        Pokemon charizard = new Charizard();
-        Pokemon blastoise = new Blastoise();
-        Pokemon dragonite = new Dragonite();
-        Pokemon gengar = new Gengar();
-        Pokemon venusaur = new Venusaur();
-        Pokemon tyranitar = new Tyranitar();
-        Pokemon togetic = new Togetic();
+        if ("SURVIVAL".equals(mode)) {
+            startSurvivalMode();
+        } else {
+            startStandardMode(mode);
+        }
+    }
 
-        List<Item> items = List.of(
-                new Item("Poción", "heal20"),
-                new Item("Superpoción", "heal50"),
-                new Item("Revivir", "revive")
-        );
+    private void startSurvivalMode() {
+        List<Pokemon> team1 = SurvivalMode.generateRandomTeam();
+        List<Pokemon> team2 = SurvivalMode.generateRandomTeam();
 
-        // Crear equipos más variados
         Trainer trainer1 = new Trainer(
-                mode.equals("PvsP") ? "Jugador 1" : "Entrenador",
+                "Jugador 1",
                 new Color(50, 100, 200),
-                List.of(charizard, dragonite, venusaur),
-                new ArrayList<>(items)
+                team1,
+                new ArrayList<>()
         );
 
         Trainer trainer2 = new Trainer(
-                mode.equals("PvsP") ? "Jugador 2" :
-                        mode.equals("PvsM") ? "Máquina" : "Máquina",
+                "Jugador 2",
                 new Color(200, 50, 100),
-                List.of(blastoise, gengar, tyranitar, togetic),
-                new ArrayList<>(items)
+                team2,
+                new ArrayList<>()
         );
 
+        new GameGUI(new Game(trainer1, trainer2), "SURVIVAL").setVisible(true);
+    }
+
+    private void startStandardMode(String mode) {
+        List<Item> items = List.of(
+                new Item("Poción", "heal20"),
+                new Item("Superpoción", "heal50"),
+                new Item("HyperPotion", "heal200"),
+                new Item("Revivir", "revive")
+        );
+
+        List<Pokemon> allPokemons = createAllPokemons();
+
+        Trainer trainer1 = createTrainer(mode, "Jugador 1", "Entrenador",
+                new Color(50, 100, 200), allPokemons, items);
+
+        Trainer trainer2 = createTrainer(mode, "Jugador 2", "Máquina",
+                new Color(200, 50, 100),
+                List.of(
+                        allPokemons.get(3),  // Blastoise
+                        allPokemons.get(12), // Gengar
+                        allPokemons.get(31), // Tyranitar
+                        allPokemons.get(30), // Togetic
+                        allPokemons.get(21), // Metagross
+                        allPokemons.get(4)   // Blaziken
+                ),
+                items);
+
         new GameGUI(new Game(trainer1, trainer2), mode).setVisible(true);
+    }
+
+    private List<Pokemon> createAllPokemons() {
+        return List.of(
+                new Absol(), new Altaria(), new Banette(), new Blastoise(),
+                new Blaziken(), new Charizard(), new Crobat(), new Delibird(),
+                new Donphan(), new Dragonite(), new Flygon(), new Gardevoir(),
+                new Gengar(), new Glalie(), new Granbull(), new Grumpig(),
+                new Machamp(), new Manectric(), new Masquerain(), new Mawile(),
+                new Medicham(), new Metagross(), new Moltres(), new Ninjask(),
+                new Pidgeot(), new Raichu(), new Sceptile(), new Seviper(),
+                new Snorlax(), new Solrock(), new Swampert(), new Togetic(),
+                new Tyranitar(), new Umbreon(), new Venusaur(), new Zangoose()
+        );
+    }
+
+    private Trainer createTrainer(String mode, String playerName, String aiName,
+                                  Color color, List<Pokemon> pokemons, List<Item> items) {
+        return new Trainer(
+                mode.equals("PvsP") ? playerName : aiName,
+                color,
+                pokemons,
+                new ArrayList<>(items)
+        );
     }
 
     private String convertModeToInternal(String selectedMode) {
@@ -242,6 +265,7 @@ public class MainMenuGUI extends JFrame {
             case "Jugador vs Jugador" -> "PvsP";
             case "Jugador vs Máquina" -> "PvsM";
             case "Máquina vs Máquina" -> "MvsM";
+            case "Supervivencia (PvP)" -> "SURVIVAL";
             default -> "PvsP";
         };
     }
@@ -250,12 +274,11 @@ public class MainMenuGUI extends JFrame {
         SwingUtilities.invokeLater(() -> {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                new MainMenuGUI().setVisible(true);
             } catch (Exception e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al iniciar la aplicación: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            MainMenuGUI menu = new MainMenuGUI();
-            menu.setVisible(true);
         });
     }
 }
