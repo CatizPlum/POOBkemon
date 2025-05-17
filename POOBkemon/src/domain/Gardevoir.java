@@ -2,10 +2,32 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Gardevoir, un Pokémon de tipo Psíquico/Hada.
+ * Conocido por su gran poder especial y conexión emocional con su entrenador.
+ * Su efectividad en combate depende de su equilibrio emocional.
+ */
 public class Gardevoir extends AbstractPokemon {
 
+    /**
+     * Indica el estado emocional de Gardevoir.
+     * Cuando es true:
+     * - Gardevoir puede usar sus habilidades al máximo potencial
+     * - Representa su estado de armonía mental
+     *
+     * Se pierde al recibir daño significativo (>25% HP máximo)
+     * Se recupera al estar por encima del 70% de salud
+     */
     private boolean emotionalBalance;
 
+    /**
+     * Constructor de Gardevoir. Inicializa sus estadísticas base, tipos y movimientos.
+     * Estadísticas destacadas:
+     * - Ataque especial excepcional (383)
+     * - Defensa especial alta (361)
+     * - HP moderado (340)
+     * - Tipo dual Psíquico/Hada
+     */
     public Gardevoir() {
         this.name = "Gardevoir";
         this.primaryType = Type.PSYCHIC;
@@ -19,10 +41,13 @@ public class Gardevoir extends AbstractPokemon {
         this.speed = 284;
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Gardevoir puede aprender por defecto.
+     * Incluye movimientos de varios tipos para versatilidad en combate.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -33,7 +58,13 @@ public class Gardevoir extends AbstractPokemon {
         learnMove("Absorb");
     }
 
-
+    /**
+     * Método para recibir daño. Afecta el equilibrio emocional de Gardevoir.
+     * @param amount Cantidad de daño recibido
+     *
+     * Efecto secundario:
+     * - Pierde equilibrio emocional si el daño >25% HP máximo
+     */
     @Override
     public void takeDamage(int amount) {
         super.takeDamage(amount);
@@ -43,6 +74,10 @@ public class Gardevoir extends AbstractPokemon {
         }
     }
 
+    /**
+     * Método para curar HP. Restaura el equilibrio emocional si HP >70%.
+     * @param amount Cantidad de HP a recuperar
+     */
     @Override
     public void heal(int amount) {
         super.heal(amount);
@@ -52,10 +87,19 @@ public class Gardevoir extends AbstractPokemon {
         }
     }
 
+    /**
+     * Verifica el estado emocional de Gardevoir.
+     * @return true si está en equilibrio emocional, false en caso contrario
+     */
     public boolean isEmotionallyBalanced() {
         return emotionalBalance;
     }
 
+    /**
+     * Ataque especial: Psychic Burst.
+     * Solo funciona cuando Gardevoir está en equilibrio emocional.
+     * Representa la explosión de poder psíquico cuando está centrada.
+     */
     public void psychicBurst() {
         if (emotionalBalance) {
             System.out.println("¡Gardevoir desata una explosión psíquica devastadora!");

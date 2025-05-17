@@ -2,8 +2,20 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Crobat, la evolución final de Zubat.
+ * Pokémon de tipo Veneno/Volador conocido por su excepcional velocidad.
+ * Especializado en ataques rápidos y movimientos tácticos que aprovechan su agilidad.
+ */
 public class Crobat extends AbstractPokemon {
 
+    /**
+     * Constructor de Crobat. Inicializa sus estadísticas base, tipos y movimientos.
+     * Características principales:
+     * - Velocidad extremadamente alta (394)
+     * - Estadísticas defensivas moderadas
+     * - Movimientos que aprovechan su velocidad y tipo dual
+     */
     public Crobat() {
         this.name = "Crobat";
         this.primaryType = Type.POISON;
@@ -21,6 +33,10 @@ public class Crobat extends AbstractPokemon {
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Crobat puede aprender por defecto.
+     * Movimientos enfocados en su tipo Veneno/Volador y ataques rápidos.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -31,28 +47,45 @@ public class Crobat extends AbstractPokemon {
         learnMove("Absorb");
     }
 
-
+    /**
+     * Cura a Crobat. Sobreescribe el método base sin modificaciones adicionales.
+     * @param amount Cantidad de HP a recuperar
+     */
     @Override
     public void heal(int amount) {
         super.heal(amount);
     }
 
-    // Método especial para Cross Poison, su ataque característico
+    // Métodos especiales de Crobat
+
+    /**
+     * Ataque característico de Crobat: Cross Poison.
+     * Tiene alta probabilidad de golpe crítico gracias a la velocidad de Crobat.
+     */
     public void crossPoison() {
         System.out.println("¡Crobat usa Cross Poison con alta probabilidad de golpe crítico!");
     }
 
-    // Método para Air Slash, con posibilidad de hacer retroceder al oponente
+    /**
+     * Ataque aéreo que puede hacer retroceder al oponente.
+     * Aprovecha el tipo Volador y la velocidad de Crobat.
+     */
     public void airSlash() {
         System.out.println("¡Crobat corta el aire con sus alas! Puede hacer retroceder al oponente.");
     }
 
-    // Método para U-turn, ataque táctico
+    /**
+     * Ataque táctico que permite cambiar de Pokémon después de atacar.
+     * Ideal para estrategias de rotación de equipo.
+     */
     public void uTurn() {
         System.out.println("¡Crobat usa U-turn, atacando y luego cambiando de Pokémon!");
     }
 
-    // Método para Brave Bird, ataque poderoso con retroceso
+    /**
+     * Ataque poderoso con efecto de retroceso.
+     * Representa el estilo de ataque de alto riesgo/recompensa de Crobat.
+     */
     public void braveBird() {
         System.out.println("¡Crobat se lanza en picado con Brave Bird! Causa daño pero también recibe retroceso.");
     }

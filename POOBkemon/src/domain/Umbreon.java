@@ -2,10 +2,19 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Umbreon, una implementación concreta de AbstractPokemon.
+ * Umbreon es un Pokémon de tipo Siniestro conocido por su gran defensa y habilidades especiales
+ * que se activan cuando su salud está baja (en "oscuridad").
+ */
 public class Umbreon extends AbstractPokemon {
 
-    private boolean isInDarkness;
+    private boolean isInDarkness;  // Indica si Umbreon está en estado de oscuridad (HP < 50%)
 
+    /**
+     * Constructor de Umbreon.
+     * Inicializa sus estadísticas base y movimientos aprendidos.
+     */
     public Umbreon() {
         this.name = "Umbreon";
         this.primaryType = Type.DARK;
@@ -19,10 +28,14 @@ public class Umbreon extends AbstractPokemon {
         this.speed = 251;
 
         this.moves = new ArrayList<>();
+        this.isInDarkness = false;
 
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Umbreon puede aprender.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -33,6 +46,11 @@ public class Umbreon extends AbstractPokemon {
         learnMove("Absorb");
     }
 
+    /**
+     * Reduce los puntos de salud del Pokémon.
+     * Si la salud baja del 50%, activa el estado de oscuridad.
+     * @param amount Cantidad de daño a recibir
+     */
     @Override
     public void takeDamage(int amount) {
         super.takeDamage(amount);
@@ -42,6 +60,11 @@ public class Umbreon extends AbstractPokemon {
         }
     }
 
+    /**
+     * Restaura puntos de salud al Pokémon.
+     * Si la salud supera el 70%, desactiva el estado de oscuridad.
+     * @param amount Cantidad de salud a recuperar
+     */
     @Override
     public void heal(int amount) {
         super.heal(amount);
@@ -51,21 +74,30 @@ public class Umbreon extends AbstractPokemon {
         }
     }
 
+    /**
+     * Verifica si Umbreon está en estado de oscuridad.
+     * @return true si está en oscuridad (HP < 50%), false en caso contrario
+     */
     public boolean isInDarkness() {
         return isInDarkness;
     }
 
-    // Método especial que representa la resistencia y defensa de Umbreon en la oscuridad
+    /**
+     * Habilidad especial Moonlight que recupera salud cuando está en oscuridad.
+     * Recupera un 25% de su salud máxima.
+     */
     public void moonlight() {
         if (isInDarkness) {
             System.out.println("¡Umbreon se recupera en la oscuridad con Moonlight!");
-            heal(maxHP / 4); // Recupera una cuarta parte de su HP
+            heal(maxHP / 4);
         } else {
             System.out.println("Umbreon necesita estar en la oscuridad para utilizar Moonlight.");
         }
     }
 
-    // Método adicional para activar una defensa contra efectos negativos utilizando Sincronía
+    /**
+     * Habilidad Sincronía que comparte efectos negativos con el oponente.
+     */
     public void synchronizeStatus() {
         System.out.println("¡Umbreon utiliza Sincronía para compartir efectos negativos con el oponente!");
     }
