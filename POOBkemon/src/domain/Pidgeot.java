@@ -18,27 +18,17 @@ public class Pidgeot extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Gust", Type.FLYING, 40, 100, MoveCategory.SPECIAL)); // Movimiento inicial
-        moves.add(new Move("Quick Attack", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL)); // Ataque prioritario
-        moves.add(new Move("Wing Attack", Type.FLYING, 60, 100, MoveCategory.PHYSICAL)); // Ataque básico de volador
-        moves.add(new Move("Air Slash", Type.FLYING, 75, 95, MoveCategory.SPECIAL)); // Movimiento con posibilidad de retroceso
-        moves.add(new Move("Feather Dance", Type.FLYING, 0, 100, MoveCategory.STATUS)); // Reduce ataque del oponente
-        moves.add(new Move("Agility", Type.PSYCHIC, 0, 0, MoveCategory.STATUS)); // Aumenta velocidad
-        moves.add(new Move("Hurricane", Type.FLYING, 110, 70, MoveCategory.SPECIAL)); // Movimiento poderoso
-        moves.add(new Move("Roost", Type.FLYING, 0, 0, MoveCategory.STATUS)); // Recupera HP
+        initializeMoves();
+    }
 
-        // Movimientos MT/HM
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL)); // Movimiento poderoso
-        moves.add(new Move("Steel Wing", Type.STEEL, 70, 90, MoveCategory.PHYSICAL)); // Cobertura contra roca/hielo
-        moves.add(new Move("U-turn", Type.BUG, 70, 100, MoveCategory.PHYSICAL)); // Movimiento táctico
-        moves.add(new Move("Fly", Type.FLYING, 90, 95, MoveCategory.PHYSICAL)); // Movimiento volador clásico
-        moves.add(new Move("Heat Wave", Type.FIRE, 95, 90, MoveCategory.SPECIAL)); // Cobertura contra acero/hielo
-
-        // Movimientos de Tutor
-        moves.add(new Move("Sky Attack", Type.FLYING, 140, 90, MoveCategory.PHYSICAL)); // Movimiento de dos turnos
-        moves.add(new Move("Tailwind", Type.FLYING, 0, 0, MoveCategory.STATUS)); // Aumenta velocidad del equipo
-        moves.add(new Move("Defog", Type.FLYING, 0, 0, MoveCategory.STATUS)); // Elimina trampas y reduce evasión
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
     @Override

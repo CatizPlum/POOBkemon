@@ -20,22 +20,17 @@ public class Snorlax extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Amnesia", Type.PSYCHIC, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Defense Curl", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Belly Drum", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Headbutt", Type.NORMAL, 70, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Yawn", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Rest", Type.PSYCHIC, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Snore", Type.NORMAL, 40, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Body Slam", Type.NORMAL, 85, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Rollout", Type.ROCK, 30, 90, MoveCategory.PHYSICAL));
-        moves.add(new Move("Block", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
+        initializeMoves();
+    }
 
-        // Movimientos por MT/HM y tutor (igual que antes)...
-        // [Omitidos aquí por brevedad, pero puedes mantenerlos igual]
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
     public void restDeeply() {

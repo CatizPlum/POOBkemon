@@ -20,25 +20,17 @@ public class Absol extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Bite", Type.DARK, 60, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Sucker Punch", Type.DARK, 70, 100, MoveCategory.PHYSICAL));  // Movimiento distintivo
-        moves.add(new Move("Night Slash", Type.DARK, 70, 100, MoveCategory.PHYSICAL));   // Movimiento distintivo
-        moves.add(new Move("Pursuit", Type.DARK, 40, 100, MoveCategory.PHYSICAL));        // Movimiento distintivo
-        moves.add(new Move("Zen Headbutt", Type.PSYCHIC, 80, 90, MoveCategory.PHYSICAL));  // Movimiento Psíquico físico
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));    // Movimiento explosivo
+        initializeMoves();
+    }
 
-        // Movimientos MT/HM
-        moves.add(new Move("Shadow Ball", Type.GHOST, 80, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Protect", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Dazzling Gleam", Type.FAIRY, 80, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Focus Blast", Type.FIGHTING, 120, 70, MoveCategory.SPECIAL)); // Movimiento luchador
-        moves.add(new Move("Energy Ball", Type.PLANT, 80, 100, MoveCategory.SPECIAL));    // Movimiento de energía
-
-        // Movimientos de Tutor
-        moves.add(new Move("Heal Bell", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Helping Hand", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Signal Beam", Type.BUG, 75, 100, MoveCategory.SPECIAL));
+    @Override
+    protected void initializeMoves() {
+        learnMove("Leer");
+        learnMove("Quick Attack");
+        learnMove("Double Team");
+        learnMove("Knock Off");
+        learnMove("Future Sight");
+        learnMove("Water Pulse");
     }
 
     @Override

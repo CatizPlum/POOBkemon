@@ -20,28 +20,18 @@ public class Flygon extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Dragon Breath", Type.DRAGON, 60, 100, MoveCategory.SPECIAL)); // Movimiento tipo Dragón
-        moves.add(new Move("Earthquake", Type.GROUND, 100, 100, MoveCategory.PHYSICAL)); // Movimiento tierra
-        moves.add(new Move("Fly", Type.FLYING, 90, 95, MoveCategory.PHYSICAL)); // Movimiento volador
-        moves.add(new Move("U-turn", Type.BUG, 70, 100, MoveCategory.PHYSICAL)); // Movimiento de cambio rápido
-        moves.add(new Move("Sand Tomb", Type.GROUND, 35, 85, MoveCategory.PHYSICAL)); // Movimiento de tierra
-        moves.add(new Move("Crunch", Type.DARK, 80, 100, MoveCategory.PHYSICAL)); // Movimiento tipo siniestro
-        moves.add(new Move("Steel Wing", Type.STEEL, 70, 90, MoveCategory.PHYSICAL)); // Movimiento de acero
-
-        // Movimientos MT/HM
-        moves.add(new Move("Stone Edge", Type.ROCK, 100, 80, MoveCategory.PHYSICAL)); // Movimiento roca
-        moves.add(new Move("Earth Power", Type.GROUND, 90, 100, MoveCategory.SPECIAL)); // Movimiento tierra
-        moves.add(new Move("Fire Blast", Type.FIRE, 110, 85, MoveCategory.SPECIAL)); // Movimiento de fuego
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL)); // Movimiento explosivo
-
-        // Movimientos de Tutor
-        moves.add(new Move("Iron Tail", Type.STEEL, 100, 75, MoveCategory.PHYSICAL)); // Movimiento de acero
-        moves.add(new Move("Dragon Claw", Type.DRAGON, 80, 100, MoveCategory.PHYSICAL)); // Movimiento dragón
-        moves.add(new Move("Roar", Type.NORMAL, 0, 0, MoveCategory.STATUS)); // Movimiento para forzar al oponente a huir
+        initializeMoves();
     }
 
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
+    }
     @Override
     public void takeDamage(int amount) {
         super.takeDamage(amount);

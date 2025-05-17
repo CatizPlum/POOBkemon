@@ -19,26 +19,17 @@ public class Donphan extends AbstractPokemon {
         this.speed = 218;
 
         this.moves = new ArrayList<>();
+        initializeMoves();
+    }
 
-        // Movimientos por nivel
-        moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Rollout", Type.NORMAL, 30, 90, MoveCategory.PHYSICAL)); // Movimiento distintivo
-        moves.add(new Move("Earthquake", Type.GROUND, 100, 100, MoveCategory.PHYSICAL)); // Movimiento tierra
-        moves.add(new Move("Mud-Slap", Type.GROUND, 20, 100, MoveCategory.PHYSICAL)); // Movimiento de tierra
-        moves.add(new Move("Defense Curl", Type.NORMAL, 0, 0, MoveCategory.STATUS)); // Aumenta la defensa
-        moves.add(new Move("Magnitude", Type.GROUND, 10, 100, MoveCategory.PHYSICAL)); // Movimiento de tierra
-        moves.add(new Move("Body Slam", Type.NORMAL, 85, 100, MoveCategory.PHYSICAL)); // Movimiento físico
-        moves.add(new Move("Stealth Rock", Type.ROCK, 0, 0, MoveCategory.STATUS)); // Coloca rocas para dañar al oponente
-
-        // Movimientos MT/HM
-        moves.add(new Move("Stone Edge", Type.ROCK, 100, 80, MoveCategory.PHYSICAL)); // Movimiento roca
-        moves.add(new Move("Earth Power", Type.GROUND, 90, 100, MoveCategory.SPECIAL)); // Movimiento tierra
-        moves.add(new Move("Rock Slide", Type.ROCK, 75, 90, MoveCategory.PHYSICAL)); // Movimiento roca
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL)); // Movimiento explosivo
-
-        // Movimientos de Tutor
-        moves.add(new Move("Iron Tail", Type.STEEL, 100, 75, MoveCategory.PHYSICAL)); // Movimiento de acero
-        moves.add(new Move("Yawn", Type.NORMAL, 0, 100, MoveCategory.STATUS)); // Causa sueño en el oponente
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
     @Override

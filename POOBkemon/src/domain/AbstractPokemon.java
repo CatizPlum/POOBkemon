@@ -89,4 +89,15 @@ public abstract class AbstractPokemon implements Pokemon {
     public boolean isFainted() {
         return currentHP == 0;
     }
+
+    // Método protegido para aprender movimientos desde el repositorio
+    protected void learnMove(String moveName) {
+        Move move = MoveRepository.getMove(moveName);
+        if (move != null && moves.size() < 4) { // Límite de 4 movimientos
+            moves.add(move);
+        }
+    }
+
+    // Método para inicializar movimientos (debe ser implementado por las clases hijas)
+    protected abstract void initializeMoves();
 }

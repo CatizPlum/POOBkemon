@@ -18,38 +18,23 @@ public class Crobat extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Cross Poison", Type.POISON, 70, 100, MoveCategory.PHYSICAL)); // Movimiento característico
-        moves.add(new Move("Air Slash", Type.FLYING, 75, 95, MoveCategory.SPECIAL)); // Movimiento de tipo volador
-        moves.add(new Move("Bite", Type.DARK, 60, 100, MoveCategory.PHYSICAL)); // Movimiento de mordisco
-        moves.add(new Move("Poison Fang", Type.POISON, 50, 100, MoveCategory.PHYSICAL)); // Movimiento venenoso
-        moves.add(new Move("Supersonic", Type.NORMAL, 0, 55, MoveCategory.STATUS)); // Confunde al oponente
-        moves.add(new Move("Toxic", Type.POISON, 0, 90, MoveCategory.STATUS)); // Envenena al oponente
-        moves.add(new Move("Quick Attack", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL)); // Ataque prioritario
-        moves.add(new Move("Wing Attack", Type.FLYING, 60, 100, MoveCategory.PHYSICAL)); // Ataque de alas
-
-        // Movimientos MT/HM
-        moves.add(new Move("Shadow Ball", Type.GHOST, 80, 100, MoveCategory.SPECIAL)); // Buena cobertura
-        moves.add(new Move("U-turn", Type.BUG, 70, 100, MoveCategory.PHYSICAL)); // Movimiento táctico
-        moves.add(new Move("Steel Wing", Type.STEEL, 70, 90, MoveCategory.PHYSICAL)); // Movimiento de acero
-        moves.add(new Move("Fly", Type.FLYING, 90, 95, MoveCategory.PHYSICAL)); // Movimiento volador fuerte
-
-        // Movimientos de Tutor
-        moves.add(new Move("Giga Drain", Type.PLANT, 75, 100, MoveCategory.SPECIAL)); // Para recuperar HP
-        moves.add(new Move("Defog", Type.FLYING, 0, 0, MoveCategory.STATUS)); // Elimina trampas y reduce evasión
-        moves.add(new Move("Brave Bird", Type.FLYING, 120, 100, MoveCategory.PHYSICAL)); // Ataque poderoso con retroceso
+        initializeMoves();
     }
 
     @Override
-    public void takeDamage(int amount) {
-        super.takeDamage(amount);
-        // Crobat no tiene habilidades especiales que afecten el daño recibido
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
+
 
     @Override
     public void heal(int amount) {
         super.heal(amount);
-        // Sin habilidades especiales de curación
     }
 
     // Método especial para Cross Poison, su ataque característico

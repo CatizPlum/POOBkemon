@@ -36,6 +36,6 @@ public class Game {
     }
 
     public boolean isOver() {
-        return trainer1.getCurrentPokemon().isFainted() && trainer2.getCurrentPokemon().isFainted();
+        return trainer1.getCurrentPokemon().isFainted() || trainer2.getCurrentPokemon().isFainted();
     }
 }

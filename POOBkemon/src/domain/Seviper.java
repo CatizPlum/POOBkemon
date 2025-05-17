@@ -18,25 +18,17 @@ public class Seviper extends AbstractPokemon {
 
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Poison Tail", Type.POISON, 50, 100, MoveCategory.PHYSICAL)); // Movimiento de veneno
-        moves.add(new Move("Sludge Bomb", Type.POISON, 90, 100, MoveCategory.SPECIAL)); // Movimiento de veneno fuerte
-        moves.add(new Move("Bug Bite", Type.BUG, 60, 100, MoveCategory.PHYSICAL)); // Movimiento de bicho
-        moves.add(new Move("Screech", Type.NORMAL, 0, 85, MoveCategory.STATUS)); // Reduce defensa del oponente
-        moves.add(new Move("Toxic", Type.POISON, 0, 90, MoveCategory.STATUS)); // Envenena al oponente
-        moves.add(new Move("Iron Tail", Type.STEEL, 100, 75, MoveCategory.PHYSICAL)); // Movimiento de acero
-        moves.add(new Move("Double Team", Type.NORMAL, 0, 0, MoveCategory.STATUS)); // Aumenta evasión
+        initializeMoves();
+    }
 
-        // Movimientos MT/HM
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL)); // Movimiento explosivo
-        moves.add(new Move("X-Scissor", Type.BUG, 80, 100, MoveCategory.PHYSICAL)); // Movimiento de bicho
-        moves.add(new Move("Stone Edge", Type.ROCK, 100, 80, MoveCategory.PHYSICAL)); // Movimiento roca
-        moves.add(new Move("Earthquake", Type.GROUND, 100, 100, MoveCategory.PHYSICAL)); // Movimiento tierra
-
-        // Movimientos de Tutor
-        moves.add(new Move("Giga Drain", Type.PLANT, 75, 100, MoveCategory.SPECIAL)); // Movimiento de absorción
-        moves.add(new Move("Roar", Type.NORMAL, 0, 0, MoveCategory.STATUS)); // Fuerza al oponente a huir
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
     @Override
