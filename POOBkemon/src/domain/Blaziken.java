@@ -20,39 +20,17 @@ public class Blaziken extends AbstractPokemon {
         this.speed = 284;
         this.moves = new ArrayList<>();
 
-        // Movimientos por Nivel
-        moves.add(new Move("Ember", Type.FIRE, 40, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Growl", Type.NORMAL, 0, 100, MoveCategory.STATUS));
-        moves.add(new Move("Focus Energy", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Peck", Type.FLYING, 35, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Double Kick", Type.FIGHTING, 30, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Fire Punch", Type.FIRE, 75, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Blaze Kick", Type.FIRE, 85, 90, MoveCategory.PHYSICAL));
-        moves.add(new Move("Slash", Type.NORMAL, 70, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Sky Uppercut", Type.FIGHTING, 85, 90, MoveCategory.PHYSICAL));
-        moves.add(new Move("Flamethrower", Type.FIRE, 90, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Endeavor", Type.NORMAL, 0, 100, MoveCategory.STATUS));
-        moves.add(new Move("Close Combat", Type.FIGHTING, 120, 100, MoveCategory.PHYSICAL));
+        initializeMoves();
+    }
 
-        // Movimientos por Huevo
-        moves.add(new Move("Counter", Type.FIGHTING, 0, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Reversal", Type.FIGHTING, 20, 100, MoveCategory.PHYSICAL));
-
-        // Movimientos por TM
-        moves.add(new Move("TM01 - Focus Punch", Type.FIGHTING, 150, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("TM02 - Dragon Claw", Type.DRAGON, 80, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("TM03 - Water Pulse", Type.WATER, 60, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("TM04 - Calm Mind", Type.PSYCHIC, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("TM06 - Toxic", Type.POISON, 0, 90, MoveCategory.STATUS));
-        moves.add(new Move("TM10 - Hidden Power", Type.NORMAL, 60, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("TM11 - Sunny Day", Type.FIRE, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("TM15 - Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
-        moves.add(new Move("TM18 - Rain Dance", Type.WATER, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("TM22 - SolarBeam", Type.PLANT, 120, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("TM26 - Earthquake", Type.GROUND, 100, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("TM27 - Return", Type.NORMAL, 0, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("TM29 - Psychic", Type.PSYCHIC, 90, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("TM35 - Flamethrower", Type.FIRE, 90, 100, MoveCategory.SPECIAL));
+    @Override
+    protected void initializeMoves() {
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
 

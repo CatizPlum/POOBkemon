@@ -23,12 +23,17 @@ public class Metagross extends AbstractPokemon  {
 
         this.moves = new ArrayList<>();
 
-        moves.add(new Move("Metal Claw", Type.STEEL, 50, 95, MoveCategory.PHYSICAL));
-        moves.add(new Move("Confusion", Type.PSYCHIC, 50, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Take Down", Type.NORMAL, 90, 85, MoveCategory.PHYSICAL));
-        moves.add(new Move("Psychic", Type.PSYCHIC, 90, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Meteor Mash", Type.STEEL, 100, 85, MoveCategory.PHYSICAL));
-        moves.add(new Move("Scary Face", Type.NORMAL, 0, 90, MoveCategory.STATUS));
+        initializeMoves();
+    }
+
+    @Override
+    protected void initializeMoves() {
+        learnMove("Leer");
+        learnMove("Quick Attack");
+        learnMove("Double Team");
+        learnMove("Knock Off");
+        learnMove("Future Sight");
+        learnMove("Water Pulse");
     }
 
     @Override

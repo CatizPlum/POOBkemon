@@ -100,4 +100,8 @@ public abstract class AbstractPokemon implements Pokemon {
 
     // Método para inicializar movimientos (debe ser implementado por las clases hijas)
     protected abstract void initializeMoves();
+
+    protected void incrementAttack(int i) {
+
+    }
 }

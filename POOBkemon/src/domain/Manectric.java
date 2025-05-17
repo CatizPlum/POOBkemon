@@ -18,33 +18,17 @@ public class Manectric extends AbstractPokemon {
         this.speed = 339;
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel
-        moves.add(new Move("Tackle", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Thunder Wave", Type.ELECTRIC, 0, 90, MoveCategory.STATUS));
-        moves.add(new Move("Spark", Type.ELECTRIC, 65, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Quick Attack", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Howl", Type.NORMAL, 0, 0, MoveCategory.STATUS)); // Sube ataque
-        moves.add(new Move("Charge", Type.ELECTRIC, 0, 0, MoveCategory.STATUS)); // Mejora siguiente ataque eléctrico
-        moves.add(new Move("Bite", Type.DARK, 60, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Thunder", Type.ELECTRIC, 120, 70, MoveCategory.SPECIAL));
-        moves.add(new Move("Roar", Type.NORMAL, 0, 0, MoveCategory.STATUS));
+        initializeMoves();
+    }
 
-        // Movimientos por huevo
-        moves.add(new Move("Crunch", Type.DARK, 80, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Fire Fang", Type.FIRE, 65, 95, MoveCategory.PHYSICAL));
-        moves.add(new Move("Ice Fang", Type.ICE, 65, 95, MoveCategory.PHYSICAL));
-        moves.add(new Move("Swift", Type.NORMAL, 60, 0, MoveCategory.SPECIAL)); // Nunca falla
-
-        // Movimientos por MT/HM
-        moves.add(new Move("Thunderbolt", Type.ELECTRIC, 90, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Hidden Power", Type.NORMAL, 60, 100, MoveCategory.SPECIAL)); // Tipo variable
-        moves.add(new Move("Facade", Type.NORMAL, 70, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Double Team", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Secret Power", Type.NORMAL, 70, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Protect", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Thunder", Type.ELECTRIC, 120, 70, MoveCategory.SPECIAL));
-        moves.add(new Move("Iron Tail", Type.STEEL, 100, 75, MoveCategory.PHYSICAL));
-        moves.add(new Move("Hyper Beam", Type.NORMAL, 150, 90, MoveCategory.SPECIAL));
+    @Override
+    protected void initializeMoves() {
+        learnMove("Leer");
+        learnMove("Quick Attack");
+        learnMove("Double Team");
+        learnMove("Knock Off");
+        learnMove("Future Sight");
+        learnMove("Water Pulse");
     }
 
 

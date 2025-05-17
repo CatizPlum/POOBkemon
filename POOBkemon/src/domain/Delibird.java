@@ -18,21 +18,18 @@ public class Delibird extends AbstractPokemon {
         this.speed = 273;
         this.moves = new ArrayList<>();
 
-        // Movimientos por nivel (nivel de aprendizaje según Pokémon Esmeralda)
-        moves.add(new Move("Present", Type.NORMAL, 0, 90, MoveCategory.PHYSICAL));
-        moves.add(new Move("Drill Peck", Type.FLYING, 80, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Icy Wind", Type.ICE, 55, 95, MoveCategory.SPECIAL));
-        moves.add(new Move("Quick Attack", Type.NORMAL, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Blizzard", Type.ICE, 110, 70, MoveCategory.SPECIAL));
-        moves.add(new Move("Fly", Type.FLYING, 90, 95, MoveCategory.PHYSICAL));
+        initializeMoves();
+    }
 
-        // Movimientos por huevo
-        moves.add(new Move("Pursuit", Type.DARK, 40, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("Astonish", Type.GHOST, 30, 100, MoveCategory.PHYSICAL));
+    @Override
+    protected void initializeMoves() {
+        learnMove("Leer");
+        learnMove("Quick Attack");
+        learnMove("Double Team");
+        learnMove("Knock Off");
+        learnMove("Future Sight");
+        learnMove("Water Pulse");
 
-        // Movimientos por TM (movimientos que Delibird puede aprender por TM)
-        moves.add(new Move("TM01", Type.NORMAL, 50, 100, MoveCategory.PHYSICAL));
-        moves.add(new Move("TM14", Type.ICE, 60, 100, MoveCategory.SPECIAL));
     }
 
     // Habilidad pasiva: Regalo sorpresa

@@ -17,13 +17,17 @@ public class Medicham extends AbstractPokemon {
         this.speed = 284;
         this.moves = new ArrayList<>();
 
-        moves.add(new Move("Confusion", Type.PSYCHIC, 50, 100, MoveCategory.SPECIAL));
-        moves.add(new Move("Detect", Type.FIGHTING, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Hi Jump Kick", Type.FIGHTING, 130, 90, MoveCategory.PHYSICAL));
-        moves.add(new Move("Mind Reader", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Calm Mind", Type.PSYCHIC, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Recover", Type.NORMAL, 0, 0, MoveCategory.STATUS));
-        moves.add(new Move("Psychic", Type.PSYCHIC, 90, 100, MoveCategory.SPECIAL));
+        initializeMoves();
+    }
+
+    @Override
+    protected void initializeMoves() {
+        learnMove("Leer");
+        learnMove("Quick Attack");
+        learnMove("Double Team");
+        learnMove("Knock Off");
+        learnMove("Future Sight");
+        learnMove("Water Pulse");
     }
 
     // Habilidad pasiva: Visión del aura
