@@ -273,7 +273,7 @@ public class GameGUI extends JFrame {
             movesCombo.addItem(move.getName() + " (" + move.getType() + ", " + move.getPower() + " power)");
         }
 
-        // Manejar turno automático para modos con IA
+        // Manejar turno automático para modos
         if (mode.equals("MvsM") || (mode.equals("PvsM") && current == game.getTrainer2())) {
             Timer timer = new Timer(1000, e -> {
                 randomAction();
