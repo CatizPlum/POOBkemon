@@ -38,4 +38,16 @@ public class Game {
     public boolean isOver() {
         return trainer1.getCurrentPokemon().isFainted() || trainer2.getCurrentPokemon().isFainted();
     }
+
+    public void triggerDelibirdGift() throws PoobkemonException {
+        Pokemon current = currentTrainer.getCurrentPokemon();
+        Pokemon opponent = waitingTrainer.getCurrentPokemon();
+
+        if (current instanceof Delibird) {
+            ((Delibird) current).surpriseGift(opponent);
+        } else {
+            throw new PoobkemonException("El Pokémon activo no es Delibird.");
+        }
+    }
+
 }

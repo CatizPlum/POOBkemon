@@ -37,7 +37,7 @@ public class MainMenuGUI extends JFrame {
     private JPanel createCoverPanel() {
         JPanel panel = new JPanel(new BorderLayout());
 
-        String imageName = "Flux_Dev_Disea_una_portada_de_videojuego_en_estilo_Pokmon_Esme_2.jpg";
+        String imageName = "3.0.png";
         String[] possiblePaths = {
                 "front/" + imageName,
                 "resources/front/" + imageName,
@@ -116,7 +116,7 @@ public class MainMenuGUI extends JFrame {
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 30));
-        String title = "POOBkemon";
+        String title = "POOBkémon";
         int titleWidth = g.getFontMetrics().stringWidth(title);
         g.drawString(title, (800 - titleWidth)/2, 150);
 
