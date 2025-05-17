@@ -213,9 +213,9 @@ public class MainMenuGUI extends JFrame {
         Pokemon togetic = new Togetic();
 
         List<Item> items = List.of(
-                new Item("Poción", "heal20"),
-                new Item("Superpoción", "heal50"),
-                new Item("Revivir", "revive")
+                new domain.Potion(),
+                new domain.SuperPotion(),
+                new domain.Revive()
         );
 
         // Crear equipos más variados
