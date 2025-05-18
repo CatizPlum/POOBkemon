@@ -2,8 +2,21 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Medicham, un Pokémon de tipo Lucha/Psíquico.
+ * Conocido por su capacidad de leer auras y combinar artes marciales con poderes mentales.
+ * Destaca por su velocidad y precisión en combate.
+ */
 public class Medicham extends AbstractPokemon {
 
+    /**
+     * Constructor de Medicham. Inicializa sus estadísticas base, tipos y movimientos.
+     * Características principales:
+     * - Velocidad alta (284)
+     * - Ataque físico considerable (295)
+     * - Tipo dual Lucha/Psíquico
+     * - HP relativamente bajo (284) compensado por su agilidad
+     */
     public Medicham() {
         this.name = "Medicham";
         this.primaryType = Type.FIGHTING;
@@ -20,6 +33,10 @@ public class Medicham extends AbstractPokemon {
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Medicham puede aprender por defecto.
+     * Incluye movimientos físicos y técnicas de combate básicas.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Leer");
@@ -30,9 +47,15 @@ public class Medicham extends AbstractPokemon {
         learnMove("Water Pulse");
     }
 
-    // Habilidad pasiva: Visión del aura
+    /**
+     * Habilidad especial: Aura Vision.
+     * Permite a Medicham anticipar los movimientos del oponente.
+     * En un sistema completo, podría:
+     * - Aumentar la evasión
+     * - Revelar el próximo movimiento del oponente
+     * - Mejorar la precisión de sus ataques
+     */
     public void auraVision() {
         System.out.println("Medicham utiliza su visión del aura para anticipar los movimientos del oponente.");
-
     }
 }
