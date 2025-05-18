@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * Esta clase puede servir como base para implementaciones concretas
  * y proporciona implementaciones predeterminadas de algunos métodos
  */
-public abstract class AbstractPokemon implements Pokemon {
+public abstract class AbstractPokemon implements Pokemon, Serializable {
     protected String name;
     protected Type primaryType;
     protected Type secondaryType;

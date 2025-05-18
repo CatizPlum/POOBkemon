@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Conocido como el Pokémon Computacional, combina una coraza de acero con cuatro cerebros
  * que le permiten realizar cálculos avanzados durante el combate.
  */
-public class Metagross extends AbstractPokemon {
+public class Metagross extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Metagross está en modo de cálculo intensivo.

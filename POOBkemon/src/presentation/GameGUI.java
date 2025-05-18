@@ -8,9 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GameGUI extends JFrame {
     private Game game;
@@ -43,7 +49,126 @@ public class GameGUI extends JFrame {
         loadBackgroundImages();
         initComponents();
         updateScreen();
+        setJMenuBar(createMenuBar());
         setVisible(true);
+    }
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        // Menú Archivo
+        JMenu fileMenu = new JMenu("Archivo");
+        menuBar.add(fileMenu);
+
+        // Opción Nueva Partida
+        JMenuItem newGameItem = new JMenuItem("Nueva Partida");
+        newGameItem.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    GameGUI.this,
+                    "¿Estás seguro de que quieres comenzar una nueva partida?",
+                    "Confirmar nueva partida",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                dispose(); // Cierra la ventana actual
+                new MainMenuGUI().setVisible(true); // Regresa al menú principal
+            }
+        });
+        fileMenu.add(newGameItem);
+
+        // Separador
+        fileMenu.addSeparator();
+
+        // Opción Abrir Partida
+        JMenuItem openItem = new JMenuItem("Abrir");
+        openItem.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Abrir Partida Guardada");
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    "Archivos de POOBkemon (*.pokemon)", "pokemon");
+            fileChooser.setFileFilter(filter);
+
+            int result = fileChooser.showOpenDialog(GameGUI.this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                try {
+                    // Cambio aquí: Usar Game.SaveData en lugar de GameSaveManager.GameSaveData
+                    Game.SaveData saveData = Game.loadFromFile(fileChooser.getSelectedFile().getAbsolutePath());
+
+                    dispose(); // Cierra la ventana actual
+                    new GameGUI(saveData.getGame(), saveData.getMode()).setVisible(true);
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(
+                            GameGUI.this,
+                            "Error al cargar la partida: " + ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        fileMenu.add(openItem);
+
+        // Opción Guardar Como
+        JMenuItem saveAsItem = new JMenuItem("Guardar Como");
+        saveAsItem.addActionListener(e -> saveGameAs());
+        fileMenu.add(saveAsItem);
+
+        // Separador
+        fileMenu.addSeparator();
+
+        // Opción Salir
+        JMenuItem exitItem = new JMenuItem("Salir");
+        exitItem.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(
+                    GameGUI.this,
+                    "¿Estás seguro de que quieres salir del juego?",
+                    "Confirmar salida",
+                    JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
+        fileMenu.add(exitItem);
+
+        return menuBar;
+    }
+
+    // Método para guardar la partida
+    private void saveGameAs() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar Partida Como");
+
+        // Configurar filtro de archivos
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Archivos de POOBkemon (*.pokemon)", "pokemon");
+        fileChooser.setFileFilter(filter);
+
+        // Mostrar diálogo de guardado
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+
+            // Asegurar que el archivo tenga la extensión correcta
+            if (!fileToSave.getName().toLowerCase().endsWith(".pokemon")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pokemon");
+            }
+
+            try {
+                // Cambio aquí: Usar el método saveToFile de Game directamente
+                game.saveToFile(fileToSave.getAbsolutePath(), mode);
+
+                JOptionPane.showMessageDialog(this,
+                        "Partida guardada exitosamente en:\n" + fileToSave.getAbsolutePath(),
+                        "Guardado Exitoso",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Error al guardar la partida:\n" + ex.getMessage(),
+                        "Error al Guardar",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private void loadBackgroundImages() {

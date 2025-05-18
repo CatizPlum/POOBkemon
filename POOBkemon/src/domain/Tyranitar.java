@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Representa al Pokémon Tyranitar, una implementación concreta de AbstractPokemon.
  * Posee características especiales como su habilidad Sand Stream y movimientos únicos.
  */
-public class Tyranitar extends AbstractPokemon  {
+public class Tyranitar extends AbstractPokemon  implements Serializable {
 
     private boolean sandstreamActive;  // Indica si la habilidad Sand Stream está activa
 

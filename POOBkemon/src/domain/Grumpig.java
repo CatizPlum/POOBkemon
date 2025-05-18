@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido por sus poderes psíquicos que se potencian cuando baila.
  * Su efectividad en combate depende de su estado de ánimo y ritmo.
  */
-public class Grumpig extends AbstractPokemon {
+public class Grumpig extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Grumpig está en estado de baile.

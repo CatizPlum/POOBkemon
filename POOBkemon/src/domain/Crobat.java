@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Pokémon de tipo Veneno/Volador conocido por su excepcional velocidad.
  * Especializado en ataques rápidos y movimientos tácticos que aprovechan su agilidad.
  */
-public class Crobat extends AbstractPokemon {
+public class Crobat extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Crobat. Inicializa sus estadísticas base, tipos y movimientos.

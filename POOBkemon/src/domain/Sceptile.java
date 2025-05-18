@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Pokémon de tipo Planta conocido por su velocidad y hojas afiladas como cuchillas.
  * Su efectividad en combate depende del estado de sus hojas.
  */
-public class Sceptile extends AbstractPokemon {
+public class Sceptile extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Sceptile tiene sus hojas afiladas.

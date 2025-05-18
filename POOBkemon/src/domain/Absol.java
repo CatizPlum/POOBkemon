@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Tiene una habilidad especial llamada "Superstición" que se activa al recibir
  * daño significativo y le permite realizar ataques potenciados.
  */
-public class Absol extends AbstractPokemon {
+public class Absol extends AbstractPokemon implements Serializable {
 
     /** Indica si Absol está bajo el efecto de un mal presagio (Superstición). */
     private boolean hasSuperstition;

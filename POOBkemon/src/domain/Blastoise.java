@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Es un Pokémon de tipo Agua (Water) conocido por sus poderosos cañones hidráulicos.
  * Sus habilidades giran alrededor del manejo del agua y la defensa con su caparazón.
  */
-public class Blastoise extends AbstractPokemon {
+public class Blastoise extends AbstractPokemon implements Serializable {
 
     /**
      * Estado de los cañones hidráulicos de Blastoise.

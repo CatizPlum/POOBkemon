@@ -1,9 +1,10 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MoveRepository {
+public class MoveRepository implements Serializable {
     private static final Map<String, Move> moves = new HashMap<>();
 
     static {

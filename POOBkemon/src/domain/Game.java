@@ -1,11 +1,41 @@
 package domain;
 
-public class Game {
+import java.io.Serializable;
+import java.io.*;
+import java.nio.file.Files;
+
+/**
+ * Clase que representa una partida de combate Pokémon entre dos entrenadores.
+ * Controla el flujo del juego, turnos y estados de los entrenadores.
+ * Implementa Serializable para permitir guardar y cargar partidas.
+ */
+public class Game implements Serializable {
+
+    /**
+     * Primer entrenador participante en la batalla
+     */
     private Trainer trainer1;
+
+    /**
+     * Segundo entrenador participante en la batalla
+     */
     private Trainer trainer2;
+
+    /**
+     * Entrenador cuyo turno es actual
+     */
     private Trainer currentTrainer;
+
+    /**
+     * Entrenador que espera su turno
+     */
     private Trainer waitingTrainer;
 
+    /**
+     * Constructor que inicializa una nueva partida con dos entrenadores
+     * @param trainer1 Primer entrenador
+     * @param trainer2 Segundo entrenador
+     */
     public Game(Trainer trainer1, Trainer trainer2) {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
@@ -13,32 +43,59 @@ public class Game {
         this.waitingTrainer = trainer2;
     }
 
+    /**
+     * Obtiene el primer entrenador
+     * @return Objeto Trainer del primer jugador
+     */
     public Trainer getTrainer1() {
         return trainer1;
     }
 
+    /**
+     * Obtiene el segundo entrenador
+     * @return Objeto Trainer del segundo jugador
+     */
     public Trainer getTrainer2() {
         return trainer2;
     }
 
+    /**
+     * Avanza al siguiente turno, intercambiando los entrenadores actual y en espera
+     */
     public void nextTurn() {
         Trainer temp = currentTrainer;
         currentTrainer = waitingTrainer;
         waitingTrainer = temp;
     }
 
+    /**
+     * Obtiene el entrenador cuyo turno es actual
+     * @return Entrenador actual
+     */
     public Trainer getCurrentTrainer() {
         return currentTrainer;
     }
 
+    /**
+     * Obtiene el entrenador que espera su turno
+     * @return Entrenador en espera
+     */
     public Trainer getWaitingTrainer() {
         return waitingTrainer;
     }
 
+    /**
+     * Verifica si la partida ha terminado
+     * @return true si alguno de los Pokémon actuales está debilitado, false en caso contrario
+     */
     public boolean isOver() {
         return trainer1.getCurrentPokemon().isFainted() || trainer2.getCurrentPokemon().isFainted();
     }
 
+    /**
+     * Activa la habilidad especial de Delibird (Regalo Sorpresa)
+     * @throws PoobkemonException si el Pokémon activo no es un Delibird
+     */
     public void triggerDelibirdGift() throws PoobkemonException {
         Pokemon current = currentTrainer.getCurrentPokemon();
         Pokemon opponent = waitingTrainer.getCurrentPokemon();
@@ -49,5 +106,50 @@ public class Game {
             throw new PoobkemonException("El Pokémon activo no es Delibird.");
         }
     }
+    /**
+     * Clase interna para manejar los datos de guardado
+     */
+    public static class SaveData implements Serializable {
+        private final Game game;
+        private final String mode;
 
+        public SaveData(Game game, String mode) {
+            this.game = game;
+            this.mode = mode;
+        }
+
+        public Game getGame() {
+            return game;
+        }
+
+        public String getMode() {
+            return mode;
+        }
+    }
+
+    /**
+     * Guarda el estado actual del juego en un archivo
+     * @param filePath Ruta del archivo donde guardar
+     * @param mode Modo de juego actual
+     * @throws IOException Si ocurre un error de E/S
+     */
+    public void saveToFile(String filePath, String mode) throws IOException {
+        SaveData saveData = new SaveData(this, mode);
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(new File(filePath).toPath()))) {
+            oos.writeObject(saveData);
+        }
+    }
+
+    /**
+     * Carga un juego desde un archivo
+     * @param filePath Ruta del archivo a cargar
+     * @return Objeto SaveData con el juego y modo cargados
+     * @throws IOException Si ocurre un error de E/S
+     * @throws ClassNotFoundException Si la clase del objeto serializado no se encuentra
+     */
+    public static SaveData loadFromFile(String filePath) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(new File(filePath).toPath()))) {
+            return (SaveData) ois.readObject();
+        }
+    }
 }

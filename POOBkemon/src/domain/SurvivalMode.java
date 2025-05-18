@@ -1,9 +1,10 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class SurvivalMode {
+public class SurvivalMode implements Serializable {
     private static final List<Class<? extends AbstractPokemon>> POKEMON_CLASSES = Arrays.asList(
             Absol.class, Altaria.class, Banette.class, Blastoise.class, Blaziken.class,
             Charizard.class, Crobat.class, Delibird.class, Donphan.class, Dragonite.class,

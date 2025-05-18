@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon de los mares, combina gran fuerza con la capacidad de volar
  * para rescatar personas perdidas en el mar.
  */
-public class Dragonite extends AbstractPokemon {
+public class Dragonite extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Dragonite está actualmente en modo de vuelo.

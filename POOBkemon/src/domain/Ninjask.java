@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Ninja, destaca por ser el Pokémon más rápido en combate
  * y por aumentar su velocidad cada turno mediante su habilidad Speed Boost.
  */
-public class Ninjask extends AbstractPokemon {
+public class Ninjask extends AbstractPokemon implements Serializable {
 
     /**
      * Contador de turnos transcurridos en combate.

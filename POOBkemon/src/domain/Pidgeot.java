@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Pájaro, es la evolución final de Pidgey.
  * Destaca por su equilibrio entre ataque, defensa y velocidad.
  */
-public class Pidgeot extends AbstractPokemon {
+public class Pidgeot extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Pidgeot. Inicializa sus estadísticas base, tipos y movimientos.

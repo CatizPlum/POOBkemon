@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Llama, es una de las aves legendarias de Kanto.
  * Destaca por su poder ígneo y habilidades de vuelo majestuoso.
  */
-public class Moltres extends AbstractPokemon {
+public class Moltres extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Moltres. Inicializa sus estadísticas base como Pokémon legendario.

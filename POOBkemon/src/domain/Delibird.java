@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import java.util.Random;
  * Conocido por su habilidad única de entregar regalos con efectos aleatorios.
  * Es un Pokémon con estadísticas modestas pero con una habilidad especial impredecible.
  */
-public class Delibird extends AbstractPokemon {
+public class Delibird extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Delibird. Inicializa sus estadísticas base, tipos y movimientos.

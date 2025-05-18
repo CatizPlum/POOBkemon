@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Zangoose es un Pokémon de tipo Normal conocido por sus garras afiladas y su temperamento feroz
  * que se activa cuando recibe daño significativo.
  */
-public class Zangoose extends AbstractPokemon {
+public class Zangoose extends AbstractPokemon  implements Serializable {
 
     private boolean clawTemper;  // Indica si Zangoose está en estado de furia (por daño recibido)
 

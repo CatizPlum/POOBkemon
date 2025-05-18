@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido por su apariencia engañosa y su poderosa mandíbula secundaria.
  * Combina defensas sólidas con la capacidad de engañar a sus oponentes.
  */
-public class Mawile extends AbstractPokemon {
+public class Mawile extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Mawile está usando su postura engañosa.

@@ -1,9 +1,23 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Glalie extends AbstractPokemon {
+/**
+ * Clase que representa al Pokémon Glalie, la evolución de Snorunt.
+ * Es un Pokémon de tipo Hielo (Ice) conocido por su cabeza de hielo macizo y
+ * su capacidad para congelar instantáneamente el aire a su alrededor.
+ * Sus habilidades giran alrededor del control del hielo y ataques sorpresivos.
+ */
+public class Glalie extends AbstractPokemon implements Serializable {
 
+    /**
+     * Constructor de Glalie. Inicializa sus estadísticas base, tipo y movimientos.
+     * Estadísticas destacadas:
+     * - Estadísticas balanceadas (todas a 284 excepto HP)
+     * - Tipo Hielo puro
+     * - HP moderadamente alto (364)
+     */
     public Glalie() {
         this.name = "Glalie";
         this.primaryType = Type.ICE;
@@ -20,20 +34,30 @@ public class Glalie extends AbstractPokemon {
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Glalie puede aprender por defecto.
+     * Incluye movimientos de tipo Hielo y técnicas variadas que reflejan su naturaleza versátil.
+     */
     @Override
     protected void initializeMoves() {
-        learnMove("Leer");
-        learnMove("Quick Attack");
-        learnMove("Double Team");
-        learnMove("Knock Off");
-        learnMove("Future Sight");
-        learnMove("Water Pulse");
+        learnMove("Leer");         // Movimiento de estado que reduce defensa
+        learnMove("Quick Attack"); // Ataque prioritario
+        learnMove("Double Team");  // Aumenta evasión
+        learnMove("Knock Off");    // Ataque oscuro que remueve items
+        learnMove("Future Sight"); // Ataque psíquico diferido
+        learnMove("Water Pulse");  // Ataque agua que puede confundir
     }
-    // Habilidad pasiva: Congelación instantánea
+
+    /**
+     * Habilidad especial: Congelación Instantánea
+     * Glalie congela la humedad del aire alrededor, creando efectos potenciales en el combate.
+     * (Implementación actual muestra mensaje descriptivo, puede extenderse para efectos de juego)
+     */
     public void instantFreeze() {
         System.out.println("Glalie congela instantáneamente la humedad del aire.");
-        // Aquí podrías implementar un efecto de congelación simple si el juego lo permite.
+        // Potencial extensión:
+        // - Podría reducir velocidad del oponente
+        // - Añadir chance de congelación
+        // - Crear terreno helado para beneficios defensivos
     }
-
-
 }

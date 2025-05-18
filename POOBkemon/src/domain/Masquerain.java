@@ -1,11 +1,25 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Masquerain, la evolución de Surskit.
+ * Pokémon de tipo Bicho/Volador conocido por sus ojos intimidantes y movimientos acuáticos.
+ * Tiene un modo especial de intimidación con sus patrones oculares.
+ */
+public class Masquerain extends AbstractPokemon implements Serializable {
 
-public class Masquerain extends AbstractPokemon{
-    private boolean eyeThreatenedMode; // si entra en combate y logra intimidar al oponente
+    private boolean eyeThreatenedMode; // Modo de intimidación ocular
 
+    /**
+     * Constructor de Masquerain. Inicializa sus estadísticas base y movimientos.
+     * Estadísticas destacadas:
+     * - Defensa especial notable (289)
+     * - Ataque especial decente (284)
+     * - Tipos duales (Bicho/Volador)
+     * - Velocidad moderada (240)
+     */
     public Masquerain(){
         this.name = "Masquerain";
         this.primaryType = Type.BUG;
@@ -19,10 +33,13 @@ public class Masquerain extends AbstractPokemon{
         this.speed = 240;
         this.eyeThreatenedMode = true;
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Masquerain puede aprender por defecto.
+     * Incluye movimientos de varios tipos que aprovechan su versatilidad.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Leer");
@@ -32,13 +49,21 @@ public class Masquerain extends AbstractPokemon{
         learnMove("Future Sight");
         learnMove("Water Pulse");
     }
+
+    /**
+     * Verifica si Masquerain ha sido debilitado.
+     * @return true si HP <= 0, false en caso contrario
+     */
     @Override
     public boolean isFainted() {
         return currentHP <= 0;
     }
 
+    /**
+     * Verifica el estado de intimidación ocular.
+     * @return true si está en modo de intimidación, false en caso contrario
+     */
     public boolean isEyeThreatenedMode() {
         return eyeThreatenedMode;
     }
-
 }

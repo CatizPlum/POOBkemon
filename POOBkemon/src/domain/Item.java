@@ -1,6 +1,8 @@
 package domain;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private String name;
     private String effect; // "heal20", "heal50", "heal200", "revive"
     private static boolean survivalMode = false;

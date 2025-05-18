@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el "Espíritu del Desierto", combina atributos terrestres y aéreos,
  * incluyendo la habilidad Levitate que lo hace inmune a movimientos de tipo Tierra.
  */
-public class Flygon extends AbstractPokemon {
+public class Flygon extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si la habilidad Levitate está activada.

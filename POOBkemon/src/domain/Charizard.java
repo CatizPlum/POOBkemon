@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Pokémon de tipo Fuego/Volador conocido por su poderosa llama en la cola.
  * Su estado de salud está directamente relacionado con la intensidad de su llama.
  */
-public class Charizard extends AbstractPokemon {
+public class Charizard extends AbstractPokemon implements Serializable {
 
     /**
      * Estado de la llama en la cola de Charizard.

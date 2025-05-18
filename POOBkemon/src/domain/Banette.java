@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Posee habilidades especiales relacionadas con maldiciones que se activan al ser debilitado
  * o al canalizar energía oscura para aumentar su ataque.
  */
-public class Banette extends AbstractPokemon {
+public class Banette extends AbstractPokemon implements Serializable {
     /**
      * Indica si la maldición post-mortem de Banette ha sido activada.
      * Evita que el efecto se active múltiples veces.

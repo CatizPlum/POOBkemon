@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Serpiente, destaca por su potente veneno y ataques físicos.
  * Rival natural de Zangoose, con quien mantiene una eterna enemistad.
  */
-public class Seviper extends AbstractPokemon {
+public class Seviper extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Seviper. Inicializa sus estadísticas base, tipos y movimientos.

@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Conocido como el Pokémon Sombra, puede desvanecerse en las tinieblas y
  * absorber la energía vital de sus oponentes.
  */
-public class Gengar extends AbstractPokemon {
+public class Gengar extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Gengar está en su Forma Sombra.
