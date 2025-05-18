@@ -475,7 +475,7 @@ public class GameGUI extends JFrame {
                 case "moltres": return "/resources/pokemon_back_sprites/146.png";
                 case "absol": return "/resources/pokemon_back_sprites/359.png";
                 case "seviper": return "/resources/pokemon_back_sprites/336.png";
-                case "pidgey": return "/resources/pokemon_back_sprites/16.png";
+                case "pidgeot": return "/resources/pokemon_back_sprites/18.png";
                 case "masquerain": return "/resources/pokemon_back_sprites/284.png";
                 default: return "/resources/pokemon_back_sprites/unknown.png";
 
@@ -518,7 +518,7 @@ public class GameGUI extends JFrame {
                 case "moltres": return "/resources/pokemon_sprites/146.gif";
                 case "absol": return "/resources/pokemon_sprites/359.gif";
                 case "seviper": return "/resources/pokemon_sprites/336.gif";
-                case "pidgey": return "/resources/pokemon_sprites/16.gif";
+                case "pidgeot": return "/resources/pokemon_sprites/18g.gif";
                 case "masquerain": return "/resources/pokemon_sprites/284.gif";
                 default: return "/resources/pokemon_sprites/unknown.png";
             }
