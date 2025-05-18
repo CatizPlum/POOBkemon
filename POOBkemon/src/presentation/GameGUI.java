@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
-import java.net.URL;
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class GameGUI extends JFrame {
     private BufferedImage backgroundImage;
     private BufferedImage battleBoxImage;
     private String mode;
-
 
     public GameGUI(Game game, String mode) {
         this.game = game;
@@ -127,27 +125,21 @@ public class GameGUI extends JFrame {
         JPanel pokemon1Panel = new JPanel(null);
         pokemon1Panel.setOpaque(false);
 
-        // Cargar imagen de la caja de HP
-
-
-
         // Posicionamiento de componentes del jugador 1
-        //pokemon1Label.setBounds(23, 23, 200, 20);
+        pokemon1Label.setBounds(130, 285, 200, 20);
         pokemon1Sprite.setBounds(135, 300, 200, 200);
         hpBar1.setBounds(50, 230, 200, 20);
-
 
         pokemon1Panel.add(pokemon1Label);
         pokemon1Panel.add(pokemon1Sprite);
         pokemon1Panel.add(hpBar1);
-
 
         // Panel Pokémon 2 con posicionamiento absoluto
         JPanel pokemon2Panel = new JPanel(null);
         pokemon2Panel.setOpaque(false);
 
         // Posicionamiento de componentes del jugador 2
-        //pokemon2Label.setBounds(100, 65, 200, 20);
+        pokemon2Label.setBounds(100, 65, 200, 20);
         pokemon2Sprite.setBounds(105, 65, 200, 200);
         hpBar2.setBounds(10, 230, 200, 20);
 
@@ -273,7 +265,7 @@ public class GameGUI extends JFrame {
             movesCombo.addItem(move.getName() + " (" + move.getType() + ", " + move.getPower() + " power)");
         }
 
-        // Manejar turno automático para modos
+        // Manejar turno automático para modos con IA
         if (mode.equals("MvsM") || (mode.equals("PvsM") && current == game.getTrainer2())) {
             Timer timer = new Timer(1000, e -> {
                 randomAction();
@@ -567,13 +559,9 @@ public class GameGUI extends JFrame {
 
             Pokemon charizard = new Charizard();
             Pokemon blastoise = new Blastoise();
-
-            // Crear los ítems usando las clases concretas
             List<Item> items = List.of(
-                    new domain.Potion(),          // Reemplaza new Item("Potion", "heal20")
-                    new domain.SuperPotion(),     // Reemplaza new Item("Super Potion", "heal50")
-                    new domain.HyperPotion(),      // Puedes añadir más ítems fácilmente
-                    new domain.Revive()            // Añade Revive si lo necesitas
+                    new Item("Potion", "heal20"),
+                    new Item("Super Potion", "heal50")
             );
 
             Trainer trainer1 = new Trainer("Player 1", Color.BLUE, List.of(charizard), items);
@@ -581,8 +569,5 @@ public class GameGUI extends JFrame {
 
             new GameGUI(new Game(trainer1, trainer2), "PvsP");
         });
-    }
-
-    private static class HyperPotion {
     }
 }
