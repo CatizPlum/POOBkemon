@@ -2,10 +2,31 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Solrock, un Pokémon de tipo Roca/Psíquico.
+ * Conocido como el Pokémon Meteorito, absorbe y almacena energía solar para potenciar sus ataques.
+ * Su efectividad en combate depende de su nivel de energía solar acumulada.
+ */
 public class Solrock extends AbstractPokemon {
 
+    /**
+     * Indica si Solrock tiene energía solar acumulada.
+     * Cuando es true:
+     * - Potencia sus movimientos de tipo Fuego y Psíquico
+     * - Permite usar Solar Beam sin carga
+     * - Aumenta su capacidad defensiva
+     */
     private boolean solarEnergy;
 
+    /**
+     * Constructor de Solrock. Inicializa sus estadísticas base, tipos y movimientos.
+     * Características principales:
+     * - Defensa física sólida (295)
+     * - Ataque físico considerable (317)
+     * - Tipo dual Roca/Psíquico
+     * - HP moderado (344)
+     * - Velocidad decente (262)
+     */
     public Solrock() {
         this.name = "Solrock";
         this.primaryType = Type.ROCK;
@@ -17,12 +38,16 @@ public class Solrock extends AbstractPokemon {
         this.specialAttack = 229;
         this.specialDefense = 251;
         this.speed = 262;
+        this.solarEnergy = true; // Comienza con energía solar
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Solrock puede aprender por defecto.
+     * Incluye movimientos de varios tipos para versatilidad en combate.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -33,6 +58,13 @@ public class Solrock extends AbstractPokemon {
         learnMove("Absorb");
     }
 
+    /**
+     * Método para recibir daño. Afecta su reserva de energía solar.
+     * @param amount Cantidad de daño recibido
+     *
+     * Efecto secundario:
+     * - Pierde energía solar si recibe daño significativo (>25% HP máximo)
+     */
     @Override
     public void takeDamage(int amount) {
         super.takeDamage(amount);
@@ -42,6 +74,10 @@ public class Solrock extends AbstractPokemon {
         }
     }
 
+    /**
+     * Método para curar HP. Restaura energía solar si HP >70%.
+     * @param amount Cantidad de HP a recuperar
+     */
     @Override
     public void heal(int amount) {
         super.heal(amount);
@@ -51,10 +87,19 @@ public class Solrock extends AbstractPokemon {
         }
     }
 
+    /**
+     * Verifica el estado de energía solar de Solrock.
+     * @return true si tiene energía solar acumulada, false en caso contrario
+     */
     public boolean hasSolarEnergy() {
         return solarEnergy;
     }
 
+    /**
+     * Ataque especial: Solar Beam.
+     * Solo funciona cuando Solrock tiene energía solar acumulada.
+     * Potencia: 120 | Tipo: Planta | Sin necesidad de carga con energía solar
+     */
     public void solarBeam() {
         if (solarEnergy) {
             System.out.println("¡Solrock desata un rayo de energía solar!");
@@ -63,9 +108,17 @@ public class Solrock extends AbstractPokemon {
         }
     }
 
-    // Método adicional para utilizar Sunny Day y potenciar Solar Beam
+    /**
+     * Cambio climático: Sunny Day.
+     * Activa luz solar intensa y recarga energía solar.
+     * Efectos:
+     * - Recarga energía solar automáticamente
+     * - Potencia movimientos de tipo Fuego en 50%
+     * - Reduce potencia de movimientos Agua en 50%
+     * - Dura 5 turnos
+     */
     public void sunnyDay() {
         System.out.println("¡Solrock invoca el sol con Sunny Day!");
-        solarEnergy = true; // Asegura que Solrock siempre tiene energía solar mientras el sol está activo.
+        solarEnergy = true;
     }
 }
