@@ -8,7 +8,7 @@ import java.util.Random;
 public class SurvivalMode {
     private static final List<Class<? extends AbstractPokemon>> POKEMON_CLASSES = List.of(
             Absol.class, Altaria.class, Banette.class, Blastoise.class, Blaziken.class,
-            Charizard.class, Crobat.class, Delibird.class, Donphan.class, Dragonite.class, Flygon.class,
+            Charizard.class, Delibird.class, Donphan.class, Dragonite.class, Flygon.class,
             Gardevoir.class, Gengar.class, Glalie.class, Granbull.class, Grumpig.class,
             Machamp.class, Manectric.class, Masquerain.class, Mawile.class, Medicham.class,
             Metagross.class, Moltres.class, Ninjask.class, Pidgeot.class, Raichu.class,
