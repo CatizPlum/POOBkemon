@@ -2,20 +2,8 @@ package domain;
 
 import java.util.ArrayList;
 
-/**
- * Clase que representa al Pokémon Glalie, un Pokémon de tipo Hielo puro.
- * Conocido como el Pokémon Cara de Hielo, puede congelar instantáneamente el aire a su alrededor.
- * Tiene estadísticas perfectamente balanceadas que reflejan su naturaleza simétrica.
- */
 public class Glalie extends AbstractPokemon {
 
-    /**
-     * Constructor de Glalie. Inicializa sus estadísticas base, tipo y movimientos.
-     * Características únicas:
-     * - Todas sus estadísticas (excepto HP) tienen el mismo valor (284)
-     * - Representa la simetría perfecta de su forma esférica
-     * - Tipo Hielo puro con movimientos versátiles
-     */
     public Glalie() {
         this.name = "Glalie";
         this.primaryType = Type.ICE;
@@ -32,10 +20,6 @@ public class Glalie extends AbstractPokemon {
         initializeMoves();
     }
 
-    /**
-     * Inicializa los movimientos que Glalie puede aprender por defecto.
-     * Incluye movimientos de varios tipos para complementar su tipo Hielo.
-     */
     @Override
     protected void initializeMoves() {
         learnMove("Leer");
@@ -45,17 +29,11 @@ public class Glalie extends AbstractPokemon {
         learnMove("Future Sight");
         learnMove("Water Pulse");
     }
-
-    /**
-     * Habilidad especial: Instant Freeze.
-     * Congela instantáneamente la humedad del aire alrededor de Glalie.
-     * En un sistema de combate completo, podría:
-     * - Tener probabilidad de congelar al oponente
-     * - Crear un campo de hielo que afecte el terreno
-     * - Mejorar sus propios movimientos de tipo Hielo
-     */
+    // Habilidad pasiva: Congelación instantánea
     public void instantFreeze() {
         System.out.println("Glalie congela instantáneamente la humedad del aire.");
-        // Implementación básica - puede expandirse para efectos de juego reales
+        // Aquí podrías implementar un efecto de congelación simple si el juego lo permite.
     }
+
+
 }
