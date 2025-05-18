@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Tiene la habilidad de enfurecerse al recibir daño significativo, potenciando su ataque especial,
  * y puede usar melodías calmantes o descansar en sus alas esponjosas.
  */
-public class Altaria extends AbstractPokemon {
+public class Altaria extends AbstractPokemon implements Serializable {
     /**
      * Indica si Altaria está en estado de furia, lo que aumenta su ataque especial.
      */

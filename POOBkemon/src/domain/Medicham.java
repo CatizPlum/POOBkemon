@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido por su capacidad de leer auras y combinar artes marciales con poderes mentales.
  * Destaca por su velocidad y precisión en combate.
  */
-public class Medicham extends AbstractPokemon {
+public class Medicham extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Medicham. Inicializa sus estadísticas base, tipos y movimientos.

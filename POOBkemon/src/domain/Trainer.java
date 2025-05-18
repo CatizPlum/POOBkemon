@@ -1,6 +1,7 @@
 package domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * Cada entrenador tiene un nombre, color distintivo, equipo de Pokémon,
  * colección de ítems y un Pokémon activo en batalla.
  */
-public class Trainer {
+public class Trainer implements Serializable {
     private String name;               // Nombre del entrenador
     private Color color;              // Color asociado al entrenador
     private List<Pokemon> team;       // Lista de Pokémon en el equipo (máx 6)

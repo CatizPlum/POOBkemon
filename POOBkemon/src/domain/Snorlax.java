@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Dormilón, destaca por su enorme resistencia y capacidad de curación.
  * Su estilo de combate se basa en su gran resistencia y poderosos ataques físicos.
  */
-public class Snorlax extends AbstractPokemon {
+public class Snorlax extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Snorlax está en estado de sueño profundo.

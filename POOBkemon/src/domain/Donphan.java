@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Destaca por su gran defensa y ataque físico, además de su habilidad Sturdy
  * que le permite resistir un golpe que lo dejaría debilitado.
  */
-public class Donphan extends AbstractPokemon {
+public class Donphan extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si la habilidad Sturdy (Robustez) está activada.

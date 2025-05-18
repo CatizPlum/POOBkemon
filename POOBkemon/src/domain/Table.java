@@ -1,6 +1,8 @@
 package domain;
 
-public class Table {
+import java.io.Serializable;
+
+public class Table implements Serializable {
 
     public static double adv(Type damage, Type a, Type b) {
         double primary = 1;

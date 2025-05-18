@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Aunque su apariencia es intimidante, es en realidad muy cariñoso.
  * Destaca por su enorme fuerza física y potentes mordiscos.
  */
-public class Granbull extends AbstractPokemon {
+public class Granbull extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Granbull. Inicializa sus estadísticas base, tipo y movimientos.

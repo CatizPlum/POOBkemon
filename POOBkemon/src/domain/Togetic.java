@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Conocido como el Pokémon Felicidad, su poder varía según su estado emocional.
  * Es capaz de esparcir polvo de alegría y detectar bondad en otros seres.
  */
-public class Togetic extends AbstractPokemon {
+public class Togetic extends AbstractPokemon implements Serializable {
 
     /**
      * Indica el estado emocional de Togetic.

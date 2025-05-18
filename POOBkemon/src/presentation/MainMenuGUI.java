@@ -10,13 +10,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 
 public class MainMenuGUI extends JFrame {
     private JComboBox<String> modeComboBox;
 
+
     public MainMenuGUI() {
         configureWindow();
         initUI();
+
     }
 
     private void configureWindow() {
@@ -32,6 +36,7 @@ public class MainMenuGUI extends JFrame {
         add(createCoverPanel(), BorderLayout.CENTER);
         add(createButtonPanel(), BorderLayout.SOUTH);
     }
+
 
     private JPanel createCoverPanel() {
         JPanel panel = new JPanel(new BorderLayout());

@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Pokémon de tipo Eléctrico puro conocido por su gran velocidad y poder ofensivo.
  * Destaca por su capacidad de paralizar oponentes al contacto.
  */
-public class Raichu extends AbstractPokemon {
+public class Raichu extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Raichu. Inicializa sus estadísticas base, tipo y movimientos.

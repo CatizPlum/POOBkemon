@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido por su gran poder especial y conexión emocional con su entrenador.
  * Su efectividad en combate depende de su equilibrio emocional.
  */
-public class Gardevoir extends AbstractPokemon {
+public class Gardevoir extends AbstractPokemon implements Serializable {
 
     /**
      * Indica el estado emocional de Gardevoir.

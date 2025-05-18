@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Umbreon es un Pokémon de tipo Siniestro conocido por su gran defensa y habilidades especiales
  * que se activan cuando su salud está baja (en "oscuridad").
  */
-public class Umbreon extends AbstractPokemon {
+public class Umbreon extends AbstractPokemon implements Serializable {
 
     private boolean isInDarkness;  // Indica si Umbreon está en estado de oscuridad (HP < 50%)
 

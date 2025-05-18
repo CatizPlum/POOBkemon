@@ -1,5 +1,6 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Conocido como el Pokémon Meteorito, absorbe y almacena energía solar para potenciar sus ataques.
  * Su efectividad en combate depende de su nivel de energía solar acumulada.
  */
-public class Solrock extends AbstractPokemon {
+public class Solrock extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Solrock tiene energía solar acumulada.

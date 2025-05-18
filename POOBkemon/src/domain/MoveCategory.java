@@ -1,10 +1,12 @@
 package domain;
 
+import java.io.Serializable;
+
 /**
  * Enumeración que representa las categorías de movimientos Pokémon.
  * Define los tres tipos fundamentales de movimientos en el sistema de combate.
  */
-public enum MoveCategory {
+public enum MoveCategory implements Serializable {
     /**
      * Movimiento físico - El daño se calcula basado en el ataque físico del atacante
      * y la defensa física del defensor. Ejemplo: Puñetazo, Patada.

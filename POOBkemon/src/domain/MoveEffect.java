@@ -1,10 +1,12 @@
 package domain;
 
+import java.io.Serializable;
+
 /**
  * Efectos secundarios que pueden aplicar los movimientos.
  * Incluye cambios de estado, modificadores de stats, efectos de campo, etc.
  */
-public enum MoveEffect {
+public enum MoveEffect  implements Serializable {
     // === Estados alterados (Status Conditions) ===
     BURN,           // Quemadura (reduce Ataque físico, daño por turno)
     FREEZE,         // Congelación (inmoviliza)

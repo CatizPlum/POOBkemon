@@ -1,17 +1,37 @@
 package domain;
 
-public class Move {
+import java.io.Serializable;
+
+/**
+ * Clase que representa un movimiento que puede usar un Pokémon en combate.
+ * Contiene toda la información necesaria para calcular daños, efectos secundarios
+ * y mecánicas de batalla. Implementa Serializable para permitir guardar/recuperar
+ * estados de juego.
+ */
+public class Move implements Serializable {
     private String name;
     private Type type;
     private int power;
     private int accuracy;
     private int pp;
-    private MoveEffect secondaryEffect;  // Cambiado de String a MoveEffect
+    private MoveEffect secondaryEffect;
     private int priority;
     private MoveCategory category;
-    private int effectChance;  // probabilidad del efecto (0-100)
+    private int effectChance;
 
-    // Constructor modificado
+    /**
+     * Constructor completo para crear un movimiento.
+     *
+     * @param name Nombre del movimiento
+     * @param type Tipo del movimiento (Fuego, Agua, etc.)
+     * @param power Poder base del movimiento
+     * @param accuracy Precisión del movimiento (0-100)
+     * @param pp Puntos de poder (usos disponibles)
+     * @param secondaryEffect Efecto secundario del movimiento
+     * @param priority Prioridad en el turno (valores más altos actúan primero)
+     * @param category Categoría (FÍSICO, ESPECIAL, ESTADO)
+     * @param effectChance Probabilidad de que ocurra el efecto secundario (0-100)
+     */
     public Move(String name, Type type, int power, int accuracy, int pp,
                 MoveEffect secondaryEffect, int priority, MoveCategory category,
                 int effectChance) {
@@ -26,7 +46,7 @@ public class Move {
         this.effectChance = effectChance;
     }
 
-    // Getters existentes (sin cambios)
+    // Getters
     public String getName() { return name; }
     public Type getType() { return type; }
     public int getPower() { return power; }
@@ -34,74 +54,67 @@ public class Move {
     public int getPp() { return pp; }
     public int getPriority() { return priority; }
     public MoveCategory getCategory() { return category; }
+    public MoveEffect getSecondaryEffect() { return secondaryEffect; }
+    public int getEffectChance() { return effectChance; }
 
-    // Getter modificado para secondaryEffect
-    public MoveEffect getSecondaryEffect() {
-        return secondaryEffect;
-    }
-
-    // Nuevo getter para effectChance
-    public int getEffectChance() {
-        return effectChance;
-    }
-
-    // Setter existente (sin cambios)
+    // Setters
     public void setPower(int power) {
         this.power = power;
     }
 
-    // Métodos existentes (sin cambios)
-    @Override
-    public String toString() {
-        return name + " (" + type + ", " + power;
-    }
-
+    /**
+     * Calcula la efectividad del movimiento contra los tipos del defensor.
+     *
+     * @param defenderPrimaryType Tipo primario del defensor
+     * @param defenderSecondaryType Tipo secundario del defensor (puede ser null)
+     * @return Multiplicador de efectividad (0, 0.5, 1, 2)
+     */
     public double getEffectivenessMultiplier(Type defenderPrimaryType, Type defenderSecondaryType) {
         return Table.adv(this.type, defenderPrimaryType,
                 defenderSecondaryType != null ? defenderSecondaryType : defenderPrimaryType);
     }
 
     /**
-     * Calcula el daño que hace este movimiento cuando es usado por el atacante contra el defensor
-     * @param attacker Pokémon atacante
-     * @param defender Pokémon defensor
-     * @return Cantidad de daño calculado
+     * Calcula el daño que este movimiento infligirá al defensor.
+     *
+     * @param attacker Pokémon que usa el movimiento
+     * @param defender Pokémon que recibe el movimiento
+     * @return Cantidad de daño calculada
      */
     public int calculateDamage(Pokemon attacker, Pokemon defender) {
-        // Si es un movimiento de estado, no hace daño
+        // Movimientos de estado no hacen daño
         if (this.category == MoveCategory.STATUS) {
             return 0;
         }
 
-        // Seleccionar estadísticas apropiadas según la categoría del movimiento
+        // Selección de estadísticas según categoría
         double effectiveAttack = (this.category == MoveCategory.PHYSICAL) ?
                 attacker.getAttack() : attacker.getSpecialAttack();
         double effectiveDefense = (this.category == MoveCategory.PHYSICAL) ?
                 defender.getDefense() : defender.getSpecialDefense();
 
-        // Calcular STAB (Same Type Attack Bonus)
+        // Cálculo de STAB (Same Type Attack Bonus)
         double stab = 1.0;
         if (this.type == attacker.getPrimaryType() ||
                 (attacker.getSecondaryType() != null && this.type == attacker.getSecondaryType())) {
             stab = 1.5;
         }
 
-        // Calcular efectividad de tipo
+        // Efectividad contra tipos del defensor
         double typeEffectiveness = getEffectivenessMultiplier(
                 defender.getPrimaryType(),
                 defender.getSecondaryType()
         );
 
-        // Calcular daño base
-        // Usando fórmula simplificada: ((2 * nivel / 5 + 2) * ataque * poder / defensa / 50) + 2
-        int level = 50; // Nivel asumido para cálculos
+        // Fórmula de daño simplificada
+        int level = 50; // Nivel asumido
         double baseDamage = ((2 * level / 5 + 2) * effectiveAttack * this.power / effectiveDefense / 50) + 2;
 
-        // Aplicar modificadores
-        double randomFactor = 0.85 + (Math.random() * 0.15); // Factor aleatorio entre 0.85 y 1.0
+        // Factores aleatorios y modificadores
+        double randomFactor = 0.85 + (Math.random() * 0.15); // Variación 85-100%
         double finalDamage = baseDamage * stab * typeEffectiveness * randomFactor;
 
-        // Mostrar información sobre el cálculo (para depuración)
+        // Debug (puede comentarse en producción)
         System.out.println("Cálculo de daño:");
         System.out.println("- Ataque efectivo: " + effectiveAttack);
         System.out.println("- Defensa efectiva: " + effectiveDefense);
@@ -110,7 +123,11 @@ public class Move {
         System.out.println("- Factor aleatorio: " + randomFactor);
         System.out.println("- Daño final: " + finalDamage);
 
-        // Devolver el daño redondeado a entero
-        return (int)Math.max(1, finalDamage); // Mínimo 1 punto de daño
+        return (int)Math.max(1, finalDamage); // Mínimo 1 de daño
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + type + ", " + power + ")";
     }
 }
