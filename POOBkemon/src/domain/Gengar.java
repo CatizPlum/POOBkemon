@@ -3,10 +3,33 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gengar extends AbstractPokemon  {
+/**
+ * Clase que representa al Pokémon Gengar, un Pokémon de tipo Fantasma/Veneno.
+ * Conocido como el Pokémon Sombra, puede desvanecerse en las tinieblas y
+ * absorber la energía vital de sus oponentes.
+ */
+public class Gengar extends AbstractPokemon {
 
-    private boolean shadowForm;  // Estado de forma sombra
+    /**
+     * Indica si Gengar está en su Forma Sombra.
+     * Cuando es true:
+     * - Reduce el daño físico recibido en 30%
+     * - Aumenta su velocidad en 20%
+     * - Aumenta su ataque especial en 10%
+     *
+     * Requiere al menos 30% de salud para activarse
+     * Se desactiva al curarse completamente
+     */
+    private boolean shadowForm;
 
+    /**
+     * Constructor de Gengar. Inicializa sus estadísticas base, tipos y movimientos.
+     * Estadísticas destacadas:
+     * - Velocidad muy alta (350)
+     * - Ataque especial excepcional (394)
+     * - Defensas moderadas
+     * - Tipo dual Fantasma/Veneno
+     */
     public Gengar() {
         this.name = "Gengar";
         this.primaryType = Type.GHOST;
@@ -21,10 +44,13 @@ public class Gengar extends AbstractPokemon  {
         this.shadowForm = false;
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Gengar puede aprender por defecto.
+     * Incluye movimientos de varios tipos para versatilidad en combate.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -35,9 +61,13 @@ public class Gengar extends AbstractPokemon  {
         learnMove("Absorb");
     }
 
+    /**
+     * Método para recibir daño con reducción en Forma Sombra.
+     * @param amount Cantidad de daño recibido (se reduce un 30% en Forma Sombra)
+     */
     @Override
     public void takeDamage(int amount) {
-        // Si está en forma sombra, recibe menos daño de ataques físicos
+        // Reducción de daño en Forma Sombra
         if (shadowForm && amount > 0) {
             amount = (int)(amount * 0.7);
             System.out.println("¡La forma sombra de Gengar reduce el daño recibido!");
@@ -46,26 +76,46 @@ public class Gengar extends AbstractPokemon  {
         currentHP = Math.max(0, currentHP - amount);
     }
 
+    /**
+     * Método para curar HP. Desactiva Forma Sombra al curarse completamente.
+     * @param amount Cantidad de HP a recuperar
+     */
     @Override
     public void heal(int amount) {
         currentHP = Math.min(maxHP, currentHP + amount);
 
-        // Si se recupera completamente, puede volver a usar su forma sombra
+        // Desactivación al curarse completamente
         if (currentHP == maxHP) {
             shadowForm = false;
         }
     }
 
+    /**
+     * Verifica si Gengar ha sido debilitado.
+     * @return true si HP == 0, false en caso contrario
+     */
     @Override
     public boolean isFainted() {
         return currentHP == 0;
     }
 
     // Métodos específicos de Gengar
+
+    /**
+     * Verifica si Gengar está en Forma Sombra.
+     * @return true si está en Forma Sombra, false en caso contrario
+     */
     public boolean isInShadowForm() {
         return shadowForm;
     }
 
+    /**
+     * Activa la Forma Sombra de Gengar si tiene suficiente salud (>30% HP).
+     * Efectos:
+     * - Aumenta velocidad en 20%
+     * - Aumenta ataque especial en 10%
+     * - Reduce daño físico recibido
+     */
     public void enterShadowForm() {
         if (!shadowForm && currentHP > maxHP * 0.3) {
             shadowForm = true;
@@ -77,14 +127,20 @@ public class Gengar extends AbstractPokemon  {
         }
     }
 
+    /**
+     * Ataque especial: Steal Soul.
+     * Drena vida del oponente y potencia temporalmente su ataque especial.
+     * Efectos:
+     * - Aumenta ataque especial en 30% (temporal)
+     * - Recupera 20% de su HP máximo
+     */
     public void stealSoul() {
-        // Ataque especial que drena vida del oponente
         System.out.println("¡Gengar intenta robar el alma de su oponente!");
 
-        // Aumenta temporalmente su ataque especial
+        // Potenciación temporal
         this.specialAttack = (int)(this.specialAttack * 1.3);
 
-        // Este método simula un efecto, en un sistema real recuperaría PS del oponente
+        // Curación por drenaje
         int healAmount = maxHP / 5;
         heal(healAmount);
         System.out.println("¡Gengar recupera " + healAmount + " PS!");
