@@ -19,6 +19,7 @@ public abstract class AbstractPokemon implements Pokemon {
     protected int specialDefense;
     protected int speed;
     protected List<Move> moves;
+
     
     @Override
     public String getName() {
