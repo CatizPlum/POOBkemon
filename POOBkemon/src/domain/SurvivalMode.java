@@ -1,20 +1,20 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
 
 public class SurvivalMode {
-    private static final List<Class<? extends AbstractPokemon>> POKEMON_CLASSES = List.of(
+    private static final List<Class<? extends AbstractPokemon>> POKEMON_CLASSES = Arrays.asList(
             Absol.class, Altaria.class, Banette.class, Blastoise.class, Blaziken.class,
-            Charizard.class, Delibird.class, Donphan.class, Dragonite.class, Flygon.class,
-            Gardevoir.class, Gengar.class, Glalie.class, Granbull.class, Grumpig.class,
-            Machamp.class, Manectric.class, Masquerain.class, Mawile.class, Medicham.class,
-            Metagross.class, Moltres.class, Ninjask.class, Pidgeot.class, Raichu.class,
-            Sceptile.class, Seviper.class, Snorlax.class, Solrock.class, Swampert.class,
-            Togetic.class, Tyranitar.class, Umbreon.class, Venusaur.class, Zangoose.class
+            Charizard.class, Crobat.class, Delibird.class, Donphan.class, Dragonite.class,
+            Flygon.class, Gardevoir.class, Gengar.class, Glalie.class, Granbull.class,
+            Grumpig.class, Machamp.class, Manectric.class, Masquerain.class, Mawile.class,
+            Medicham.class, Metagross.class, Moltres.class, Ninjask.class, Pidgeot.class,
+            Raichu.class, Sceptile.class, Seviper.class, Snorlax.class, Solrock.class,
+            Swampert.class, Togetic.class, Tyranitar.class, Umbreon.class, Venusaur.class,
+            Zangoose.class
     );
+
 
     public static List<Pokemon> generateRandomTeam() {
         List<Class<? extends AbstractPokemon>> shuffledClasses = new ArrayList<>(POKEMON_CLASSES);

@@ -2,10 +2,29 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Flygon, un Pokémon de tipo Tierra/Dragón.
+ * Conocido como el "Espíritu del Desierto", combina atributos terrestres y aéreos,
+ * incluyendo la habilidad Levitate que lo hace inmune a movimientos de tipo Tierra.
+ */
 public class Flygon extends AbstractPokemon {
 
+    /**
+     * Indica si la habilidad Levitate está activada.
+     * Cuando es true:
+     * - Flygon es inmune a movimientos de tipo Tierra
+     * - Representa su estado de vuelo/flotación
+     */
     private boolean levitateActivated;
 
+    /**
+     * Constructor de Flygon. Inicializa sus estadísticas base, tipos y movimientos.
+     * Estadísticas destacadas:
+     * - Ataque y velocidad equilibrados (328)
+     * - Defensas moderadas (284)
+     * - HP decente (364)
+     * - Tipo dual Tierra/Dragón
+     */
     public Flygon() {
         this.name = "Flygon";
         this.primaryType = Type.GROUND;
@@ -19,10 +38,13 @@ public class Flygon extends AbstractPokemon {
         this.speed = 328;
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Flygon puede aprender por defecto.
+     * Incluye movimientos de varios tipos para versatilidad en combate.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Cross Poison");
@@ -32,54 +54,82 @@ public class Flygon extends AbstractPokemon {
         learnMove("Screech");
         learnMove("Absorb");
     }
+
+    /**
+     * Método para recibir daño con inmunidad a movimientos de tipo Tierra cuando Levitate está activo.
+     * @param amount Cantidad de daño recibido
+     */
     @Override
     public void takeDamage(int amount) {
         super.takeDamage(amount);
-        // Si Flygon recibe daño de un movimiento de tipo tierra, revisamos si tiene Levitate.
+        // Verifica inmunidad a movimientos de tipo Tierra
         if (this.primaryType == Type.GROUND || (this.secondaryType != null && this.secondaryType == Type.GROUND)) {
             if (levitateActivated) {
                 System.out.println("¡Flygon es inmune a los movimientos de tipo Tierra gracias a su habilidad Levitate!");
-                // Si es inmune a movimientos de tipo Tierra debido a Levitate, no recibe el daño.
                 return;
             }
         }
     }
 
+    /**
+     * Método para curar HP. Reactiva Levitate si la salud supera el 70%.
+     * @param amount Cantidad de HP a recuperar
+     */
     @Override
     public void heal(int amount) {
         super.heal(amount);
-        // Si la salud de Flygon se encuentra por encima del 70%, desactiva su habilidad Levitate.
         if (currentHP > maxHP * 0.7) {
             levitateActivated = true;
         }
     }
 
+    /**
+     * Verifica si Levitate está activado.
+     * @return true si la habilidad está activa, false en caso contrario
+     */
     public boolean hasLevitateActivated() {
         return levitateActivated;
     }
 
-    // Método especial para utilizar Dragon Claw, un fuerte ataque de tipo Dragón
+    // Métodos especiales de Flygon
+
+    /**
+     * Ataque característico: Dragon Claw.
+     * Poderoso movimiento de tipo Dragón con alta precisión.
+     */
     public void dragonClaw() {
         System.out.println("¡Flygon utiliza Dragon Claw con gran poder!");
     }
 
-    // Método adicional para usar Fly y hacer daño mientras vuela
+    /**
+     * Movimiento de tipo Volador que permite evadir por un turno.
+     * En el segundo turno, realiza un ataque aéreo.
+     */
     public void fly() {
         System.out.println("¡Flygon se eleva en el aire para realizar un potente ataque Fly!");
     }
 
-    // Método adicional para usar U-turn y cambiar de lugar
+    /**
+     * Movimiento táctico que permite cambiar de Pokémon después de atacar.
+     * Ideal para estrategias de rotación.
+     */
     public void uTurn() {
         System.out.println("¡Flygon usa U-turn y cambia de Pokémon rápidamente!");
     }
 
-    // Método para activar la habilidad Levitate cuando Flygon está en el aire
+    /**
+     * Activa manualmente la habilidad Levitate.
+     * Hace a Flygon inmune a movimientos de tipo Tierra.
+     */
     public void activateLevitate() {
         levitateActivated = true;
         System.out.println("¡Flygon activa su habilidad Levitate!");
     }
 
-    // Método para desactivar la habilidad Levitate cuando Flygon está en el suelo
+    /**
+     * Desactiva manualmente la habilidad Levitate.
+     * Permite que Flygon sea afectado por movimientos de tipo Tierra.
+     */
     public void deactivateLevitate() {
         levitateActivated = false;
         System.out.println("¡Flygon desactiva su habilidad Levitate!");

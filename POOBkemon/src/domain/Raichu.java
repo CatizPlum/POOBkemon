@@ -2,8 +2,22 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Raichu, la evolución final de Pikachu.
+ * Pokémon de tipo Eléctrico puro conocido por su gran velocidad y poder ofensivo.
+ * Destaca por su capacidad de paralizar oponentes al contacto.
+ */
 public class Raichu extends AbstractPokemon {
 
+    /**
+     * Constructor de Raichu. Inicializa sus estadísticas base, tipo y movimientos.
+     * Características principales:
+     * - Velocidad muy alta (350)
+     * - Ataque físico y especial equilibrados (306)
+     * - Defensa especial considerable (284)
+     * - Tipo Eléctrico puro
+     * - HP moderado (324)
+     */
     public Raichu() {
         this.name = "RAICHU";
         this.primaryType = Type.ELECTRIC;
@@ -17,10 +31,13 @@ public class Raichu extends AbstractPokemon {
         this.speed = 350;
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Raichu puede aprender por defecto.
+     * Incluye movimientos eléctricos y técnicas de combate versátiles.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Leer");
@@ -31,6 +48,11 @@ public class Raichu extends AbstractPokemon {
         learnMove("Water Pulse");
     }
 
+    /**
+     * Intenta aplicar el efecto estático al oponente.
+     * Representa la habilidad Static que tiene un 30% de probabilidad de paralizar al contacto.
+     * @return true si se aplicó la parálisis, false en caso contrario
+     */
     public boolean tryStaticEffect() {
         double chance = Math.random();
         if (chance < 0.3) {
