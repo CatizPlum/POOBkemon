@@ -2,8 +2,22 @@ package domain;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Granbull, un Pokémon de tipo Hada.
+ * Aunque su apariencia es intimidante, es en realidad muy cariñoso.
+ * Destaca por su enorme fuerza física y potentes mordiscos.
+ */
 public class Granbull extends AbstractPokemon {
 
+    /**
+     * Constructor de Granbull. Inicializa sus estadísticas base, tipo y movimientos.
+     * Características principales:
+     * - Ataque físico extremadamente alto (372)
+     * - Defensa decente (273)
+     * - HP considerable (384)
+     * - Velocidad baja (207)
+     * - Tipo Hada puro
+     */
     public Granbull() {
         this.name = "Granbull";
         this.primaryType = Type.FAIRY;
@@ -20,6 +34,10 @@ public class Granbull extends AbstractPokemon {
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Granbull puede aprender por defecto.
+     * Incluye movimientos físicos y técnicas básicas.
+     */
     @Override
     protected void initializeMoves() {
         learnMove("Leer");
@@ -30,7 +48,17 @@ public class Granbull extends AbstractPokemon {
         learnMove("Water Pulse");
     }
 
-    // Habilidad pasiva: Mordida poderosa
+    /**
+     * Habilidad especial: Powerful Bite.
+     * Potencia los movimientos de mordida (Bite/Crunch) en un 50%.
+     *
+     * Efecto:
+     * - Aumenta temporalmente el poder de movimientos de mordida
+     * - Muestra mensaje informando del aumento de poder
+     *
+     * Nota: Requiere que Granbull tenga aprendidos los movimientos Bite o Crunch
+     * para que tenga efecto.
+     */
     public void powerfulBite() {
         System.out.println("Granbull ataca con una mordida poderosa.");
 
