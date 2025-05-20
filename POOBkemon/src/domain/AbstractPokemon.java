@@ -21,6 +21,17 @@ public abstract class AbstractPokemon implements Pokemon, Serializable {
     protected int speed;
     protected List<Move> moves;
 
+    /**
+     * Reduce el PP de todos los movimientos especiales en 1
+     */
+    public void reduceSpecialMovesPp() {
+        for (Move move : moves) {
+            if (move.getCategory() == MoveCategory.SPECIAL && move.getPp() > 0) {
+                move.setPp(move.getPp() - 1);
+            }
+        }
+    }
+
     
     @Override
     public String getName() {
