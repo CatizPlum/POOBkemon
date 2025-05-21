@@ -823,16 +823,66 @@ private void useItem() {
 
     private void checkEnd() {
         if (game.isOver()) {
-            String winner = game.getTrainer1().getCurrentPokemon().isFainted() ?
-                    game.getTrainer2().getName() : game.getTrainer1().getName();
+            guiTimer.stop();
+            game.stopTurnTimer();
+            setButtonsEnabled(false);
 
-            JOptionPane.showMessageDialog(this,
-                    winner + " wins the battle!",
-                    "Game Over",
-                    JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            Trainer winner = determineWinner();
+            String message;
+
+            if (winner != null) {
+                message = "¡" + winner.getName() + " ha ganado la batalla!\n\n";
+            } else {
+                message = "¡La batalla terminó en empate!\n\n";
+            }
+
+            // Mostrar los resultados de cada equipo
+            message += getBattleResults();
+
+            JOptionPane.showMessageDialog(this, message, "Fin del juego", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    private Trainer determineWinner() {
+        boolean p1Fainted = game.getTrainer1().getCurrentPokemon().isFainted();
+        boolean p2Fainted = game.getTrainer2().getCurrentPokemon().isFainted();
+
+        if (p1Fainted && !p2Fainted) {
+            return game.getTrainer2();
+        } else if (p2Fainted && !p1Fainted) {
+            return game.getTrainer1();
+        } else {
+            return null; // empate
+        }
+    }
+
+
+    private String getBattleResults() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("--- ").append(game.getTrainer1().getName()).append(" ---\n");
+        for (Pokemon p : game.getTrainer1().getTeam()) {
+            sb.append(p.getName())
+                    .append(": ")
+                    .append(p.getCurrentHP())
+                    .append("/")
+                    .append(p.getMaxHP())
+                    .append(" HP\n");
+        }
+
+        sb.append("\n--- ").append(game.getTrainer2().getName()).append(" ---\n");
+        for (Pokemon p : game.getTrainer2().getTeam()) {
+            sb.append(p.getName())
+                    .append(": ")
+                    .append(p.getCurrentHP())
+                    .append("/")
+                    .append(p.getMaxHP())
+                    .append(" HP\n");
+        }
+
+        return sb.toString();
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
