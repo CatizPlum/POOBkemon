@@ -377,6 +377,7 @@ public class GameGUI extends JFrame {
         changeButton = createStyledButton("Change Pokémon");
         itemButton = createStyledButton("Use Item");
         nextTurnButton = createStyledButton("Next Turn");
+        JButton fleeButton = createStyledButton("Huir");
 
         movesCombo.setPreferredSize(new Dimension(200, 25));
         movesCombo.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -388,6 +389,7 @@ public class GameGUI extends JFrame {
         movesPanel.add(changeButton);
         movesPanel.add(itemButton);
         movesPanel.add(nextTurnButton);
+        movesPanel.add(fleeButton);
 
         boxPanel.add(movesPanel, BorderLayout.CENTER);
 
@@ -399,6 +401,8 @@ public class GameGUI extends JFrame {
         changeButton.addActionListener(e -> changePokemon());
         itemButton.addActionListener(e -> useItem());
         nextTurnButton.addActionListener(e -> nextTurn());
+        fleeButton.addActionListener(e -> attemptToFlee());
+
 
         // Configurar el label del temporizador
         timerLabel = new JLabel("20", SwingConstants.CENTER);
@@ -417,6 +421,32 @@ public class GameGUI extends JFrame {
         // Configurar el callback para cuando se agote el tiempo
         game.setOnTimeOutCallback(this::handleTimeOut);
     }
+
+    private void attemptToFlee() {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Estás seguro de que deseas huir de la batalla?\nEsto contará como derrota.",
+                "Confirmar huida",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            guiTimer.stop();
+            game.stopTurnTimer();
+            setButtonsEnabled(false);
+
+            Trainer loser = game.getCurrentTrainer();
+            Trainer winner = game.getWaitingTrainer();
+
+            String message = loser.getName() + " ha huido de la batalla.\n"
+                    + "¡" + winner.getName() + " es el ganador por abandono!\n\n"
+                    + getBattleResults();
+
+            JOptionPane.showMessageDialog(this, message, "Huida confirmada", JOptionPane.INFORMATION_MESSAGE);
+            // Puedes cerrar la ventana o redirigir al menú
+            dispose();
+            new MainMenuGUI().setVisible(true);
+        }
+    }
+
 
     private void handleTimeOut() {
         // Detener el temporizador visual
