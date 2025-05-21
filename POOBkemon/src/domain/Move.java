@@ -62,6 +62,10 @@ public class Move implements Serializable {
         this.power = power;
     }
 
+    public void setPp(int pp) {
+        this.pp = pp;
+    }
+
     /**
      * Calcula la efectividad del movimiento contra los tipos del defensor.
      *

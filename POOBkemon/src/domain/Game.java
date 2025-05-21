@@ -1,15 +1,23 @@
 package domain;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.io.*;
 import java.nio.file.Files;
-
+import java.util.Timer;
+import java.util.TimerTask;
 /**
  * Clase que representa una partida de combate Pokémon entre dos entrenadores.
  * Controla el flujo del juego, turnos y estados de los entrenadores.
  * Implementa Serializable para permitir guardar y cargar partidas.
  */
 public class Game implements Serializable {
+    private static final int TURN_TIME_LIMIT = 20; // 20 segundos por turno
+    private transient Timer turnTimer; // Timer para controlar el tiempo
+    private int timeRemaining = TURN_TIME_LIMIT;
+    private transient TimerTask countdownTask;
+    private transient Runnable onTimeOutCallback;
+
 
     /**
      * Primer entrenador participante en la batalla
@@ -44,6 +52,70 @@ public class Game implements Serializable {
     }
 
     /**
+     * Inicia el temporizador del turno.
+     */
+    public void startTurnTimer() {
+        stopTurnTimer(); // Detener cualquier temporizador existente
+
+        timeRemaining = TURN_TIME_LIMIT;
+        turnTimer = new Timer();
+
+        // Tarea para actualizar el contador cada segundo
+        countdownTask = new TimerTask() {
+            @Override
+            public void run() {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    timeOut();
+                    this.cancel();
+                }
+            }
+        };
+
+        turnTimer.scheduleAtFixedRate(countdownTask, 1000, 1000);
+    }
+
+    /**
+     * Detiene el temporizador del turno.
+     */
+    public void stopTurnTimer() {
+        if (turnTimer != null) {
+            turnTimer.cancel();
+            turnTimer.purge();
+            turnTimer = null;
+        }
+        if (countdownTask != null) {
+            countdownTask.cancel();
+            countdownTask = null;
+        }
+    }
+
+    /**
+     * Método que se ejecuta cuando se agota el tiempo del turno.
+     * Reduce el PP de los movimientos especiales del Pokémon actual.
+     */
+    private void timeOut() {
+        stopTurnTimer();
+
+        // Reducir PP de movimientos especiales
+        Pokemon currentPokemon = currentTrainer.getCurrentPokemon();
+        if (currentPokemon instanceof AbstractPokemon) {
+            ((AbstractPokemon) currentPokemon).reduceSpecialMovesPp();
+        }
+
+        // Notificar a la GUI (pero NO pasar al siguiente turno todavía)
+        if (onTimeOutCallback != null) {
+            SwingUtilities.invokeLater(onTimeOutCallback);
+        }
+
+        // ELIMINADO: nextTurn(); // Ahora esto lo manejará la GUI después de que el usuario presione OK
+    }
+
+
+
+
+
+    /**
      * Obtiene el primer entrenador
      * @return Objeto Trainer del primer jugador
      */
@@ -59,13 +131,20 @@ public class Game implements Serializable {
         return trainer2;
     }
 
+    public int getTimeRemaining() {
+        return timeRemaining;
+    }
+
     /**
      * Avanza al siguiente turno, intercambiando los entrenadores actual y en espera
      */
+    // En el método nextTurn(), asegurarse de detener y reiniciar el temporizador
     public void nextTurn() {
+        stopTurnTimer();
         Trainer temp = currentTrainer;
         currentTrainer = waitingTrainer;
         waitingTrainer = temp;
+        startTurnTimer();
     }
 
     /**
@@ -105,6 +184,13 @@ public class Game implements Serializable {
         } else {
             throw new PoobkemonException("El Pokémon activo no es Delibird.");
         }
+    }
+
+    /**
+     * Establece el callback para cuando se agote el tiempo
+     */
+    public void setOnTimeOutCallback(Runnable callback) {
+        this.onTimeOutCallback = callback;
     }
     /**
      * Clase interna para manejar los datos de guardado
@@ -152,4 +238,6 @@ public class Game implements Serializable {
             return (SaveData) ois.readObject();
         }
     }
+
+
 }

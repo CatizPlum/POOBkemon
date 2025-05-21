@@ -39,6 +39,8 @@ public class GameGUI extends JFrame {
     private BufferedImage backgroundImage;
     private BufferedImage battleBoxImage;
     private String mode;
+    private JLabel timerLabel;
+    private javax.swing.Timer guiTimer;
 
     public GameGUI(Game game, String mode) {
         this.game = game;
@@ -173,6 +175,7 @@ public class GameGUI extends JFrame {
 
     private void loadBackgroundImages() {
         try {
+            // Cargar imagen de fondo principal (battle.png)
             InputStream bgStream = getClass().getResourceAsStream("/front/battle.png");
             if (bgStream != null) {
                 backgroundImage = ImageIO.read(bgStream);
@@ -180,24 +183,54 @@ public class GameGUI extends JFrame {
                 backgroundImage = ImageIO.read(new File("POOBkemon/resources/front/battle.png"));
             }
 
+            // Cargar y escalar la battle_box.png
             InputStream boxStream = getClass().getResourceAsStream("/front/battle_box.png");
             if (boxStream != null) {
-                battleBoxImage = ImageIO.read(boxStream);
+                BufferedImage originalBoxImage = ImageIO.read(boxStream);
+
+                // Definir la nueva altura deseada (ajusta este valor)
+                int newHeight = 180;  // Puedes cambiarlo a 200, 150, etc.
+                int originalWidth = originalBoxImage.getWidth();
+                int originalHeight = originalBoxImage.getHeight();
+
+                // Calcular el nuevo ancho proporcionalmente
+                int newWidth = (int) ((double) originalWidth / originalHeight * newHeight);
+
+                // Escalar la imagen con mejor calidad
+                battleBoxImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g = battleBoxImage.createGraphics();
+                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g.drawImage(originalBoxImage, 0, 0, newWidth, newHeight, null);
+                g.dispose();
             } else {
-                battleBoxImage = ImageIO.read(new File("POOBkemon/resources/front/battle_box.png"));
+                // Si no se carga desde recursos, intentar cargar desde archivo y escalar
+                BufferedImage originalBoxImage = ImageIO.read(new File("POOBkemon/resources/front/battle_box.png"));
+                int newHeight = 180;
+                int originalWidth = originalBoxImage.getWidth();
+                int originalHeight = originalBoxImage.getHeight();
+                int newWidth = (int) ((double) originalWidth / originalHeight * newHeight);
+
+                battleBoxImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D g = battleBoxImage.createGraphics();
+                g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                g.drawImage(originalBoxImage, 0, 0, newWidth, newHeight, null);
+                g.dispose();
             }
         } catch (IOException e) {
             System.err.println("Error loading background images: " + e.getMessage());
+
+            // Imagen de respaldo para battle.png
             backgroundImage = new BufferedImage(900, 550, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = backgroundImage.createGraphics();
             g.setColor(new Color(70, 130, 180));
             g.fillRect(0, 0, 900, 550);
             g.dispose();
 
-            battleBoxImage = new BufferedImage(900, 100, BufferedImage.TYPE_INT_RGB);
+            // Imagen de respaldo para battle_box.png (más alta)
+            battleBoxImage = new BufferedImage(900, 180, BufferedImage.TYPE_INT_RGB); // Altura aumentada
             g = battleBoxImage.createGraphics();
             g.setColor(new Color(50, 50, 80));
-            g.fillRect(0, 0, 900, 100);
+            g.fillRect(0, 0, 900, 180);  // Misma altura que arriba
             g.dispose();
         }
     }
@@ -321,7 +354,53 @@ public class GameGUI extends JFrame {
         changeButton.addActionListener(e -> changePokemon());
         itemButton.addActionListener(e -> useItem());
         nextTurnButton.addActionListener(e -> nextTurn());
+
+        // Configurar el label del temporizador
+        timerLabel = new JLabel("20", SwingConstants.CENTER);
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        timerLabel.setForeground(Color.WHITE);
+        timerLabel.setBackground(new Color(0, 0, 0, 150));
+        timerLabel.setOpaque(true);
+        timerLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        // Panel para el temporizador (esquina superior derecha)
+        JPanel timerPanel = new JPanel(new BorderLayout());
+        timerPanel.setOpaque(false);
+        timerPanel.add(timerLabel, BorderLayout.EAST);
+        battleBackgroundPanel.add(timerPanel, BorderLayout.NORTH);
+
+        // Configurar el callback para cuando se agote el tiempo
+        game.setOnTimeOutCallback(this::handleTimeOut);
     }
+
+    private void handleTimeOut() {
+        // Detener el temporizador visual
+        if (guiTimer != null && guiTimer.isRunning()) {
+            guiTimer.stop();
+        }
+
+        Pokemon currentPokemon = game.getCurrentTrainer().getCurrentPokemon();
+        StringBuilder message = new StringBuilder("¡Tiempo agotado!\n");
+
+        // Mostrar cambios en los PP
+        message.append("Se redujo el PP de los movimientos especiales de ")
+                .append(currentPokemon.getName()).append(":\n");
+
+        for (Move move : currentPokemon.getMoves()) {
+            if (move.getCategory() == MoveCategory.SPECIAL) {
+                message.append("- ").append(move.getName())
+                        .append(": PP ").append(move.getPp()).append("\n");
+            }
+        }
+
+        // Mostrar diálogo modal que pausará la ejecución hasta que se presione OK
+        JOptionPane.showMessageDialog(this, message.toString(), "Tiempo agotado", JOptionPane.WARNING_MESSAGE);
+
+        // Solo después de presionar OK, pasar al siguiente turno
+        game.nextTurn();
+        updateScreen();
+    }
+
 
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
@@ -336,6 +415,10 @@ public class GameGUI extends JFrame {
     }
 
     private void updateScreen() {
+        // Detener el temporizador anterior si existe
+        if (guiTimer != null && guiTimer.isRunning()) {
+            guiTimer.stop();
+        }
         Trainer current = game.getCurrentTrainer();
         Trainer waiting = game.getWaitingTrainer();
 
@@ -398,6 +481,32 @@ public class GameGUI extends JFrame {
             });
             timer.setRepeats(false);
             timer.start();
+        }
+
+        // Configurar el temporizador visual
+        timerLabel.setText(String.valueOf(game.getTimeRemaining()));
+        updateTimerColor();
+
+        // Iniciar el temporizador de la interfaz
+        guiTimer = new javax.swing.Timer(1000, e -> {
+            int remaining = game.getTimeRemaining();
+            timerLabel.setText(String.valueOf(remaining));
+            updateTimerColor();
+        });
+        guiTimer.start();
+
+        // Iniciar el temporizador del juego
+        game.startTurnTimer();
+    }
+
+    private void updateTimerColor() {
+        int remaining = game.getTimeRemaining();
+        if (remaining <= 5) {
+            timerLabel.setForeground(Color.RED);
+            timerLabel.setFont(timerLabel.getFont().deriveFont(Font.BOLD, 28));
+        } else {
+            timerLabel.setForeground(Color.WHITE);
+            timerLabel.setFont(timerLabel.getFont().deriveFont(Font.BOLD, 24));
         }
 
         // Verificar si el juego ha terminado
@@ -527,6 +636,7 @@ public class GameGUI extends JFrame {
 
     private void attack() {
         try {
+            game.stopTurnTimer();
             Trainer current = game.getCurrentTrainer();
             Trainer opponent = game.getWaitingTrainer();
             int index = movesCombo.getSelectedIndex();
@@ -546,10 +656,10 @@ public class GameGUI extends JFrame {
             checkEnd();
             game.nextTurn();
             updateScreen();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }
 
     private void animateAttack() {
         JLabel targetLabel = game.getCurrentTrainer() == game.getTrainer1() ? pokemon2Sprite : pokemon1Sprite;
@@ -574,6 +684,7 @@ public class GameGUI extends JFrame {
 
     private void changePokemon() {
         try {
+            game.stopTurnTimer();
             Trainer current = game.getCurrentTrainer();
             List<Pokemon> team = current.getTeam();
 
@@ -612,44 +723,48 @@ public class GameGUI extends JFrame {
         }
     }
 
-    private void useItem() {
-        try {
-            Trainer current = game.getCurrentTrainer();
-            List<Item> items = current.getItems();
 
-            if (items.isEmpty()) {
-                throw new PoobkemonException("No items available!");
-            }
+private void useItem() {
+    try {
+        game.stopTurnTimer();
+        Trainer current = game.getCurrentTrainer();
+        List<Item> items = current.getItems();
 
-            Item[] options = items.toArray(new Item[0]);
-            Item selected = (Item) JOptionPane.showInputDialog(
-                    this,
-                    "Select an item to use:",
-                    "Use Item",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-
-            if (selected != null) {
-                 selected.apply(current.getCurrentPokemon());
-                items.remove(selected);
-                JOptionPane.showMessageDialog(this,
-                        "Used " + selected.getName() + "!",
-                        "Item Used",
-                        JOptionPane.INFORMATION_MESSAGE);
-                game.nextTurn();
-                updateScreen();
-            }
-        } catch (PoobkemonException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        if (items.isEmpty()) {
+            throw new PoobkemonException("No items available!");
         }
+
+        Item[] options = items.toArray(new Item[0]);
+        Item selected = (Item) JOptionPane.showInputDialog(
+                this,
+                "Select an item to use:",
+                "Use Item",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (selected != null) {
+            selected.apply(current.getCurrentPokemon());
+            items.remove(selected);
+            JOptionPane.showMessageDialog(this,
+                    "Used " + selected.getName() + "!",
+                    "Item Used",
+                    JOptionPane.INFORMATION_MESSAGE);
+            game.nextTurn();
+            updateScreen();
+        }
+    } catch (PoobkemonException e) {
+        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     private void nextTurn() {
+        game.stopTurnTimer();
         game.nextTurn();
         updateScreen();
     }
+
 
     private void randomAction() {
         Random random = new Random();
