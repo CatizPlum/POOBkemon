@@ -49,7 +49,7 @@ public class Dragonite extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -133,5 +133,11 @@ public class Dragonite extends AbstractPokemon implements Serializable {
      */
     public void rescueOperation() {
         System.out.println("Dragonite busca a personas en peligro para rescatarlas.");
+    }
+
+    @Override
+    public Dragonite clone() {
+        Dragonite cloned = (Dragonite) super.clone();
+        return cloned;
     }
 }

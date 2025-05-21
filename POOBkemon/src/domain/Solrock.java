@@ -50,7 +50,7 @@ public class Solrock extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -121,5 +121,11 @@ public class Solrock extends AbstractPokemon implements Serializable {
     public void sunnyDay() {
         System.out.println("¡Solrock invoca el sol con Sunny Day!");
         solarEnergy = true;
+    }
+
+    @Override
+    public Solrock clone() {
+        Solrock cloned = (Solrock) super.clone();
+        return cloned;
     }
 }

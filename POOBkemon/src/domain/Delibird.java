@@ -39,7 +39,7 @@ public class Delibird extends AbstractPokemon implements Serializable {
      * Incluye movimientos de diversos tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -79,5 +79,11 @@ public class Delibird extends AbstractPokemon implements Serializable {
                 }
                 break;
         }
+    }
+
+    @Override
+    public Delibird clone() {
+        Delibird cloned = (Delibird) super.clone();
+        return cloned;
     }
 }

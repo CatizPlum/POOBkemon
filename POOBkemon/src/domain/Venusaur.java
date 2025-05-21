@@ -47,7 +47,7 @@ public class Venusaur extends AbstractPokemon implements Serializable {
      * Incluye movimientos de tipo Planta, Veneno y técnicas variadas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");  // Ataque Veneno
         learnMove("Air Slash");     // Ataque Volador
         learnMove("Bite");          // Ataque Siniestro
@@ -126,5 +126,11 @@ public class Venusaur extends AbstractPokemon implements Serializable {
         System.out.println("¡Venusaur libera una nube de esporas desde su flor!");
         this.defense = (int)(this.defense * 1.2);
         this.specialDefense = (int)(this.specialDefense * 1.2);
+    }
+
+    @Override
+    public Venusaur clone() {
+        Venusaur cloned = (Venusaur) super.clone();
+        return cloned;
     }
 }

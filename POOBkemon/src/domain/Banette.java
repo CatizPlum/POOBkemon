@@ -47,7 +47,7 @@ public class Banette extends AbstractPokemon implements Serializable {
      * Movimientos incluyen ataques físicos y técnicas de tipo fantasma.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -94,5 +94,11 @@ public class Banette extends AbstractPokemon implements Serializable {
             triggeredCurse = true;
         }
         return currentHP == 0;
+    }
+
+    @Override
+    public Banette clone() {
+        Banette cloned = (Banette) super.clone();
+        return cloned;
     }
 }

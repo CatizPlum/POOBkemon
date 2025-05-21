@@ -40,7 +40,7 @@ public class Moltres extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -104,5 +104,11 @@ public class Moltres extends AbstractPokemon implements Serializable {
      */
     public void ancientPower() {
         System.out.println("¡Moltres invoca poder ancestral! Puede aumentar todas sus estadísticas.");
+    }
+
+    @Override
+    public Moltres clone() {
+        Moltres cloned = (Moltres) super.clone();
+        return cloned;
     }
 }

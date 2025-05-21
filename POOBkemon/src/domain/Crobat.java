@@ -39,7 +39,7 @@ public class Crobat extends AbstractPokemon implements Serializable {
      * Movimientos enfocados en su tipo Veneno/Volador y ataques rápidos.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -89,5 +89,11 @@ public class Crobat extends AbstractPokemon implements Serializable {
      */
     public void braveBird() {
         System.out.println("¡Crobat se lanza en picado con Brave Bird! Causa daño pero también recibe retroceso.");
+    }
+
+    @Override
+    public Crobat clone() {
+        Crobat cloned = (Crobat) super.clone();
+        return cloned;
     }
 }

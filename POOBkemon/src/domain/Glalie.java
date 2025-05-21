@@ -39,7 +39,7 @@ public class Glalie extends AbstractPokemon implements Serializable {
      * Incluye movimientos de tipo Hielo y técnicas variadas que reflejan su naturaleza versátil.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");         // Movimiento de estado que reduce defensa
         learnMove("Quick Attack"); // Ataque prioritario
         learnMove("Double Team");  // Aumenta evasión
@@ -59,5 +59,11 @@ public class Glalie extends AbstractPokemon implements Serializable {
         // - Podría reducir velocidad del oponente
         // - Añadir chance de congelación
         // - Crear terreno helado para beneficios defensivos
+    }
+
+    @Override
+    public Glalie clone() {
+        Glalie cloned = (Glalie) super.clone();
+        return cloned;
     }
 }

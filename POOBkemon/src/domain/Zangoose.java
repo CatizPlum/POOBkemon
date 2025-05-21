@@ -38,7 +38,7 @@ public class Zangoose extends AbstractPokemon  implements Serializable {
      * (Nota: Los movimientos actuales son placeholders y deberían ser reemplazados)
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -94,5 +94,11 @@ public class Zangoose extends AbstractPokemon  implements Serializable {
         } else {
             System.out.println("Zangoose mantiene la calma, observando a su oponente.");
         }
+    }
+
+    @Override
+    public Zangoose clone() {
+        Zangoose cloned = (Zangoose) super.clone();
+        return cloned;
     }
 }

@@ -40,7 +40,7 @@ public class Pidgeot extends AbstractPokemon implements Serializable {
      * Incluye movimientos aéreos y técnicas de combate versátiles.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -102,5 +102,11 @@ public class Pidgeot extends AbstractPokemon implements Serializable {
      */
     public void skyAttack() {
         System.out.println("¡Pidgeot se prepara para un devastador Sky Attack en el próximo turno!");
+    }
+
+    @Override
+    public Pidgeot clone() {
+        Pidgeot cloned = (Pidgeot) super.clone();
+        return cloned;
     }
 }

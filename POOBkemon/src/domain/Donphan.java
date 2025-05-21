@@ -44,7 +44,7 @@ public class Donphan extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -107,5 +107,11 @@ public class Donphan extends AbstractPokemon implements Serializable {
      */
     public void stealthRock() {
         System.out.println("¡Donphan coloca Stealth Rock en el campo!");
+    }
+
+    @Override
+    public Donphan clone() {
+        Donphan cloned = (Donphan) super.clone();
+        return cloned;
     }
 }

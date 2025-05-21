@@ -50,7 +50,7 @@ public class Gardevoir extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -107,5 +107,11 @@ public class Gardevoir extends AbstractPokemon implements Serializable {
         } else {
             System.out.println("Gardevoir no está centrada para usar su poder.");
         }
+    }
+
+    @Override
+    public Gardevoir clone() {
+        Gardevoir cloned = (Gardevoir) super.clone();
+        return cloned;
     }
 }

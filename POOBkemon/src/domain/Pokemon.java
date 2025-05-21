@@ -18,4 +18,6 @@ public interface Pokemon {
     void takeDamage(int amount);
     void heal(int amount);
     boolean isFainted();
+    Pokemon clone();
+    void initializeMoves();
 }

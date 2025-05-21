@@ -52,7 +52,7 @@ public class Sceptile extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -110,5 +110,11 @@ public class Sceptile extends AbstractPokemon implements Serializable {
         } else {
             System.out.println("Sceptile no ha afilado sus hojas. ¡El ataque pierde potencia!");
         }
+    }
+
+    @Override
+    public Sceptile clone() {
+        Sceptile cloned = (Sceptile) super.clone();
+        return cloned;
     }
 }

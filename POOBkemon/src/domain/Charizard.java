@@ -50,7 +50,7 @@ public class Charizard extends AbstractPokemon implements Serializable {
      * Incluye movimientos de tipo Fuego y técnicas básicas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Scratch");
         learnMove("Growl");
         learnMove("Ember");
@@ -134,5 +134,11 @@ public class Charizard extends AbstractPokemon implements Serializable {
     public void dragonRage() {
         this.attack = (int)(this.attack * 1.5);
         System.out.println("¡Charizard entra en estado de furia! Su ataque aumenta considerablemente.");
+    }
+
+    @Override
+    public Charizard clone() {
+        Charizard cloned = (Charizard) super.clone();
+        return cloned;
     }
 }

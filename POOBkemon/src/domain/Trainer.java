@@ -3,6 +3,7 @@ package domain;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * La clase Trainer representa a un entrenador en un juego de Pokémon.
@@ -31,6 +32,27 @@ public class Trainer implements Serializable {
         this.items = items;
         this.activePokemonIndex = 0;  // Primer Pokémon activo por defecto
     }
+
+    public Trainer(String name, Color color,
+                   List<Pokemon> team,
+                   Map<Pokemon, List<Move>> moveMap) {
+        this.name = name;
+        this.color = color;
+        this.team = team;
+        this.items = new java.util.ArrayList<>();  // puedes ajustar según lo que uses
+
+        this.activePokemonIndex = 0;
+
+        // Asignar los movimientos personalizados a cada Pokémon
+        for (Pokemon p : this.team) {
+            List<Move> customMoves = moveMap.get(p);
+            if (customMoves != null && !customMoves.isEmpty()) {
+                p.getMoves().clear();
+                p.getMoves().addAll(customMoves);
+            }
+        }
+    }
+
 
     /**
      * Obtiene el Pokémon actualmente activo en batalla.

@@ -49,7 +49,7 @@ public class Mawile extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -64,5 +64,11 @@ public class Mawile extends AbstractPokemon implements Serializable {
      */
     public boolean isDeceivingStance() {
         return deceivingStance;
+    }
+
+    @Override
+    public Mawile clone() {
+        Mawile cloned = (Mawile) super.clone();
+        return cloned;
     }
 }

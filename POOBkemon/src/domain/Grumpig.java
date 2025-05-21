@@ -50,7 +50,7 @@ public class Grumpig extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -107,5 +107,11 @@ public class Grumpig extends AbstractPokemon implements Serializable {
         } else {
             System.out.println("Grumpig no está inspirado para bailar y atacar.");
         }
+    }
+
+    @Override
+    public Grumpig clone() {
+        Grumpig cloned = (Grumpig) super.clone();
+        return cloned;
     }
 }
