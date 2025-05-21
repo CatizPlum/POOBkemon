@@ -41,6 +41,8 @@ public class GameGUI extends JFrame {
     private String mode;
     private JLabel timerLabel;
     private javax.swing.Timer guiTimer;
+    private boolean isPaused = false;
+
 
     public GameGUI(Game game, String mode) {
         this.game = game;
@@ -57,9 +59,17 @@ public class GameGUI extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
+
+
+
         // Menú Archivo
         JMenu fileMenu = new JMenu("Archivo");
         menuBar.add(fileMenu);
+
+        // Opción Pausar/Reanudar
+        JMenuItem pauseItem = new JMenuItem("Pausar Juego");
+        pauseItem.addActionListener(e -> togglePauseGame());
+        fileMenu.add(pauseItem);
 
         // Opción Nueva Partida
         JMenuItem newGameItem = new JMenuItem("Nueva Partida");
@@ -134,6 +144,41 @@ public class GameGUI extends JFrame {
 
         return menuBar;
     }
+
+    private void togglePauseGame() {
+        if (!isPaused) {
+            isPaused = true;
+            game.stopTurnTimer(); // Detiene el temporizador
+            if (guiTimer != null && guiTimer.isRunning()) {
+                guiTimer.stop();  // Detiene temporizador visual
+            }
+
+            // Desactivar botones
+            setButtonsEnabled(false);
+
+            JOptionPane.showMessageDialog(this,
+                    "El juego ha sido pausado.\nPresiona OK para reanudar.",
+                    "Juego Pausado", JOptionPane.INFORMATION_MESSAGE);
+
+            // Al cerrar el mensaje, reanudar
+            isPaused = false;
+            game.startTurnTimer();
+            if (guiTimer != null) {
+                guiTimer.start();
+            }
+            setButtonsEnabled(true);
+        }
+    }
+
+    private void setButtonsEnabled(boolean enabled) {
+        attackButton.setEnabled(enabled);
+        changeButton.setEnabled(enabled);
+        itemButton.setEnabled(enabled);
+        nextTurnButton.setEnabled(enabled);
+        movesCombo.setEnabled(enabled);
+    }
+
+
 
     // Método para guardar la partida
     private void saveGameAs() {
