@@ -40,7 +40,7 @@ public class Granbull extends AbstractPokemon implements Serializable {
      * Incluye movimientos físicos y técnicas básicas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -71,5 +71,11 @@ public class Granbull extends AbstractPokemon implements Serializable {
                         originalPower + " a " + boostedPower + ".");
             }
         }
+    }
+
+    @Override
+    public Granbull clone() {
+        Granbull cloned = (Granbull) super.clone();
+        return cloned;
     }
 }

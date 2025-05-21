@@ -8,7 +8,7 @@ import java.io.Serializable;
  * y mecánicas de batalla. Implementa Serializable para permitir guardar/recuperar
  * estados de juego.
  */
-public class Move implements Serializable {
+public class Move implements Serializable, Cloneable {
     private String name;
     private Type type;
     private int power;
@@ -133,5 +133,14 @@ public class Move implements Serializable {
     @Override
     public String toString() {
         return name + " (" + type + ", " + power + ")";
+    }
+
+    @Override
+    public Move clone() {
+        try {
+            return (Move) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("La clonación no está soportada", e);
+        }
     }
 }

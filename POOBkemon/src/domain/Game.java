@@ -1,9 +1,12 @@
 package domain;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 /**
@@ -50,6 +53,18 @@ public class Game implements Serializable {
         this.currentTrainer = trainer1;
         this.waitingTrainer = trainer2;
     }
+
+    public Game(String player1Name, String player2Name,
+                Color color1, Color color2,
+                List<Pokemon> team1, Map<Pokemon, List<Move>> moves1,
+                List<Pokemon> team2, Map<Pokemon, List<Move>> moves2) {
+
+        this.trainer1 = new Trainer(player1Name, color1, team1, moves1);
+        this.trainer2 = new Trainer(player2Name, color2, team2, moves2);
+        this.currentTrainer = trainer1;
+        this.waitingTrainer = trainer2;
+    }
+
 
     /**
      * Inicia el temporizador del turno.

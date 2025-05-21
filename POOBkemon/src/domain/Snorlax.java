@@ -50,7 +50,7 @@ public class Snorlax extends AbstractPokemon implements Serializable {
      * Incluye movimientos físicos y técnicas de combate variadas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -100,5 +100,11 @@ public class Snorlax extends AbstractPokemon implements Serializable {
         } else {
             System.out.println("Snorlax no está dormido profundamente y no puede usar Ronquido.");
         }
+    }
+
+    @Override
+    public Snorlax clone() {
+        Snorlax cloned = (Snorlax) super.clone();
+        return cloned;
     }
 }

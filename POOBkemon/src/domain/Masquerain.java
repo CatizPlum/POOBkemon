@@ -41,7 +41,7 @@ public class Masquerain extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos que aprovechan su versatilidad.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -65,5 +65,11 @@ public class Masquerain extends AbstractPokemon implements Serializable {
      */
     public boolean isEyeThreatenedMode() {
         return eyeThreatenedMode;
+    }
+
+    @Override
+    public Masquerain clone() {
+        Masquerain cloned = (Masquerain) super.clone();
+        return cloned;
     }
 }

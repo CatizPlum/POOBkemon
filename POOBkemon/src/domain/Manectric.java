@@ -39,7 +39,7 @@ public class Manectric extends AbstractPokemon implements Serializable {
      * Incluye movimientos rápidos y eléctricos.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -83,5 +83,11 @@ public class Manectric extends AbstractPokemon implements Serializable {
             System.out.println("El estado de sobrecarga potencia " + move.getName() + " a " + boostedPower + " de poder.");
             this.overcharged = false;
         }
+    }
+
+    @Override
+    public Manectric clone() {
+        Manectric cloned = (Manectric) super.clone();
+        return cloned;
     }
 }

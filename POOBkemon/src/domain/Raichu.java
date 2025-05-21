@@ -40,7 +40,7 @@ public class Raichu extends AbstractPokemon implements Serializable {
      * Incluye movimientos eléctricos y técnicas de combate versátiles.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -61,5 +61,11 @@ public class Raichu extends AbstractPokemon implements Serializable {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Raichu clone() {
+        Raichu cloned = (Raichu) super.clone();
+        return cloned;
     }
 }

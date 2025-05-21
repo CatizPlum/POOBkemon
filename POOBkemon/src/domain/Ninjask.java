@@ -46,7 +46,7 @@ public class Ninjask extends AbstractPokemon implements Serializable {
      * Incluye movimientos rápidos y técnicas de combate ágiles.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -68,5 +68,11 @@ public class Ninjask extends AbstractPokemon implements Serializable {
             this.speed += 10;
             System.out.println("¡La velocidad de Ninjask aumentó!");
         }
+    }
+
+    @Override
+    public Ninjask clone() {
+        Ninjask cloned = (Ninjask) super.clone();
+        return cloned;
     }
 }

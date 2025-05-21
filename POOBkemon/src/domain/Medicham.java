@@ -39,7 +39,7 @@ public class Medicham extends AbstractPokemon implements Serializable {
      * Incluye movimientos físicos y técnicas de combate básicas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -58,5 +58,11 @@ public class Medicham extends AbstractPokemon implements Serializable {
      */
     public void auraVision() {
         System.out.println("Medicham utiliza su visión del aura para anticipar los movimientos del oponente.");
+    }
+
+    @Override
+    public Medicham clone() {
+        Medicham cloned = (Medicham) super.clone();
+        return cloned;
     }
 }

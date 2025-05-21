@@ -52,7 +52,7 @@ public class Blaziken extends AbstractPokemon implements Serializable {
      * Incluye movimientos de tipo Fuego, Lucha y técnicas variadas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -101,5 +101,11 @@ public class Blaziken extends AbstractPokemon implements Serializable {
         this.attack *= 1.05;
         this.speed *= 1.05;
         System.out.println("Blaziken's fighting spirit flares up!");
+    }
+
+    @Override
+    public Blaziken clone() {
+        Blaziken cloned = (Blaziken) super.clone();
+        return cloned;
     }
 }

@@ -53,7 +53,7 @@ public class Gengar extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -145,5 +145,11 @@ public class Gengar extends AbstractPokemon implements Serializable {
         int healAmount = maxHP / 5;
         heal(healAmount);
         System.out.println("¡Gengar recupera " + healAmount + " PS!");
+    }
+
+    @Override
+    public Gengar clone() {
+        Gengar cloned = (Gengar) super.clone();
+        return cloned;
     }
 }

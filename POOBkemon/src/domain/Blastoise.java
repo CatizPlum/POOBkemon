@@ -46,7 +46,7 @@ public class Blastoise extends AbstractPokemon implements Serializable {
      * Incluye movimientos de tipo Agua y técnicas defensivas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Tackle");
         learnMove("Tail Whip");
         learnMove("Water Gun");
@@ -129,5 +129,11 @@ public class Blastoise extends AbstractPokemon implements Serializable {
         } else {
             System.out.println("Los cañones de Blastoise no tienen suficiente presión para un disparo concentrado.");
         }
+    }
+
+    @Override
+    public Blastoise clone() {
+        Blastoise cloned = (Blastoise) super.clone();
+        return cloned;
     }
 }

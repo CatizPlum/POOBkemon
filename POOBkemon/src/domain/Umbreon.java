@@ -38,7 +38,7 @@ public class Umbreon extends AbstractPokemon implements Serializable {
      * Inicializa los movimientos que Umbreon puede aprender.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -101,5 +101,11 @@ public class Umbreon extends AbstractPokemon implements Serializable {
      */
     public void synchronizeStatus() {
         System.out.println("¡Umbreon utiliza Sincronía para compartir efectos negativos con el oponente!");
+    }
+
+    @Override
+    public Umbreon clone() {
+        Umbreon cloned = (Umbreon) super.clone();
+        return cloned;
     }
 }

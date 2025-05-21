@@ -24,7 +24,7 @@ public class Swampert extends AbstractPokemon implements Serializable {
     }
 
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -41,6 +41,13 @@ public class Swampert extends AbstractPokemon implements Serializable {
 
     public boolean isMuddyArmorActive() {
         return muddyArmor;
+    }
+
+
+    @Override
+    public Swampert clone() {
+        Swampert cloned = (Swampert) super.clone();
+        return cloned;
     }
 
 }

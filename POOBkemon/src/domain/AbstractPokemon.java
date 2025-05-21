@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * Esta clase puede servir como base para implementaciones concretas
  * y proporciona implementaciones predeterminadas de algunos métodos
  */
-public abstract class AbstractPokemon implements Pokemon, Serializable {
+public abstract class AbstractPokemon implements Pokemon, Serializable, Cloneable {
     protected String name;
     protected Type primaryType;
     protected Type secondaryType;
@@ -20,6 +21,26 @@ public abstract class AbstractPokemon implements Pokemon, Serializable {
     protected int specialDefense;
     protected int speed;
     protected List<Move> moves;
+
+    /**
+     * Implementación del método clone para permitir la clonación de Pokémon
+     */
+    @Override
+    public Pokemon clone() {
+        try {
+            AbstractPokemon cloned = (AbstractPokemon) super.clone();
+            // Clonar la lista de movimientos
+            cloned.moves = new ArrayList<>();
+            for (Move move : this.moves) {
+                cloned.moves.add(move.clone());
+            }
+            // Restaurar HP al máximo
+            cloned.currentHP = cloned.maxHP;
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Error al clonar Pokémon", e);
+        }
+    }
 
     /**
      * Reduce el PP de todos los movimientos especiales en 1
@@ -104,15 +125,17 @@ public abstract class AbstractPokemon implements Pokemon, Serializable {
     }
 
     // Método protegido para aprender movimientos desde el repositorio
-    protected void learnMove(String moveName) {
+    public void learnMove(String moveName) {
         Move move = MoveRepository.getMove(moveName);
-        if (move != null && moves.size() < 4) { // Límite de 4 movimientos
-            moves.add(move);
+        if (move != null) {
+            // Elimina la verificación del límite de 4 movimientos
+            this.moves.add(move);
         }
     }
 
     // Método para inicializar movimientos (debe ser implementado por las clases hijas)
-    protected abstract void initializeMoves();
+    @Override
+    public abstract void initializeMoves();
 
     protected void incrementAttack(int i) {
 

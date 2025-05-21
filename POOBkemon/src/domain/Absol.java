@@ -39,7 +39,7 @@ public class Absol extends AbstractPokemon implements Serializable {
      * Los movimientos se añaden a la lista `moves`.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -95,4 +95,12 @@ public class Absol extends AbstractPokemon implements Serializable {
             System.out.println("Absol no está bajo un mal presagio en este momento.");
         }
     }
+
+    @Override
+    public Absol clone() {
+        Absol cloned = (Absol) super.clone();
+        cloned.hasSuperstition = this.hasSuperstition;
+        return cloned;
+    }
 }
+

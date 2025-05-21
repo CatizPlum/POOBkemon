@@ -51,7 +51,7 @@ public class Togetic extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -139,5 +139,11 @@ public class Togetic extends AbstractPokemon implements Serializable {
         if (happyMood) {
             System.out.println("¡Togetic ha detectado un corazón puro cerca!");
         }
+    }
+
+    @Override
+    public Togetic clone() {
+        Togetic cloned = (Togetic) super.clone();
+        return cloned;
     }
 }

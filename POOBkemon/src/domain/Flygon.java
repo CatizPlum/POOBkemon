@@ -47,7 +47,7 @@ public class Flygon extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -134,5 +134,11 @@ public class Flygon extends AbstractPokemon implements Serializable {
     public void deactivateLevitate() {
         levitateActivated = false;
         System.out.println("¡Flygon desactiva su habilidad Levitate!");
+    }
+
+    @Override
+    public Flygon clone() {
+        Flygon cloned = (Flygon) super.clone();
+        return cloned;
     }
 }

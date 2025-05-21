@@ -1,8 +1,11 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MoveRepository implements Serializable {
     private static final Map<String, Move> moves = new HashMap<>();
@@ -48,5 +51,35 @@ public class MoveRepository implements Serializable {
 
     public static Move getMove(String name) {
         return moves.get(name);
+    }
+
+    public static List<Move> getAllMovesForType(Type primaryType, Type secondaryType) {
+        List<Move> typeMoves = moves.values().stream()
+                .filter(m -> m.getType() == primaryType ||
+                        (secondaryType != null && m.getType() == secondaryType))
+                .collect(Collectors.toList());
+
+        // Asegurarnos de que hay suficientes movimientos de cada categoría
+        List<Move> physical = typeMoves.stream()
+                .filter(m -> m.getCategory() == MoveCategory.PHYSICAL)
+                .limit(10) // Limitar para no sobrecargar la selección
+                .collect(Collectors.toList());
+
+        List<Move> special = typeMoves.stream()
+                .filter(m -> m.getCategory() == MoveCategory.SPECIAL)
+                .limit(10)
+                .collect(Collectors.toList());
+
+        List<Move> status = typeMoves.stream()
+                .filter(m -> m.getCategory() == MoveCategory.STATUS)
+                .limit(10)
+                .collect(Collectors.toList());
+
+        List<Move> result = new ArrayList<>();
+        result.addAll(physical);
+        result.addAll(special);
+        result.addAll(status);
+
+        return result;
     }
 }

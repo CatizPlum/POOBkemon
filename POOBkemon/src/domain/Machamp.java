@@ -38,7 +38,7 @@ public class Machamp extends AbstractPokemon implements Serializable {
      * Incluye movimientos variados que aprovechan su fuerza física.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");         // Reduce defensa del oponente
         learnMove("Quick Attack"); // Ataque prioritario
         learnMove("Double Team");  // Aumenta evasión
@@ -58,5 +58,11 @@ public class Machamp extends AbstractPokemon implements Serializable {
             move.setPower((int) boostedPower);
             System.out.println(this.name + "'s BruteForceBoost increases " + move.getName() + "'s power to " + move.getPower());
         }
+    }
+
+    @Override
+    public Machamp clone() {
+        Machamp cloned = (Machamp) super.clone();
+        return cloned;
     }
 }

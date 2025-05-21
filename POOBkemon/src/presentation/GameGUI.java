@@ -41,6 +41,8 @@ public class GameGUI extends JFrame {
     private String mode;
     private JLabel timerLabel;
     private javax.swing.Timer guiTimer;
+    private boolean isPaused = false;
+
 
     public GameGUI(Game game, String mode) {
         this.game = game;
@@ -57,9 +59,17 @@ public class GameGUI extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
+
+
+
         // Menú Archivo
         JMenu fileMenu = new JMenu("Archivo");
         menuBar.add(fileMenu);
+
+        // Opción Pausar/Reanudar
+        JMenuItem pauseItem = new JMenuItem("Pausar Juego");
+        pauseItem.addActionListener(e -> togglePauseGame());
+        fileMenu.add(pauseItem);
 
         // Opción Nueva Partida
         JMenuItem newGameItem = new JMenuItem("Nueva Partida");
@@ -134,6 +144,41 @@ public class GameGUI extends JFrame {
 
         return menuBar;
     }
+
+    private void togglePauseGame() {
+        if (!isPaused) {
+            isPaused = true;
+            game.stopTurnTimer(); // Detiene el temporizador
+            if (guiTimer != null && guiTimer.isRunning()) {
+                guiTimer.stop();  // Detiene temporizador visual
+            }
+
+            // Desactivar botones
+            setButtonsEnabled(false);
+
+            JOptionPane.showMessageDialog(this,
+                    "El juego ha sido pausado.\nPresiona OK para reanudar.",
+                    "Juego Pausado", JOptionPane.INFORMATION_MESSAGE);
+
+            // Al cerrar el mensaje, reanudar
+            isPaused = false;
+            game.startTurnTimer();
+            if (guiTimer != null) {
+                guiTimer.start();
+            }
+            setButtonsEnabled(true);
+        }
+    }
+
+    private void setButtonsEnabled(boolean enabled) {
+        attackButton.setEnabled(enabled);
+        changeButton.setEnabled(enabled);
+        itemButton.setEnabled(enabled);
+        nextTurnButton.setEnabled(enabled);
+        movesCombo.setEnabled(enabled);
+    }
+
+
 
     // Método para guardar la partida
     private void saveGameAs() {
@@ -332,6 +377,7 @@ public class GameGUI extends JFrame {
         changeButton = createStyledButton("Change Pokémon");
         itemButton = createStyledButton("Use Item");
         nextTurnButton = createStyledButton("Next Turn");
+        JButton fleeButton = createStyledButton("Huir");
 
         movesCombo.setPreferredSize(new Dimension(200, 25));
         movesCombo.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -343,6 +389,7 @@ public class GameGUI extends JFrame {
         movesPanel.add(changeButton);
         movesPanel.add(itemButton);
         movesPanel.add(nextTurnButton);
+        movesPanel.add(fleeButton);
 
         boxPanel.add(movesPanel, BorderLayout.CENTER);
 
@@ -354,6 +401,8 @@ public class GameGUI extends JFrame {
         changeButton.addActionListener(e -> changePokemon());
         itemButton.addActionListener(e -> useItem());
         nextTurnButton.addActionListener(e -> nextTurn());
+        fleeButton.addActionListener(e -> attemptToFlee());
+
 
         // Configurar el label del temporizador
         timerLabel = new JLabel("20", SwingConstants.CENTER);
@@ -372,6 +421,32 @@ public class GameGUI extends JFrame {
         // Configurar el callback para cuando se agote el tiempo
         game.setOnTimeOutCallback(this::handleTimeOut);
     }
+
+    private void attemptToFlee() {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "¿Estás seguro de que deseas huir de la batalla?\nEsto contará como derrota.",
+                "Confirmar huida",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            guiTimer.stop();
+            game.stopTurnTimer();
+            setButtonsEnabled(false);
+
+            Trainer loser = game.getCurrentTrainer();
+            Trainer winner = game.getWaitingTrainer();
+
+            String message = loser.getName() + " ha huido de la batalla.\n"
+                    + "¡" + winner.getName() + " es el ganador por abandono!\n\n"
+                    + getBattleResults();
+
+            JOptionPane.showMessageDialog(this, message, "Huida confirmada", JOptionPane.INFORMATION_MESSAGE);
+            // Puedes cerrar la ventana o redirigir al menú
+            dispose();
+            new MainMenuGUI().setVisible(true);
+        }
+    }
+
 
     private void handleTimeOut() {
         // Detener el temporizador visual
@@ -778,16 +853,66 @@ private void useItem() {
 
     private void checkEnd() {
         if (game.isOver()) {
-            String winner = game.getTrainer1().getCurrentPokemon().isFainted() ?
-                    game.getTrainer2().getName() : game.getTrainer1().getName();
+            guiTimer.stop();
+            game.stopTurnTimer();
+            setButtonsEnabled(false);
 
-            JOptionPane.showMessageDialog(this,
-                    winner + " wins the battle!",
-                    "Game Over",
-                    JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            Trainer winner = determineWinner();
+            String message;
+
+            if (winner != null) {
+                message = "¡" + winner.getName() + " ha ganado la batalla!\n\n";
+            } else {
+                message = "¡La batalla terminó en empate!\n\n";
+            }
+
+            // Mostrar los resultados de cada equipo
+            message += getBattleResults();
+
+            JOptionPane.showMessageDialog(this, message, "Fin del juego", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+    private Trainer determineWinner() {
+        boolean p1Fainted = game.getTrainer1().getCurrentPokemon().isFainted();
+        boolean p2Fainted = game.getTrainer2().getCurrentPokemon().isFainted();
+
+        if (p1Fainted && !p2Fainted) {
+            return game.getTrainer2();
+        } else if (p2Fainted && !p1Fainted) {
+            return game.getTrainer1();
+        } else {
+            return null; // empate
+        }
+    }
+
+
+    private String getBattleResults() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("--- ").append(game.getTrainer1().getName()).append(" ---\n");
+        for (Pokemon p : game.getTrainer1().getTeam()) {
+            sb.append(p.getName())
+                    .append(": ")
+                    .append(p.getCurrentHP())
+                    .append("/")
+                    .append(p.getMaxHP())
+                    .append(" HP\n");
+        }
+
+        sb.append("\n--- ").append(game.getTrainer2().getName()).append(" ---\n");
+        for (Pokemon p : game.getTrainer2().getTeam()) {
+            sb.append(p.getName())
+                    .append(": ")
+                    .append(p.getCurrentHP())
+                    .append("/")
+                    .append(p.getMaxHP())
+                    .append(" HP\n");
+        }
+
+        return sb.toString();
+    }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

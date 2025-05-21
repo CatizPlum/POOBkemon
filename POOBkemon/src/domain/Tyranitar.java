@@ -19,6 +19,21 @@ public class Tyranitar extends AbstractPokemon  implements Serializable {
     public Tyranitar() {
         this.sandstreamActive = false;
         this.moves = new ArrayList<>();
+
+        // Establecer atributos básicos
+        this.name = "tyranitar"; // <- ¡IMPORTANTE! Debe coincidir con la clave en pokemonGifs
+        this.primaryType = Type.ROCK;
+        this.secondaryType = Type.DARK;
+
+        // Estadísticas base (valores de ejemplo, ajústalos según necesites)
+        this.maxHP = 300;
+        this.currentHP = this.maxHP;
+        this.attack = 120;
+        this.defense = 110;
+        this.specialAttack = 95;
+        this.specialDefense = 100;
+        this.speed = 80;
+
         initializeMoves();
     }
 
@@ -26,7 +41,7 @@ public class Tyranitar extends AbstractPokemon  implements Serializable {
      * Inicializa los movimientos que Tyranitar puede aprender.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -103,5 +118,11 @@ public class Tyranitar extends AbstractPokemon  implements Serializable {
         if (sandstreamActive) {
             System.out.println("¡La combinación con la tormenta de arena hace que el impacto sea devastador!");
         }
+    }
+
+    @Override
+    public Tyranitar clone() {
+        Tyranitar cloned = (Tyranitar) super.clone();
+        return cloned;
     }
 }

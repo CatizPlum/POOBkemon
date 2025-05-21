@@ -40,7 +40,7 @@ public class Seviper extends AbstractPokemon implements Serializable {
      * Incluye movimientos venenosos y técnicas de combate engañosas.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -103,5 +103,11 @@ public class Seviper extends AbstractPokemon implements Serializable {
      */
     public void doubleTeam() {
         System.out.println("¡Seviper usa Double Team, aumentando su evasión!");
+    }
+
+    @Override
+    public Seviper clone() {
+        Seviper cloned = (Seviper) super.clone();
+        return cloned;
     }
 }

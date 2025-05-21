@@ -50,7 +50,7 @@ public class Metagross extends AbstractPokemon implements Serializable {
      * Incluye movimientos de varios tipos para versatilidad en combate.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Leer");
         learnMove("Quick Attack");
         learnMove("Double Team");
@@ -132,5 +132,11 @@ public class Metagross extends AbstractPokemon implements Serializable {
         this.defense = (int)(this.defense * 1.2);
         this.specialDefense = (int)(this.specialDefense * 1.1);
         System.out.println("¡Metagross refuerza su coraza de acero! Su defensa aumenta considerablemente.");
+    }
+
+    @Override
+    public Metagross clone() {
+        Metagross cloned = (Metagross) super.clone();
+        return cloned;
     }
 }

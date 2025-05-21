@@ -38,7 +38,7 @@ public class Altaria extends AbstractPokemon implements Serializable {
      * Inicializa los movimientos que Altaria puede aprender por defecto.
      */
     @Override
-    protected void initializeMoves() {
+    public void initializeMoves() {
         learnMove("Cross Poison");
         learnMove("Air Slash");
         learnMove("Bite");
@@ -89,5 +89,11 @@ public class Altaria extends AbstractPokemon implements Serializable {
     public void restInCloud() {
         System.out.println("Altaria snuggles into its fluffy wings and regains some energy.");
         this.heal(40); // Restores health
+    }
+
+    @Override
+    public Altaria clone() {
+        Altaria cloned = (Altaria) super.clone();
+        return cloned;
     }
 }
