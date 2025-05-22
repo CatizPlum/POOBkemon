@@ -12,12 +12,21 @@ public abstract class AbstractTrainer implements Serializable {
     protected List<Item> items;
     protected int activePokemonIndex;
 
+    // ✅ NUEVO CAMPO
+    protected Map<Pokemon, List<Move>> movesMap;
+
     public AbstractTrainer(String name, Color color, List<Pokemon> team, List<Item> items) {
         this.name = name;
         this.color = color;
         this.team = team;
         this.items = items;
         this.activePokemonIndex = 0;
+
+        // ✅ Generar movesMap a partir del equipo actual
+        this.movesMap = new java.util.HashMap<>();
+        for (Pokemon p : team) {
+            this.movesMap.put(p, new java.util.ArrayList<>(p.getMoves()));
+        }
     }
 
     public AbstractTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
@@ -26,6 +35,7 @@ public abstract class AbstractTrainer implements Serializable {
         this.team = team;
         this.items = new java.util.ArrayList<>();
         this.activePokemonIndex = 0;
+        this.movesMap = moveMap;  // ✅ Guardar directamente el mapa
 
         for (Pokemon p : this.team) {
             List<Move> customMoves = moveMap.get(p);
@@ -34,6 +44,11 @@ public abstract class AbstractTrainer implements Serializable {
                 p.getMoves().addAll(customMoves);
             }
         }
+    }
+
+    // ✅ MÉTODO GETTER NECESARIO
+    public Map<Pokemon, List<Move>> getMovesMap() {
+        return movesMap;
     }
 
     public Pokemon getCurrentPokemon() {
@@ -71,6 +86,5 @@ public abstract class AbstractTrainer implements Serializable {
         return items;
     }
 
-    // Agregado para máquinas: define el comportamiento automático
     public abstract void makeMove(Game game);
 }

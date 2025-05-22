@@ -54,6 +54,12 @@ public class Game implements Serializable {
         this.waitingTrainer = trainer2;
     }
 
+    public Game(Trainer t1, AbstractTrainer t2) {
+        this.trainer1 = t1;
+        this.trainer2 = new Trainer(t2.getName(), t2.getColor(), t2.getTeam(), t2.getMovesMap());
+    }
+
+
     public Game(String player1Name, String player2Name,
                 Color color1, Color color2,
                 List<Pokemon> team1, Map<Pokemon, List<Move>> moves1,

@@ -11,11 +11,11 @@ import javax.imageio.ImageIO;
 import java.io.InputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyEvent;
-import java.util.Objects;
+import java.util.List;
+import domain.PokemonDefault;
 
 public class MainMenuGUI extends JFrame {
     private Font pokemonEmeraldFont;
@@ -345,6 +345,8 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
+
+
     private void setupKeyBindings(JPanel panel) {
         InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = panel.getActionMap();
@@ -644,8 +646,7 @@ public class MainMenuGUI extends JFrame {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    startStandardMode("PvsM", playerName, colorChooser.getColor(),
-                            "Máquina", new Color(200, 50, 100));
+                    showAITypeSelection(playerName, colorChooser.getColor());
                 } else if (forTwoPlayers) {
                     String playerName = nameField.getText().trim();
                     if (playerName.isEmpty()) {
@@ -1310,7 +1311,7 @@ public class MainMenuGUI extends JFrame {
 
         // Asegurarse de que el equipo tenga exactamente 6 Pokémon
         while (team.size() < 6) {
-            team.add(new PokemonDefault()); // Clase por defecto para completar
+            team.add(new domain.PokemonDefault()); // Clase por defecto para completar
         }
 
         return new Trainer(name, color, team, new ArrayList<>(items));
@@ -1410,7 +1411,7 @@ public class MainMenuGUI extends JFrame {
 
         // Completar con Pokémon por defecto si es necesario
         while (validatedPokemons.size() < 6) {
-            validatedPokemons.add(new PokemonDefault());
+            validatedPokemons.add(new domain.PokemonDefault());
         }
 
         // Crear y devolver el entrenador
@@ -1421,6 +1422,83 @@ public class MainMenuGUI extends JFrame {
                 new ArrayList<>(items)  // Copia de la lista de ítems
         );
     }
+
+    private void showAITypeSelection(String playerName, Color playerColor) {
+        getContentPane().removeAll();
+        currentMenuButtons.clear();
+        selectedButtonIndex = 0;
+
+        JPanel aiPanel = new JPanel();
+        aiPanel.setLayout(new BoxLayout(aiPanel, BoxLayout.Y_AXIS));
+        aiPanel.setOpaque(false);
+        aiPanel.setBorder(BorderFactory.createEmptyBorder(100, 100, 100, 100));
+
+        JLabel titleLabel = new JLabel("SELECCIONA EL TIPO DE ENTRENADOR");
+        stylePokemonLabel(titleLabel, Color.RED);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        aiPanel.add(titleLabel);
+        aiPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        String[] aiTypes = { "Agresivo", "Defensivo", "Cambiante", "Experto" };
+
+        for (String aiType : aiTypes) {
+            JButton button = createEmeraldStyleButton(aiType);
+            button.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button.addActionListener(e -> {
+                AbstractTrainer aiTrainer = createAITrainer(aiType, "Maquina", new Color(200, 50, 100));
+                launchPvMGame(playerName, playerColor, aiTrainer);
+            });
+            currentMenuButtons.add(button);
+            aiPanel.add(button);
+            aiPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        }
+
+        JButton backButton = createEmeraldStyleButton("VOLVER");
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backButton.addActionListener(e -> showPlayerSelection(false, false, "PvsM"));
+        currentMenuButtons.add(backButton);
+        aiPanel.add(Box.createRigidArea(new Dimension(0, 30)));
+        aiPanel.add(backButton);
+
+        currentButtonPanel = aiPanel;
+        add(aiPanel);
+        setupKeyBindings(aiPanel);
+        revalidate();
+        repaint();
+    }
+
+    private AbstractTrainer createAITrainer(String type, String name, Color color) {
+        List<Pokemon> team = createAllPokemons().subList(0, 6); // por simplicidad
+        Map<Pokemon, List<Move>> moveMap = new HashMap<>();
+        for (Pokemon p : team) {
+            moveMap.put(p, p.getMoves()); // o un método para generar movimientos
+        }
+
+        switch (type) {
+            case "Agresivo":
+                return new AttackingTrainer(name, color, team, moveMap);
+            case "Defensivo":
+                return new DefensiveTrainer(name, color, team, moveMap);
+            case "Cambiante":
+                return new ChangingTrainer(name, color, team, moveMap);
+            case "Experto":
+                return new ExpertTrainer(name, color, team, moveMap);
+            default:
+                throw new IllegalArgumentException("Tipo de IA desconocido: " + type);
+        }
+    }
+
+    private void launchPvMGame(String playerName, Color playerColor, AbstractTrainer aiTrainer) {
+        List<Item> items = createDefaultItems();
+        List<Pokemon> playerTeam = createAllPokemons().subList(6, 12); // u otra lógica
+        Trainer human = new Trainer(playerName, playerColor, playerTeam, new ArrayList<>(items));
+
+        Game game = new Game(human, aiTrainer);
+        new GameGUI(game, "PvsM").setVisible(true);
+        dispose();
+    }
+
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
