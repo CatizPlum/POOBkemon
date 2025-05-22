@@ -52,9 +52,10 @@ public class GameGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         loadBackgroundImages();
         initComponents();
-        updateScreen();
         setJMenuBar(createMenuBar());
         setVisible(true);
+        SwingUtilities.invokeLater(this::showCoinFlipAnimation);
+
     }
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -494,6 +495,7 @@ public class GameGUI extends JFrame {
         if (guiTimer != null && guiTimer.isRunning()) {
             guiTimer.stop();
         }
+
         Trainer current = game.getCurrentTrainer();
         Trainer waiting = game.getWaitingTrainer();
 
@@ -516,6 +518,13 @@ public class GameGUI extends JFrame {
 
         Pokemon p1 = game.getTrainer1().getCurrentPokemon();
         Pokemon p2 = game.getTrainer2().getCurrentPokemon();
+
+        // 👈 NUEVO: Verificar si el Pokémon actual está debilitado
+        Pokemon currentPokemon = game.getCurrentTrainer().getCurrentPokemon();
+        if (currentPokemon.isFainted()) {
+            forceSwitchFaintedPokemon(game.getCurrentTrainer());
+            return; // Esperar a que el jugador seleccione un nuevo Pokémon
+        }
 
         // Mostrar nivel según el modo de juego
         if ("SURVIVAL".equals(mode)) {
@@ -573,6 +582,54 @@ public class GameGUI extends JFrame {
         // Iniciar el temporizador del juego
         game.startTurnTimer();
     }
+
+    private void forceSwitchFaintedPokemon(Trainer trainer) {
+        List<Pokemon> team = trainer.getTeam();
+        List<Pokemon> available = new ArrayList<>();
+
+        for (Pokemon p : team) {
+            if (!p.isFainted()) {
+                available.add(p);
+            }
+        }
+
+        if (available.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    trainer.getName() + " no tiene Pokémon disponibles.",
+                    "Todos los Pokémon debilitados",
+                    JOptionPane.ERROR_MESSAGE);
+            checkEnd(); // Mostrar mensaje de fin de juego
+            return;
+        }
+
+        Pokemon[] options = available.toArray(new Pokemon[0]);
+        Pokemon selected = (Pokemon) JOptionPane.showInputDialog(
+                this,
+                trainer.getName() + ", tu Pokémon actual está debilitado.\nSelecciona otro Pokémon:",
+                "Cambio de Pokémon",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (selected != null) {
+            try {
+                trainer.switchPokemon(team.indexOf(selected));
+                JOptionPane.showMessageDialog(this,
+                        "¡Adelante, " + selected.getName() + "!",
+                        "Cambio de Pokémon",
+                        JOptionPane.INFORMATION_MESSAGE);
+                updateScreen(); // Redibujar pantalla con el nuevo Pokémon
+            } catch (PoobkemonException e) {
+                JOptionPane.showMessageDialog(this,
+                        "Error al cambiar Pokémon: " + e.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+
 
     private void updateTimerColor() {
         int remaining = game.getTimeRemaining();
@@ -935,4 +992,69 @@ private void useItem() {
             new GameGUI(new Game(trainer1, trainer2), "PvsP");
         });
     }
+
+    private void showCoinFlipAnimation() {
+        // Crear ventana de diálogo sin bloqueo
+        JDialog dialog = new JDialog(this, "Lanzando moneda...", false);
+        dialog.setUndecorated(true);
+        dialog.setSize(280, 320); // Tamaño reducido
+        dialog.setLocationRelativeTo(this);
+
+        // Panel principal
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBackground(Color.BLACK);
+
+        JLabel gifLabel;
+        try {
+            ImageIcon gifIcon = new ImageIcon("POOBkemon/resources/front/monedag.gif");
+            gifLabel = new JLabel(gifIcon, SwingConstants.CENTER);
+        } catch (Exception e) {
+            gifLabel = new JLabel("No se pudo cargar la animación", SwingConstants.CENTER);
+            gifLabel.setForeground(Color.RED);
+        }
+
+        // Etiqueta con el texto
+        JLabel instructionLabel = new JLabel(
+                "<html><div style='text-align: center;'>Espera unos segundos<br>para que se elija aleatoriamente<br>quién empieza el juego</div></html>",
+                SwingConstants.CENTER);
+        instructionLabel.setForeground(Color.WHITE);
+        instructionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        instructionLabel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+
+        panel.add(gifLabel, BorderLayout.CENTER);
+        panel.add(instructionLabel, BorderLayout.SOUTH);
+
+        dialog.setContentPane(panel);
+        dialog.setVisible(true);
+
+        // Temporizador para cerrar y seleccionar jugador
+        Timer timer = new Timer(3000, e -> {
+            boolean player1Starts = new Random().nextBoolean();
+            Trainer starter = player1Starts ? game.getTrainer1() : game.getTrainer2();
+
+            System.out.println("Sorteado: " + starter.getName());
+
+            game.setStartingTrainer(starter);
+
+            dialog.dispose();
+
+            JOptionPane.showMessageDialog(this,
+                    starter.getName() + " comenzará la batalla.",
+                    "Resultado del lanzamiento",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            updateScreen(); // Aquí inicia el juego
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+
+
+
+
+
+
 }

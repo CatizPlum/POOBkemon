@@ -162,6 +162,8 @@ public class Game implements Serializable {
         startTurnTimer();
     }
 
+
+
     /**
      * Obtiene el entrenador cuyo turno es actual
      * @return Entrenador actual
@@ -183,8 +185,11 @@ public class Game implements Serializable {
      * @return true si alguno de los Pokémon actuales está debilitado, false en caso contrario
      */
     public boolean isOver() {
-        return trainer1.getCurrentPokemon().isFainted() || trainer2.getCurrentPokemon().isFainted();
+        boolean allFainted1 = trainer1.getTeam().stream().allMatch(Pokemon::isFainted);
+        boolean allFainted2 = trainer2.getTeam().stream().allMatch(Pokemon::isFainted);
+        return allFainted1 || allFainted2;
     }
+
 
     /**
      * Activa la habilidad especial de Delibird (Regalo Sorpresa)
@@ -253,6 +258,19 @@ public class Game implements Serializable {
             return (SaveData) ois.readObject();
         }
     }
+
+    public void setStartingTrainer(Trainer starter) {
+        if (starter.equals(trainer1)) {
+            currentTrainer = trainer1;
+            waitingTrainer = trainer2;
+        } else {
+            currentTrainer = trainer2;
+            waitingTrainer = trainer1;
+        }
+    }
+
+
+
 
 
 }
