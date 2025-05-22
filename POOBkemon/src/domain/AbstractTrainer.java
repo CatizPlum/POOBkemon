@@ -15,20 +15,6 @@ public abstract class AbstractTrainer implements Serializable {
     // ✅ NUEVO CAMPO
     protected Map<Pokemon, List<Move>> movesMap;
 
-    public AbstractTrainer(String name, Color color, List<Pokemon> team, List<Item> items) {
-        this.name = name;
-        this.color = color;
-        this.team = team;
-        this.items = items;
-        this.activePokemonIndex = 0;
-
-        // ✅ Generar movesMap a partir del equipo actual
-        this.movesMap = new java.util.HashMap<>();
-        for (Pokemon p : team) {
-            this.movesMap.put(p, new java.util.ArrayList<>(p.getMoves()));
-        }
-    }
-
     public AbstractTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
         this.name = name;
         this.color = color;
