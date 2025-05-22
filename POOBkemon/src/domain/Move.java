@@ -18,6 +18,7 @@ public class Move implements Serializable, Cloneable {
     private int priority;
     private MoveCategory category;
     private int effectChance;
+    private String effect;
 
     /**
      * Constructor completo para crear un movimiento.
@@ -44,6 +45,7 @@ public class Move implements Serializable, Cloneable {
         this.priority = priority;
         this.category = category;
         this.effectChance = effectChance;
+        this.effect = effect;
     }
 
     // Getters
@@ -52,10 +54,8 @@ public class Move implements Serializable, Cloneable {
     public int getPower() { return power; }
     public int getAccuracy() { return accuracy; }
     public int getPp() { return pp; }
-    public int getPriority() { return priority; }
     public MoveCategory getCategory() { return category; }
-    public MoveEffect getSecondaryEffect() { return secondaryEffect; }
-    public int getEffectChance() { return effectChance; }
+
 
     // Setters
     public void setPower(int power) {
@@ -142,5 +142,9 @@ public class Move implements Serializable, Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("La clonación no está soportada", e);
         }
+    }
+
+    public String getEffect() {
+        return effect;
     }
 }
