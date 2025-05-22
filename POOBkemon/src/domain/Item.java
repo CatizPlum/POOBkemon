@@ -1,6 +1,11 @@
 package domain;
 
 import java.io.Serializable;
+/**
+ * Constructor del ítem.
+ * @param name Nombre del ítem (e.g. Potion, SuperPotion, HyperPotion, Revive)
+ * @param effect Efecto del ítem (e.g. "heal20", "revive")
+ */
 
 public class Item implements Serializable {
     private String name;
@@ -11,6 +16,10 @@ public class Item implements Serializable {
         this.name = name;
         this.effect = effect;
     }
+    /**
+     * Establece si el juego está en modo Supervivencia.
+     * @param enabled true para activar modo Supervivencia, false para desactivarlo
+     */
 
     public static void setSurvivalMode(boolean enabled) {
         survivalMode = enabled;
