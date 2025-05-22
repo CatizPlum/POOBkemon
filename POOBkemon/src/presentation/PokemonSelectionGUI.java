@@ -780,7 +780,7 @@ public class PokemonSelectionGUI extends JFrame {
         // 1. Configuración de tamaño (ajusta estos valores según necesites)
         final int TARGET_SIZE = 64; // 64x64 píxeles
 
-        // Ruta base absoluta - AJUSTA ESTA RUTA A TU PROYECTO
+        // Ruta base absoluta
         String basePath = "/Users/dianasmacbook/POOBkemon/src/main/resources/";
         Map<String, String> pokemonGifs = Map.ofEntries(
                 Map.entry("charizard", "6p.gif"),

@@ -986,8 +986,8 @@ private void useItem() {
                     new Item("Super Potion", "heal50")
             );
 
-            Trainer trainer1 = new Trainer("Player 1", Color.BLUE, List.of(charizard), items);
-            Trainer trainer2 = new Trainer("Player 2", Color.RED, List.of(blastoise), items);
+            Trainer trainer1 = new Trainer ("Player 1", Color.BLUE, List.of(charizard), items);
+            Trainer trainer2 = new Trainer ("Player 2", Color.RED, List.of(blastoise), items);
 
             new GameGUI(new Game(trainer1, trainer2), "PvsP");
         });
