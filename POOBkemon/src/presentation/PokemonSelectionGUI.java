@@ -611,36 +611,42 @@ public class PokemonSelectionGUI extends JFrame {
             return;
         }
 
-        if (!isSecondPlayer && "PvsP".equals(mode)) {
-            // Guardar el equipo del primer jugador
-            this.firstPlayerTeam = selectedPokemons;
-            this.firstPlayerMoves = selectedMoves;
+        try {
+            if (!isSecondPlayer && "PvsP".equals(mode)) {
+                // Guardar el equipo del primer jugador (con clonación)
+                this.firstPlayerTeam = new ArrayList<>();
+                for (Pokemon p : selectedPokemons) {
+                    this.firstPlayerTeam.add(p.clone());
+                }
+                this.firstPlayerMoves = new HashMap<>(selectedMoves);
 
-            // Abrir selección para segundo jugador
-            PokemonSelectionGUI secondGUI = new PokemonSelectionGUI(
-                    mode,
-                    opponentName,
-                    opponentColor,
-                    playerName,
-                    playerColor,
-                    true
-            );
+                // Abrir selección para segundo jugador
+                PokemonSelectionGUI secondGUI = new PokemonSelectionGUI(
+                        mode,
+                        opponentName,
+                        opponentColor,
+                        playerName,
+                        playerColor,
+                        true
+                );
 
-            // Pasar los datos del primer jugador al segundo
-            secondGUI.firstPlayerTeam = this.firstPlayerTeam;
-            secondGUI.firstPlayerMoves = this.firstPlayerMoves;
-            secondGUI.setVisible(true);
-            dispose();
+                // Pasar los datos del primer jugador al segundo
+                secondGUI.firstPlayerTeam = this.firstPlayerTeam;
+                secondGUI.firstPlayerMoves = this.firstPlayerMoves;
+                secondGUI.setVisible(true);
+                dispose();
 
-        } else if ("PvsM".equals(mode)) {
-            // El jugador seleccionó su equipo. Generar equipo para la máquina
-            List<Pokemon> playerTeam = this.selectedPokemons;
-            Map<Pokemon, List<Move>> playerMoves = this.selectedMoves;
+            } else if ("PvsM".equals(mode)) {
+                // El jugador seleccionó su equipo. Generar equipo para la máquina
+                List<Pokemon> playerTeam = new ArrayList<>();
+                for (Pokemon p : selectedPokemons) {
+                    playerTeam.add(p.clone());
+                }
+                Map<Pokemon, List<Move>> playerMoves = new HashMap<>(selectedMoves);
 
-            List<Pokemon> machineTeam = new ArrayList<>();
-            Map<Pokemon, List<Move>> machineMoves = new HashMap<>();
+                List<Pokemon> machineTeam = new ArrayList<>();
+                Map<Pokemon, List<Move>> machineMoves = new HashMap<>();
 
-            try {
                 List<Pokemon> all = createAllPokemons();
                 Collections.shuffle(all);
                 for (int i = 0; i < 6 && i < all.size(); i++) {
@@ -653,28 +659,36 @@ public class PokemonSelectionGUI extends JFrame {
                     machineTeam.add(p);
                     machineMoves.put(p, moves);
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error generando equipo de la máquina: " + ex.getMessage());
-                return;
+
+                Game game = new Game(playerName, opponentName, playerColor, opponentColor,
+                        playerTeam, playerMoves, machineTeam, machineMoves);
+                new GameGUI(game, mode).setVisible(true);
+                dispose();
+
+            } else {
+                // Es el segundo jugador → iniciar GameGUI
+                List<Pokemon> team1 = new ArrayList<>();
+                for (Pokemon p : this.firstPlayerTeam) {
+                    team1.add(p.clone());
+                }
+                Map<Pokemon, List<Move>> moves1 = new HashMap<>(this.firstPlayerMoves);
+
+                List<Pokemon> team2 = new ArrayList<>();
+                for (Pokemon p : selectedPokemons) {
+                    team2.add(p.clone());
+                }
+                Map<Pokemon, List<Move>> moves2 = new HashMap<>(selectedMoves);
+
+                Game game = new Game(playerName, opponentName, playerColor, opponentColor,
+                        team1, moves1, team2, moves2);
+                new GameGUI(game, mode).setVisible(true);
+                dispose();
             }
-
-            Game game = new Game(playerName, opponentName, playerColor, opponentColor,
-                    playerTeam, playerMoves, machineTeam, machineMoves);
-            new GameGUI(game, mode).setVisible(true);
-            dispose();
-
-        } else {
-            // Es el segundo jugador → iniciar GameGUI
-            List<Pokemon> team1 = this.firstPlayerTeam;
-            Map<Pokemon, List<Move>> moves1 = this.firstPlayerMoves;
-            List<Pokemon> team2 = this.selectedPokemons;
-            Map<Pokemon, List<Move>> moves2 = this.selectedMoves;
-
-            Game game = new Game(playerName, opponentName, playerColor, opponentColor,
-                    team1, moves1, team2, moves2);
-
-            new GameGUI(game, mode).setVisible(true);
-            dispose();
+        } catch (PoobkemonException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al configurar el juego: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -695,26 +709,34 @@ public class PokemonSelectionGUI extends JFrame {
         this.firstPlayerMoves = moves;
     }
 
-    private void startGame() {
+    private void startGame() throws PoobkemonException {
         List<Item> items = List.of(
-                new Item("Poción", "heal20"),
-                new Item("Superpoción", "heal50"),
-                new Item("HyperPotion", "heal200"),
-                new Item("Revivir", "revive")
+                new Potion(),
+                new SuperPotion(),
+                new Revive()  // Eliminé HyperPotion para cumplir con el límite de 2 pociones/1 revive
         );
+
+        // Clonar los Pokémon seleccionados para cada entrenador
+        List<Pokemon> team1 = new ArrayList<>();
+        List<Pokemon> team2 = new ArrayList<>();
+
+        for (Pokemon p : selectedPokemons) {
+            team1.add(p.clone());
+            team2.add(p.clone());
+        }
 
         Trainer trainer1 = new Trainer(
                 playerName,
                 playerColor,
-                new ArrayList<>(selectedPokemons),
-                new ArrayList<>(items)
+                team1,
+                items
         );
 
         Trainer trainer2 = new Trainer(
                 opponentName,
                 opponentColor,
-                new ArrayList<>(selectedPokemons),
-                new ArrayList<>(items)
+                team2,
+                items
         );
 
         dispose();
@@ -872,4 +894,4 @@ public class PokemonSelectionGUI extends JFrame {
         g.dispose();
         return new ImageIcon(errorImg);
     }
-    }
+}

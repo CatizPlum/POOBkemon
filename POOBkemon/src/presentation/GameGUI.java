@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -789,9 +790,9 @@ public class GameGUI extends JFrame {
             game.nextTurn();
             updateScreen();
         }catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
 
     private void animateAttack() {
         JLabel targetLabel = game.getCurrentTrainer() == game.getTrainer1() ? pokemon2Sprite : pokemon1Sprite;
@@ -856,40 +857,40 @@ public class GameGUI extends JFrame {
     }
 
 
-private void useItem() {
-    try {
-        game.stopTurnTimer();
-        Trainer current = game.getCurrentTrainer();
-        List<Item> items = current.getItems();
+    private void useItem() {
+        try {
+            game.stopTurnTimer();
+            Trainer current = game.getCurrentTrainer();
+            List<Item> items = current.getItems();
 
-        if (items.isEmpty()) {
-            throw new PoobkemonException("No items available!");
+            if (items.isEmpty()) {
+                throw new PoobkemonException("No items available!");
+            }
+
+            Item[] options = items.toArray(new Item[0]);
+            Item selected = (Item) JOptionPane.showInputDialog(
+                    this,
+                    "Select an item to use:",
+                    "Use Item",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (selected != null) {
+                selected.apply(current.getCurrentPokemon());
+                items.remove(selected);
+                JOptionPane.showMessageDialog(this,
+                        "Used " + selected.getName() + "!",
+                        "Item Used",
+                        JOptionPane.INFORMATION_MESSAGE);
+                game.nextTurn();
+                updateScreen();
+            }
+        } catch (PoobkemonException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        Item[] options = items.toArray(new Item[0]);
-        Item selected = (Item) JOptionPane.showInputDialog(
-                this,
-                "Select an item to use:",
-                "Use Item",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-
-        if (selected != null) {
-            selected.apply(current.getCurrentPokemon());
-            items.remove(selected);
-            JOptionPane.showMessageDialog(this,
-                    "Used " + selected.getName() + "!",
-                    "Item Used",
-                    JOptionPane.INFORMATION_MESSAGE);
-            game.nextTurn();
-            updateScreen();
-        }
-    } catch (PoobkemonException e) {
-        JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
     private void nextTurn() {
         game.stopTurnTimer();
@@ -981,17 +982,31 @@ private void useItem() {
 
             Pokemon charizard = new Charizard();
             Pokemon blastoise = new Blastoise();
-            List<Item> items = List.of(
-                    new Item("Potion", "heal20"),
-                    new Item("Super Potion", "heal50")
-            );
 
-            Trainer trainer1 = new Trainer ("Player 1", Color.BLUE, List.of(charizard), items);
-            Trainer trainer2 = new Trainer ("Player 2", Color.RED, List.of(blastoise), items);
+            Trainer trainer1 = new Trainer("Player 1", Color.BLUE, List.of(charizard), Map.of());
+            Trainer trainer2 = new Trainer("Player 2", Color.RED, List.of(blastoise), Map.of());
+
+            try {
+                trainer1.addItem(new Potion());
+                trainer1.addItem(new Potion());
+                trainer1.addItem(new SuperPotion());
+                trainer1.addItem(new SuperPotion());
+                trainer1.addItem(new HyperPotion());
+                trainer1.addItem(new HyperPotion());
+                trainer1.addItem(new Revive());
+
+                trainer2.addItem(new Potion());
+                trainer2.addItem(new SuperPotion());
+                trainer2.addItem(new HyperPotion());
+                trainer2.addItem(new Revive());
+            } catch (PoobkemonException e) {
+                e.printStackTrace();
+            }
 
             new GameGUI(new Game(trainer1, trainer2), "PvsP");
         });
     }
+
 
     private void showCoinFlipAnimation() {
         // Crear ventana de diálogo sin bloqueo

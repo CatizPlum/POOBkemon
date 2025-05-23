@@ -14,7 +14,9 @@ public class Trainer implements Serializable {
     private String name;               // Nombre del entrenador
     private Color color;              // Color asociado al entrenador
     private List<Pokemon> team;       // Lista de Pokémon en el equipo (máx 6)
-    private List<Item> items;         // Lista de ítems en posesión
+    private Map<String, List<Item>> itemMap = new java.util.HashMap<>();
+
+    // Lista de ítems en posesión
     private int activePokemonIndex;   // Índice del Pokémon activo en batalla
 
     /**
@@ -25,13 +27,18 @@ public class Trainer implements Serializable {
      * @param team Lista de Pokémon que forman el equipo
      * @param items Lista de ítems que posee el entrenador
      */
-    public Trainer(String name, Color color, List<Pokemon> team, List<Item> items) {
+    public Trainer(String name, Color color, List<Pokemon> team, List<Item> items) throws PoobkemonException {
         this.name = name;
         this.color = color;
         this.team = team;
-        this.items = items;
-        this.activePokemonIndex = 0;  // Primer Pokémon activo por defecto
+        this.itemMap = new java.util.HashMap<>();
+        this.activePokemonIndex = 0;
+
+        for (Item item : items) {
+            addItem(item); // usa el método que impone límites (2 pociones, 1 revive)
+        }
     }
+
 
     public Trainer(String name, Color color,
                    List<Pokemon> team,
@@ -39,8 +46,7 @@ public class Trainer implements Serializable {
         this.name = name;
         this.color = color;
         this.team = team;
-        this.items = new java.util.ArrayList<>();  // puedes ajustar según lo que uses
-
+        this.itemMap = new java.util.HashMap<>();
         this.activePokemonIndex = 0;
 
         // Asignar los movimientos personalizados a cada Pokémon
@@ -52,6 +58,21 @@ public class Trainer implements Serializable {
             }
         }
     }
+
+    public void addItem(Item item) throws PoobkemonException {
+        String key = item.getClass().getSimpleName();
+        List<Item> list = itemMap.getOrDefault(key, new java.util.ArrayList<>());
+
+        int maxAllowed = (item instanceof Revive) ? 1 : 2;
+        if (list.size() >= maxAllowed) {
+            throw new PoobkemonException("No puedes tener más de " + maxAllowed + " " + key + "(s).");
+        }
+
+        list.add(item);
+        itemMap.put(key, list);
+    }
+
+
 
 
     /**
@@ -86,13 +107,18 @@ public class Trainer implements Serializable {
      * @throws PoobkemonException Si ocurre un error al aplicar el ítem
      */
     public void useItem(Item item) throws PoobkemonException {
-        try {
-            item.apply(getCurrentPokemon());
-            items.remove(item);
-        } catch (PoobkemonException e) {
-            throw e; // Relanza la excepción para manejo en la GUI
+        item.apply(getCurrentPokemon());
+
+        String key = item.getClass().getSimpleName();
+        List<Item> list = itemMap.get(key);
+        if (list != null) {
+            list.remove(item);
+            if (list.isEmpty()) {
+                itemMap.remove(key);
+            }
         }
     }
+
 
     // Métodos getters
 
@@ -121,6 +147,11 @@ public class Trainer implements Serializable {
      * @return Lista de ítems en posesión del entrenador
      */
     public List<Item> getItems() {
-        return items;
+        List<Item> all = new java.util.ArrayList<>();
+        for (List<Item> group : itemMap.values()) {
+            all.addAll(group);
+        }
+        return all;
     }
+
 }

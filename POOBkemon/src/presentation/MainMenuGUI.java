@@ -15,6 +15,7 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import domain.PokemonDefault;
 
 public class MainMenuGUI extends JFrame {
     private Font pokemonEmeraldFont;
@@ -821,30 +822,45 @@ public class MainMenuGUI extends JFrame {
 
     private void startPvPMode(String player1Name, Color player1Color,
                               String player2Name, Color player2Color) {
-        List<Item> items = List.of(
-                new Item("Poción", "heal20"),
-                new Item("Superpoción", "heal50"),
-                new Item("HyperPotion", "heal200"),
-                new Item("Revivir", "revive")
-        );
+        try {
+            // Crear listas de ítems separadas para cada entrenador respetando los límites
+            List<Item> itemsPlayer1 = List.of(
+                    new Potion(),
+                    new Potion(),  // Máximo 2 pociones
+                    new Revive()   // Máximo 1 revive
+            );
 
-        List<Pokemon> allPokemons = createAllPokemons();
+            List<Item> itemsPlayer2 = List.of(
+                    new SuperPotion(),
+                    new SuperPotion(), // Máximo 2 superpociones
+                    new Revive()       // Máximo 1 revive
+            );
 
-        Trainer trainer1 = new Trainer(
-                player1Name,
-                player1Color,
-                new ArrayList<>(allPokemons),
-                new ArrayList<>(items)
-        );
+            List<Pokemon> allPokemons = createAllPokemons();
 
-        Trainer trainer2 = new Trainer(
-                player2Name,
-                player2Color,
-                new ArrayList<>(allPokemons),
-                new ArrayList<>(items)
-        );
+            Trainer trainer1 = new Trainer(
+                    player1Name,
+                    player1Color,
+                    new ArrayList<>(allPokemons),
+                    itemsPlayer1
+            );
 
-        new GameGUI(new Game(trainer1, trainer2), "PvsP").setVisible(true);
+            Trainer trainer2 = new Trainer(
+                    player2Name,
+                    player2Color,
+                    new ArrayList<>(allPokemons),
+                    itemsPlayer2
+            );
+
+            new GameGUI(new Game(trainer1, trainer2), "PvsP").setVisible(true);
+        } catch (PoobkemonException e) {
+            // Manejar la excepción (mostrar mensaje de error, etc.)
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error al crear los entrenadores: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
     private JButton createPokemonButton(String text) {
         JButton button = new JButton(text) {
@@ -1192,127 +1208,192 @@ public class MainMenuGUI extends JFrame {
         startGame(mode, "Jugador", Color.BLUE, "Maquina", new Color(200, 50, 100));
     }
 
+    /**
+     * Inicia el modo supervivencia donde los jugadores no tienen ítems.
+     *
+     * @param player1Name Nombre del jugador 1
+     * @param player1Color Color del jugador 1
+     * @param player2Name Nombre del jugador 2
+     * @param player2Color Color del jugador 2
+     */
     private void startSurvivalMode(String player1Name, Color player1Color,
                                    String player2Name, Color player2Color) {
-        List<Pokemon> team1 = SurvivalMode.generateRandomTeam();
-        List<Pokemon> team2 = SurvivalMode.generateRandomTeam();
+        try {
+            // Generar equipos aleatorios para el modo supervivencia
+            List<Pokemon> team1 = SurvivalMode.generateRandomTeam();
+            List<Pokemon> team2 = SurvivalMode.generateRandomTeam();
 
-        Trainer trainer1 = new Trainer(
-                player1Name,
-                player1Color,
-                team1,
-                new ArrayList<>() // No items en supervivencia
-        );
+            // Crear entrenadores sin ítems (lista vacía)
+            Trainer trainer1 = new Trainer(
+                    player1Name,
+                    player1Color,
+                    team1,
+                    Collections.emptyList() // Mejor práctica que new ArrayList<>()
+            );
 
-        Trainer trainer2 = new Trainer(
-                player2Name,
-                player2Color,
-                team2,
-                new ArrayList<>() // No items en supervivencia
-        );
+            Trainer trainer2 = new Trainer(
+                    player2Name,
+                    player2Color,
+                    team2,
+                    Collections.emptyList()
+            );
 
-        new GameGUI(new Game(trainer1, trainer2), "SURVIVAL").setVisible(true);
+            new GameGUI(new Game(trainer1, trainer2), "SURVIVAL").setVisible(true);
+
+        } catch (PoobkemonException e) {
+            // Manejar posibles excepciones (aunque es poco probable con listas vacías)
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error al iniciar el modo supervivencia: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
     // En el método startStandardMode, reemplaza el código existente con:
     private void startStandardMode(String mode, String player1Name, Color player1Color,
                                    String player2Name, Color player2Color) {
         dispose(); // Cerrar menú principal
 
-        // Crear lista de Pokémon disponibles
-        List<Pokemon> allPokemons = createAllPokemons();
-        List<Item> items = createDefaultItems();
+        try {
+            // Crear lista de Pokémon disponibles
+            List<Pokemon> allPokemons = createAllPokemons();
 
-        if ("PvsP".equals(mode)) {
-            // Mostrar selección de Pokémon para ambos jugadores
-            PokemonSelectionGUI selectionGUI = new PokemonSelectionGUI(
-                    mode,
-                    player1Name,
-                    player1Color,
-                    player2Name,
-                    player2Color,
-                    false // Indica que es el primer jugador
-            );
-            selectionGUI.setVisible(true);
-        } else if ("PvsM".equals(mode)) {
-            // Mostrar selección de Pokémon solo para el jugador humano
-            PokemonSelectionGUI selectionGUI = new PokemonSelectionGUI(
-                    mode,
-                    player1Name,
-                    player1Color,
-                    player2Name,
-                    player2Color,
-                    true // Indica que es contra la máquina
-            );
-            selectionGUI.setVisible(true);
-        } else if ("MvsM".equals(mode)) {
-            // Modo máquina vs máquina - equipos predefinidos
-            Trainer trainer1 = new Trainer(
-                    player1Name,
-                    player1Color,
-                    List.of(
-                            allPokemons.get(0).clone(),  // Absol
-                            allPokemons.get(5).clone(),  // Charizard
-                            allPokemons.get(9).clone(),  // Dragonite
-                            allPokemons.get(15).clone(), // Grumpig
-                            allPokemons.get(22).clone(), // Moltres
-                            allPokemons.get(28).clone()  // Snorlax
-                    ),
-                    new ArrayList<>(items)
+            // Crear listas de ítems que respeten los límites (2 pociones/1 revive)
+            List<Item> defaultItems = List.of(
+                    new Potion(),
+                    new SuperPotion(),
+                    new Revive()
             );
 
-            Trainer trainer2 = new Trainer(
-                    player2Name,
-                    player2Color,
-                    List.of(
-                            allPokemons.get(3).clone(),  // Blastoise
-                            allPokemons.get(12).clone(), // Gengar
-                            allPokemons.get(31).clone(), // Tyranitar
-                            allPokemons.get(30).clone(), // Togetic
-                            allPokemons.get(21).clone(), // Metagross
-                            allPokemons.get(4).clone()   // Blaziken
-                    ),
-                    new ArrayList<>(items)
-            );
+            if ("PvsP".equals(mode)) {
+                PokemonSelectionGUI selectionGUI = new PokemonSelectionGUI(
+                        mode,
+                        player1Name,
+                        player1Color,
+                        player2Name,
+                        player2Color,
+                        false
+                );
+                selectionGUI.setVisible(true);
+            } else if ("PvsM".equals(mode)) {
+                PokemonSelectionGUI selectionGUI = new PokemonSelectionGUI(
+                        mode,
+                        player1Name,
+                        player1Color,
+                        player2Name,
+                        player2Color,
+                        true
+                );
+                selectionGUI.setVisible(true);
+            } else if ("MvsM".equals(mode)) {
+                // Modo máquina vs máquina - equipos predefinidos con ítems limitados
+                Trainer trainer1 = new Trainer(
+                        player1Name,
+                        player1Color,
+                        List.of(
+                                allPokemons.get(0).clone(),  // Absol
+                                allPokemons.get(5).clone(),  // Charizard
+                                allPokemons.get(9).clone(),  // Dragonite
+                                allPokemons.get(15).clone(), // Grumpig
+                                allPokemons.get(22).clone(), // Moltres
+                                allPokemons.get(28).clone()  // Snorlax
+                        ),
+                        defaultItems
+                );
 
-            new GameGUI(new Game(trainer1, trainer2), mode).setVisible(true);
+                Trainer trainer2 = new Trainer(
+                        player2Name,
+                        player2Color,
+                        List.of(
+                                allPokemons.get(3).clone(),  // Blastoise
+                                allPokemons.get(12).clone(), // Gengar
+                                allPokemons.get(31).clone(), // Tyranitar
+                                allPokemons.get(30).clone(), // Togetic
+                                allPokemons.get(21).clone(), // Metagross
+                                allPokemons.get(4).clone()   // Blaziken
+                        ),
+                        defaultItems
+                );
+
+                new GameGUI(new Game(trainer1, trainer2), mode).setVisible(true);
+            }
+        } catch (PoobkemonException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error al iniciar el modo estándar: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
 // Métodos auxiliares
 
     private List<Item> createDefaultItems() {
         return List.of(
-                new Item("Poción", "heal20"),
-                new Item("Superpoción", "heal50"),
-                new Item("HyperPotion", "heal200"),
-                new Item("Revivir", "revive")
+                new Potion(),
+                new SuperPotion(),
+                new HyperPotion(),
+                new Revive()
         );
     }
 
+    /**
+     * Crea un entrenador con un equipo específico de Pokémon e ítems.
+     *
+     * @param name Nombre del entrenador
+     * @param color Color asociado al entrenador
+     * @param items Lista de ítems (debe cumplir con las restricciones: max 2 pociones, 1 revive)
+     * @param pokemonIndices Índices de los Pokémon en la lista completa
+     * @param allPokemons Lista completa de Pokémon disponibles
+     * @return Objeto Trainer configurado
+     * @throws PoobkemonException Si hay problemas al crear el entrenador (ítems inválidos, etc.)
+     */
     private Trainer createTrainerWithTeam(String name, Color color, List<Item> items,
-                                          List<Integer> pokemonIndices, List<Pokemon> allPokemons) {
+                                          List<Integer> pokemonIndices, List<Pokemon> allPokemons)
+            throws PoobkemonException {
+        // Validar parámetros
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del entrenador no puede estar vacío");
+        }
+        if (pokemonIndices == null || allPokemons == null) {
+            throw new IllegalArgumentException("Listas de Pokémon no pueden ser nulas");
+        }
+
+        // Crear equipo clonando los Pokémon seleccionados
         List<Pokemon> team = new ArrayList<>();
         for (int index : pokemonIndices) {
             if (index >= 0 && index < allPokemons.size()) {
-                try {
-                    Pokemon original = allPokemons.get(index);
-                    Pokemon cloned = original.clone();
-                    if (cloned == null) {
-                        throw new RuntimeException("Error al clonar Pokémon: " + original.getName());
-                    }
-                    team.add(cloned);
-                } catch (Exception e) {
-                    System.err.println("Error al clonar Pokémon: " + e.getMessage());
-                    // Puedes agregar un Pokémon por defecto o continuar sin él
-                }
+                Pokemon cloned = allPokemons.get(index).clone();
+                team.add(cloned);
+            } else {
+                // Añadir Pokémon por defecto si el índice es inválido
+                team.add(new domain.PokemonDefault());
             }
         }
 
-        // Asegurarse de que el equipo tenga exactamente 6 Pokémon
+        // Completar equipo con Pokémon por defecto si es necesario
         while (team.size() < 6) {
-            team.add(new domain.PokemonDefault()); // Clase por defecto para completar
+            team.add(new domain.PokemonDefault());
         }
 
+        // Verificar que los ítems cumplan con las restricciones antes de crear el Trainer
+        Map<String, List<Item>> tempItemMap = new HashMap<>();
+        for (Item item : items) {
+            String key = item.getClass().getSimpleName();
+            List<Item> itemGroup = tempItemMap.computeIfAbsent(key, k -> new ArrayList<>());
+
+            int maxAllowed = (item instanceof Revive) ? 1 : 2;
+            if (itemGroup.size() >= maxAllowed) {
+                throw new PoobkemonException(
+                        "No puedes tener más de " + maxAllowed + " " + key + "(s). " +
+                                "Se intentó añadir: " + items);
+            }
+            itemGroup.add(item);
+        }
+
+        // Crear y retornar el Trainer
         return new Trainer(name, color, team, new ArrayList<>(items));
     }
 
@@ -1378,48 +1459,95 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
+    /**
+     * Crea un entrenador configurado según el modo de juego, con validación de ítems y Pokémon.
+     *
+     * @param mode Modo de juego ("PvsP", "PvsM", etc.)
+     * @param playerName Nombre del jugador humano (para modos PvsP)
+     * @param aiName Nombre de la IA (para modos contra máquina)
+     * @param color Color asociado al entrenador
+     * @param pokemons Lista de Pokémon para el equipo
+     * @param items Lista de ítems (debe cumplir límites: max 2 pociones, 1 revive)
+     * @return Trainer configurado
+     * @throws PoobkemonException Si los ítems exceden los límites permitidos
+     * @throws IllegalArgumentException Si parámetros son inválidos
+     */
     private Trainer createTrainer(String mode, String playerName, String aiName,
-                                  Color color, List<Pokemon> pokemons, List<Item> items) {
-        // Validaciones de parámetros
+                                  Color color, List<Pokemon> pokemons, List<Item> items)
+            throws PoobkemonException, IllegalArgumentException {
+        // Validaciones básicas de parámetros
         Objects.requireNonNull(mode, "El modo no puede ser nulo");
         Objects.requireNonNull(color, "El color no puede ser nulo");
         Objects.requireNonNull(pokemons, "La lista de Pokémon no puede ser nula");
         Objects.requireNonNull(items, "La lista de ítems no puede ser nula");
 
-        // Determinar el nombre del entrenador según el modo
-        String trainerName;
-        if ("PvsP".equals(mode)) {
-            trainerName = (playerName == null || playerName.trim().isEmpty()) ?
-                    "Jugador" : playerName;
-        } else {
-            trainerName = (aiName == null || aiName.trim().isEmpty()) ?
-                    "Máquina" : aiName;
-        }
+        // Determinar nombre según modo
+        String trainerName = determineTrainerName(mode, playerName, aiName);
 
-        // Validar y ajustar la lista de Pokémon
-        List<Pokemon> validatedPokemons = new ArrayList<>();
+        // Validar y clonar Pokémon
+        List<Pokemon> validatedTeam = validateAndClonePokemons(pokemons);
+
+        // Validar ítems antes de crear el Trainer
+        validateItems(items);
+
+        return new Trainer(trainerName, color, validatedTeam, new ArrayList<>(items));
+    }
+
+    /**
+     * Determina el nombre del entrenador según el modo de juego.
+     */
+    private String determineTrainerName(String mode, String playerName, String aiName) {
+        if ("PvsP".equals(mode)) {
+            return (playerName == null || playerName.trim().isEmpty()) ?
+                    "Jugador" : playerName.trim();
+        }
+        return (aiName == null || aiName.trim().isEmpty()) ?
+                "Máquina" : aiName.trim();
+    }
+
+    /**
+     * Valida y clona la lista de Pokémon, asegurando 6 Pokémon válidos.
+     */
+    private List<Pokemon> validateAndClonePokemons(List<Pokemon> pokemons) {
+        List<Pokemon> validated = new ArrayList<>(6);
+
+        // Clonar Pokémon existentes
         for (Pokemon p : pokemons) {
             if (p != null) {
-                try {
-                    validatedPokemons.add(p.clone()); // Usar clones para evitar compartir referencias
-                } catch (Exception e) {
-                    System.err.println("Error al clonar Pokémon: " + e.getMessage());
-                }
+                Pokemon cloned = p.clone(); // Eliminado el try-catch innecesario
+                validated.add(cloned);
+                if (validated.size() >= 6) break;
             }
         }
 
         // Completar con Pokémon por defecto si es necesario
-        while (validatedPokemons.size() < 6) {
-            validatedPokemons.add(new domain.PokemonDefault());
+        while (validated.size() < 6) {
+            validated.add(new domain.PokemonDefault());
         }
 
-        // Crear y devolver el entrenador
-        return new Trainer(
-                trainerName,
-                color,
-                validatedPokemons,
-                new ArrayList<>(items)  // Copia de la lista de ítems
-        );
+        return validated;
+    }
+
+    /**
+     * Valida que los ítems cumplan con las restricciones (max 2 pociones, 1 revive).
+     * @throws PoobkemonException Si se exceden los límites
+     */
+    private void validateItems(List<Item> items) throws PoobkemonException {
+        Map<String, Integer> itemCounts = new HashMap<>();
+
+        for (Item item : items) {
+            String key = item.getClass().getSimpleName();
+            int maxAllowed = (item instanceof Revive) ? 1 : 2;
+
+            int currentCount = itemCounts.getOrDefault(key, 0);
+            if (currentCount >= maxAllowed) {
+                throw new PoobkemonException(
+                        "Límite excedido: Máximo " + maxAllowed + " " + key +
+                                "(s) permitidos. Intentó agregar: " + items);
+            }
+
+            itemCounts.put(key, currentCount + 1);
+        }
     }
 
     private void showAITypeSelection(String playerName, Color playerColor) {
@@ -1444,8 +1572,15 @@ public class MainMenuGUI extends JFrame {
             JButton button = createEmeraldStyleButton(aiType);
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
-                AbstractMachine aiTrainer = createAITrainer(aiType, "Maquina", new Color(200, 50, 100));
-                launchPvMGame(playerName, playerColor, aiTrainer);
+                try {
+                    AbstractMachine aiTrainer = createAITrainer(aiType, "Maquina", new Color(200, 50, 100));
+                    launchPvMGame(playerName, playerColor, aiTrainer);
+                } catch (PoobkemonException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Error al crear el juego: " + ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             });
             currentMenuButtons.add(button);
             aiPanel.add(button);
@@ -1477,7 +1612,7 @@ public class MainMenuGUI extends JFrame {
             case "Agresivo":
                 return new AttackingMachine(name, color, team, moveMap);
             case "Defensivo":
-                return new DefensiveMachine(name, color, team, moveMap);
+                return new AttackingMachine(name, color, team, moveMap);
             case "Cambiante":
                 return new ChangingMachine(name, color, team, moveMap);
             case "Experto":
@@ -1487,13 +1622,16 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
-    private void launchPvMGame(String playerName, Color playerColor, AbstractMachine aiTrainer) {
-        List<Item> items = createDefaultItems();
-        List<Pokemon> playerTeam = createAllPokemons().subList(6, 12); // u otra lógica
-        Trainer human = new Trainer(playerName, playerColor, playerTeam, new ArrayList<>(items));
+    private void launchPvMGame(String playerName, Color playerColor, AbstractMachine aiTrainer) throws PoobkemonException {
+        List<Item> items = List.of(new Potion(), new SuperPotion(), new Revive());
+        List<Pokemon> playerTeam = new ArrayList<>();
 
-        Game game = new Game(human, aiTrainer);
-        new GameGUI(game, "PvsM").setVisible(true);
+        for (Pokemon p : createAllPokemons().subList(6, 12)) {
+            playerTeam.add(p.clone());
+        }
+
+        Trainer human = new Trainer(playerName, playerColor, playerTeam, items);
+        new GameGUI(new Game(human, aiTrainer), "PvsM").setVisible(true);
         dispose();
     }
 

@@ -13,19 +13,7 @@ class GameTest {
     private Trainer trainer2;
     private Game game;
 
-    @BeforeEach
-    void setUp() {
-        List<Pokemon> team1 = new ArrayList<>();
-        team1.add(new Absol());
 
-        List<Pokemon> team2 = new ArrayList<>();
-        team2.add(new Blastoise());
-
-        trainer1 = new Trainer("Ash", Color.RED, team1, new ArrayList<>());
-        trainer2 = new Trainer("Gary", Color.BLUE, team2, new ArrayList<>());
-
-        game = new Game(trainer1, trainer2);
-    }
 
     @Test
     void testGameInitialization() {

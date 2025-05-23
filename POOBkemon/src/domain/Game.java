@@ -63,13 +63,24 @@ public class Game implements Serializable {
     public Game(String player1Name, String player2Name,
                 Color color1, Color color2,
                 List<Pokemon> team1, Map<Pokemon, List<Move>> moves1,
-                List<Pokemon> team2, Map<Pokemon, List<Move>> moves2) {
+                List<Pokemon> team2, Map<Pokemon, List<Move>> moves2) throws PoobkemonException {
 
         this.trainer1 = new Trainer(player1Name, color1, team1, moves1);
         this.trainer2 = new Trainer(player2Name, color2, team2, moves2);
         this.currentTrainer = trainer1;
         this.waitingTrainer = trainer2;
+
+        // Entrenador 1 - Items dentro de los límites
+        trainer1.addItem(new Potion());
+        trainer1.addItem(new SuperPotion()); // Total 2 pociones
+        trainer1.addItem(new Revive());      // 1 revive
+
+        // Entrenador 2 - Items dentro de los límites
+        trainer2.addItem(new HyperPotion());
+        trainer2.addItem(new Potion());     // Total 2 pociones
+        trainer2.addItem(new Revive());     // 1 revive
     }
+
 
 
     /**
