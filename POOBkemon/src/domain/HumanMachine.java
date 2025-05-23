@@ -8,9 +8,9 @@ import java.util.Map;
  * Representa a un entrenador controlado por el jugador humano.
  * No toma decisiones automáticas, por lo que su método makeMove lanza excepción.
  */
-public class HumanTrainer extends AbstractTrainer {
+public class HumanMachine extends AbstractMachine {
 
-    public HumanTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
+    public HumanMachine(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
         super(name, color, team, moveMap);
     }
 

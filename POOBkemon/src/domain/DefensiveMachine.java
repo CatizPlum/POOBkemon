@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
-public class DefensiveTrainer extends AbstractTrainer {
+public class DefensiveMachine extends AbstractMachine {
 
-    public DefensiveTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
+    public DefensiveMachine(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
         super(name, color, team, moveMap);
     }
 

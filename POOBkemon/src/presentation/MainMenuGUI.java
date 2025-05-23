@@ -15,7 +15,6 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import domain.PokemonDefault;
 
 public class MainMenuGUI extends JFrame {
     private Font pokemonEmeraldFont;
@@ -1445,7 +1444,7 @@ public class MainMenuGUI extends JFrame {
             JButton button = createEmeraldStyleButton(aiType);
             button.setAlignmentX(Component.CENTER_ALIGNMENT);
             button.addActionListener(e -> {
-                AbstractTrainer aiTrainer = createAITrainer(aiType, "Maquina", new Color(200, 50, 100));
+                AbstractMachine aiTrainer = createAITrainer(aiType, "Maquina", new Color(200, 50, 100));
                 launchPvMGame(playerName, playerColor, aiTrainer);
             });
             currentMenuButtons.add(button);
@@ -1467,7 +1466,7 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
-    private AbstractTrainer createAITrainer(String type, String name, Color color) {
+    private AbstractMachine createAITrainer(String type, String name, Color color) {
         List<Pokemon> team = createAllPokemons().subList(0, 6); // por simplicidad
         Map<Pokemon, List<Move>> moveMap = new HashMap<>();
         for (Pokemon p : team) {
@@ -1476,19 +1475,19 @@ public class MainMenuGUI extends JFrame {
 
         switch (type) {
             case "Agresivo":
-                return new AttackingTrainer(name, color, team, moveMap);
+                return new AttackingMachine(name, color, team, moveMap);
             case "Defensivo":
-                return new DefensiveTrainer(name, color, team, moveMap);
+                return new DefensiveMachine(name, color, team, moveMap);
             case "Cambiante":
-                return new ChangingTrainer(name, color, team, moveMap);
+                return new ChangingMachine(name, color, team, moveMap);
             case "Experto":
-                return new ExpertTrainer(name, color, team, moveMap);
+                return new ExpertMachine(name, color, team, moveMap);
             default:
                 throw new IllegalArgumentException("Tipo de IA desconocido: " + type);
         }
     }
 
-    private void launchPvMGame(String playerName, Color playerColor, AbstractTrainer aiTrainer) {
+    private void launchPvMGame(String playerName, Color playerColor, AbstractMachine aiTrainer) {
         List<Item> items = createDefaultItems();
         List<Pokemon> playerTeam = createAllPokemons().subList(6, 12); // u otra lógica
         Trainer human = new Trainer(playerName, playerColor, playerTeam, new ArrayList<>(items));

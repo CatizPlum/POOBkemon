@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractTrainer implements Serializable {
+public abstract class AbstractMachine implements Serializable {
     protected String name;
     protected Color color;
     protected List<Pokemon> team;
@@ -15,7 +15,7 @@ public abstract class AbstractTrainer implements Serializable {
     // ✅ NUEVO CAMPO
     protected Map<Pokemon, List<Move>> movesMap;
 
-    public AbstractTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
+    public AbstractMachine(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
         this.name = name;
         this.color = color;
         this.team = team;

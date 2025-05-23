@@ -5,9 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class ExpertTrainer extends AbstractTrainer {
+public class ExpertMachine extends AbstractMachine {
 
-    public ExpertTrainer(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
+    public ExpertMachine(String name, Color color, List<Pokemon> team, Map<Pokemon, List<Move>> moveMap) {
         super(name, color, team, moveMap);
     }
 
