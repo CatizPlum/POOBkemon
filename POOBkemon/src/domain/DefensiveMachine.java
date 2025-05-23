@@ -14,21 +14,32 @@ public class DefensiveMachine extends AbstractMachine {
     public void makeMove(Game game) {
         Pokemon myPokemon = getCurrentPokemon();
         List<Move> moves = myPokemon.getMoves();
+        if (moves == null || moves.isEmpty()) return;
 
-        // Prioriza movimientos que suben defensa o bajan ataque enemigo
+        for (Item item : items) {
+            if (myPokemon.getCurrentHP() < myPokemon.getMaxHP() / 2) {
+                try {
+                    useItem(item);
+                    System.out.println(name + " usó el ítem: " + item.getName());
+                    return;
+                } catch (PoobkemonException e) {}
+            }
+        }
+
         for (Move move : moves) {
             String effect = move.getEffect();
-            if (effect.contains("boostDefense") || effect.contains("boostSpecialDefense") || effect.contains("lowerAttack") || effect.contains("lowerSpecialAttack") || effect.contains("protect")) {
-                System.out.println(name + " se defiende con: " + move.getName());
+            if (effect != null && (effect.contains("boostDefense") || effect.contains("boostSpecialDefense")
+                    || effect.contains("lowerAttack") || effect.contains("lowerSpecialAttack") || effect.contains("protect"))) {
+                game.machineAttack(this, move);
                 return;
             }
         }
 
-        // Usa el de menor poder si no hay defensivo (para simular jugar pasivo)
         Move weakest = moves.stream()
                 .min((a, b) -> Integer.compare(a.getPower(), b.getPower()))
-                .orElse(moves.get(0));
-
-        System.out.println(name + " no tiene movimiento defensivo, usa: " + weakest.getName());
+                .orElse(null);
+        if (weakest != null) {
+            game.machineAttack(this, weakest);
+        }
     }
 }

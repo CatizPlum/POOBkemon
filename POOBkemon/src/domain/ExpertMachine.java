@@ -1,7 +1,6 @@
 package domain;
 
 import java.awt.Color;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -13,36 +12,40 @@ public class ExpertMachine extends AbstractMachine {
 
     @Override
     public void makeMove(Game game) {
+        Pokemon myPokemon = getCurrentPokemon();
         Pokemon enemy = game.getWaitingTrainer().getCurrentPokemon();
+        List<Move> moves = myPokemon.getMoves();
+        if (moves == null || moves.isEmpty()) return;
 
-        // Cambia si tiene un Pokémon más efectivo
-        for (int i = 0; i < team.size(); i++) {
-            Pokemon candidate = team.get(i);
-            if (!candidate.isFainted() && isEffective(candidate, enemy) && candidate != getCurrentPokemon()) {
+        for (Item item : items) {
+            if (myPokemon.getCurrentHP() < myPokemon.getMaxHP() / 3) {
                 try {
-                    switchPokemon(i);
-                    System.out.println(name + " cambia estratégicamente a " + candidate.getName());
+                    useItem(item);
+                    System.out.println(name + " usó el ítem: " + item.getName());
                     return;
-                } catch (PoobkemonException e) {
-                    // Sigue
-                }
+                } catch (PoobkemonException e) {}
             }
         }
 
-        // Si no cambia, usa el mejor movimiento posible
-        Move best = getCurrentPokemon().getMoves().stream()
-                .max(Comparator.comparingInt(m -> m.getPower() + evaluateEffectScore(m)))
-                .orElse(getCurrentPokemon().getMoves().get(0));
+        for (int i = 0; i < team.size(); i++) {
+            Pokemon ally = team.get(i);
+            if (!ally.isFainted() && ally != myPokemon && isEffective(ally, enemy)) {
+                try {
+                    switchPokemon(i);
+                    System.out.println(name + " cambia a " + ally.getName() + " por ventaja de tipo.");
+                    return;
+                } catch (PoobkemonException e) {}
+            }
+        }
 
-        System.out.println(name + " usa su mejor jugada: " + best.getName());
-    }
-
-    private int evaluateEffectScore(Move move) {
-        String effect = move.getEffect();
-        if (effect.contains("boostAttack") || effect.contains("lowerDefense")) return 10;
-        if (effect.contains("boostSpeed")) return 5;
-        if (effect.contains("heal")) return 8;
-        return 0;
+        Move best = moves.stream()
+                .max((a, b) -> Integer.compare(
+                        a.calculateDamage(myPokemon, enemy),
+                        b.calculateDamage(myPokemon, enemy)))
+                .orElse(null);
+        if (best != null) {
+            game.machineAttack(this, best);
+        }
     }
 
     private boolean isEffective(Pokemon attacker, Pokemon defender) {

@@ -12,33 +12,41 @@ public class ChangingMachine extends AbstractMachine {
 
     @Override
     public void makeMove(Game game) {
+        Pokemon myPokemon = getCurrentPokemon();
         Pokemon enemy = game.getWaitingTrainer().getCurrentPokemon();
+        List<Move> moves = myPokemon.getMoves();
+        if (moves == null || moves.isEmpty()) return;
+
+        for (Item item : items) {
+            if (myPokemon.getCurrentHP() < myPokemon.getMaxHP() / 2) {
+                try {
+                    useItem(item);
+                    System.out.println(name + " usó el ítem: " + item.getName());
+                    return;
+                } catch (PoobkemonException e) {}
+            }
+        }
 
         for (int i = 0; i < team.size(); i++) {
             Pokemon ally = team.get(i);
-            if (!ally.isFainted() && isEffective(ally, enemy) && ally != getCurrentPokemon()) {
+            if (!ally.isFainted() && ally != myPokemon && isEffective(ally, enemy)) {
                 try {
                     switchPokemon(i);
                     System.out.println(name + " cambia a " + ally.getName() + " por ventaja de tipo.");
                     return;
-                } catch (PoobkemonException e) {
-                    // Continúa buscando otro
-                }
+                } catch (PoobkemonException e) {}
             }
         }
 
-        // Si no cambia, ataca con movimiento más fuerte
-        Move strongest = getCurrentPokemon().getMoves().stream()
+        Move strongest = moves.stream()
                 .max((a, b) -> Integer.compare(a.getPower(), b.getPower()))
-                .orElse(getCurrentPokemon().getMoves().get(0));
-
-        System.out.println(name + " se queda con su Pokémon actual y ataca con: " + strongest.getName());
+                .orElse(null);
+        if (strongest != null) {
+            game.machineAttack(this, strongest);
+        }
     }
 
     private boolean isEffective(Pokemon attacker, Pokemon defender) {
-        // Necesitas tener Type.getPrimaryType(), ajusta si usas otro método
-        Type atkType = attacker.getPrimaryType();
-        Type defType = defender.getPrimaryType();
-        return TypeAdvantageChecker.isSuperEffective(atkType, defType);
+        return TypeAdvantageChecker.isSuperEffective(attacker.getPrimaryType(), defender.getPrimaryType());
     }
 }

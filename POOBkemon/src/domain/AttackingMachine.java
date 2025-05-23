@@ -14,21 +14,32 @@ public class AttackingMachine extends AbstractMachine {
     public void makeMove(Game game) {
         Pokemon myPokemon = getCurrentPokemon();
         List<Move> moves = myPokemon.getMoves();
+        if (moves == null || moves.isEmpty()) return;
 
-        // Prioriza movimientos que potencian ataque o bajan defensa enemiga
+        for (Item item : items) {
+            if (myPokemon.getCurrentHP() < myPokemon.getMaxHP() / 2) {
+                try {
+                    useItem(item);
+                    System.out.println(name + " usó el ítem: " + item.getName());
+                    return;
+                } catch (PoobkemonException e) {}
+            }
+        }
+
         for (Move move : moves) {
             String effect = move.getEffect();
-            if (effect.contains("boostAttack") || effect.contains("boostSpecialAttack") || effect.contains("lowerDefense") || effect.contains("lowerSpecialDefense")) {
-                System.out.println(name + " usa un movimiento ofensivo: " + move.getName());
+            if (effect != null && (effect.contains("boostAttack") || effect.contains("boostSpecialAttack")
+                    || effect.contains("lowerDefense") || effect.contains("lowerSpecialDefense"))) {
+                game.machineAttack(this, move);
                 return;
             }
         }
 
-        // Si no hay uno ofensivo, usa el de mayor poder
         Move strongest = moves.stream()
                 .max((a, b) -> Integer.compare(a.getPower(), b.getPower()))
-                .orElse(moves.get(0));
-
-        System.out.println(name + " ataca con su movimiento más fuerte: " + strongest.getName());
+                .orElse(null);
+        if (strongest != null) {
+            game.machineAttack(this, strongest);
+        }
     }
 }

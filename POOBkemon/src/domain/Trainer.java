@@ -15,16 +15,15 @@ public class Trainer implements Serializable {
     private Color color;              // Color asociado al entrenador
     private List<Pokemon> team;       // Lista de Pokémon en el equipo (máx 6)
     private Map<String, List<Item>> itemMap = new java.util.HashMap<>();
-
-    // Lista de ítems en posesión
     private int activePokemonIndex;   // Índice del Pokémon activo en batalla
+    private transient AbstractMachine machine; // Máquina asociada (solo para IA)
 
     /**
-     * Constructor para crear un nuevo entrenador.
+     * Constructor para crear un nuevo entrenador con ítems controlados.
      *
-     * @param name Nombre del entrenador
+     * @param name  Nombre del entrenador
      * @param color Color asociado al entrenador
-     * @param team Lista de Pokémon que forman el equipo
+     * @param team  Lista de Pokémon que forman el equipo
      * @param items Lista de ítems que posee el entrenador
      */
     public Trainer(String name, Color color, List<Pokemon> team, List<Item> items) throws PoobkemonException {
@@ -35,11 +34,13 @@ public class Trainer implements Serializable {
         this.activePokemonIndex = 0;
 
         for (Item item : items) {
-            addItem(item); // usa el método que impone límites (2 pociones, 1 revive)
+            addItem(item);
         }
     }
 
-
+    /**
+     * Constructor para crear entrenador con movimientos personalizados (usado por IA).
+     */
     public Trainer(String name, Color color,
                    List<Pokemon> team,
                    Map<Pokemon, List<Move>> moveMap) {
@@ -59,6 +60,25 @@ public class Trainer implements Serializable {
         }
     }
 
+    /**
+     * Constructor especial para registrar un AbstractMachine como entrenador.
+     */
+    public Trainer(AbstractMachine machine) {
+        this.name = machine.getName();
+        this.color = machine.getColor();
+        this.team = machine.getTeam();
+        this.itemMap = new java.util.HashMap<>();
+        this.activePokemonIndex = 0;
+        this.machine = machine;
+    }
+
+    /**
+     * Devuelve la máquina IA asociada a este entrenador (si aplica).
+     */
+    public AbstractMachine getMachine() {
+        return machine;
+    }
+
     public void addItem(Item item) throws PoobkemonException {
         String key = item.getClass().getSimpleName();
         List<Item> list = itemMap.getOrDefault(key, new java.util.ArrayList<>());
@@ -72,40 +92,20 @@ public class Trainer implements Serializable {
         itemMap.put(key, list);
     }
 
-
-
-
-    /**
-     * Obtiene el Pokémon actualmente activo en batalla.
-     *
-     * @return El Pokémon activo actual
-     */
     public Pokemon getCurrentPokemon() {
         return team.get(activePokemonIndex);
     }
 
-    /**
-     * Cambia el Pokémon activo por otro del equipo.
-     *
-     * @param index Índice del Pokémon al que se quiere cambiar
-     * @throws PoobkemonException Si el índice es inválido o el Pokémon está debilitado
-     */
     public void switchPokemon(int index) throws PoobkemonException {
         if (index < 0 || index >= team.size()) {
-            throw new PoobkemonException("Invalid Pokémon index!");
+            throw new PoobkemonException("Índice inválido para cambio de Pokémon.");
         }
         if (team.get(index).isFainted()) {
-            throw new PoobkemonException("Cannot switch to a fainted Pokémon!");
+            throw new PoobkemonException("¡Ese Pokémon está debilitado!");
         }
         activePokemonIndex = index;
     }
 
-    /**
-     * Usa un ítem en el Pokémon activo actual.
-     *
-     * @param item Ítem que se desea usar
-     * @throws PoobkemonException Si ocurre un error al aplicar el ítem
-     */
     public void useItem(Item item) throws PoobkemonException {
         item.apply(getCurrentPokemon());
 
@@ -119,33 +119,18 @@ public class Trainer implements Serializable {
         }
     }
 
-
-    // Métodos getters
-
-    /**
-     * @return Nombre del entrenador
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @return Color asociado al entrenador
-     */
     public Color getColor() {
         return color;
     }
 
-    /**
-     * @return Lista de Pokémon en el equipo
-     */
     public List<Pokemon> getTeam() {
         return team;
     }
 
-    /**
-     * @return Lista de ítems en posesión del entrenador
-     */
     public List<Item> getItems() {
         List<Item> all = new java.util.ArrayList<>();
         for (List<Item> group : itemMap.values()) {
@@ -153,5 +138,4 @@ public class Trainer implements Serializable {
         }
         return all;
     }
-
 }

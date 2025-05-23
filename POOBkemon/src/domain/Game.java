@@ -20,6 +20,7 @@ public class Game implements Serializable {
     private int timeRemaining = TURN_TIME_LIMIT;
     private transient TimerTask countdownTask;
     private transient Runnable onTimeOutCallback;
+    private AbstractMachine machineAttacker;
 
 
     /**
@@ -56,8 +57,12 @@ public class Game implements Serializable {
 
     public Game(Trainer t1, AbstractMachine t2) {
         this.trainer1 = t1;
-        this.trainer2 = new Trainer(t2.getName(), t2.getColor(), t2.getTeam(), t2.getMovesMap());
+        this.machineAttacker = t2;
+        this.trainer2 = new TrainerAdapter(t2);  // nueva clase adaptadora
+        this.currentTrainer = trainer1;
+        this.waitingTrainer = trainer2;
     }
+
 
 
     public Game(String player1Name, String player2Name,
@@ -140,7 +145,6 @@ public class Game implements Serializable {
             SwingUtilities.invokeLater(onTimeOutCallback);
         }
 
-        // ELIMINADO: nextTurn(); // Ahora esto lo manejará la GUI después de que el usuario presione OK
     }
 
 
@@ -196,6 +200,22 @@ public class Game implements Serializable {
     public Trainer getWaitingTrainer() {
         return waitingTrainer;
     }
+
+    public void machineAttack(AbstractMachine attacker, Move move) {
+        if (attacker == null || move == null) return;
+
+        Pokemon attackerPokemon = attacker.getCurrentPokemon();
+        Pokemon defenderPokemon = (machineAttacker == attacker) ?
+                trainer1.getCurrentPokemon() :
+                machineAttacker.getCurrentPokemon(); // evita trainer2 mal sincronizado
+
+        int damage = move.calculateDamage(attackerPokemon, defenderPokemon);
+        defenderPokemon.takeDamage(damage);
+
+        System.out.println(attacker.getName() + " hace que " + attackerPokemon.getName() +
+                " use " + move.getName() + " y causa " + damage + " de daño a " + defenderPokemon.getName());
+    }
+
 
     /**
      * Verifica si la partida ha terminado
@@ -285,9 +305,4 @@ public class Game implements Serializable {
             waitingTrainer = trainer1;
         }
     }
-
-
-
-
-
 }
