@@ -5,26 +5,23 @@ import java.util.ArrayList;
 
 /**
  * Clase que representa al Pokémon Banette, un Pokémon de tipo Fantasma (Ghost).
- * Posee habilidades especiales relacionadas con maldiciones que se activan al ser debilitado
- * o al canalizar energía oscura para aumentar su ataque.
  */
 public class Banette extends AbstractPokemon implements Serializable {
+
     /**
      * Indica si la maldición post-mortem de Banette ha sido activada.
      * Evita que el efecto se active múltiples veces.
      */
-    private boolean triggeredCurse;
+    private boolean triggeredCurse = false;
 
     /**
      * Indica si Banette ha activado su energía maldita para potenciar su ataque.
+     * El aumento de ataque solo puede activarse una vez por combate.
      */
     private boolean cursedActivated = false;
 
     /**
      * Constructor de Banette. Inicializa sus estadísticas base, tipo y movimientos.
-     * Estadísticas destacadas:
-     * - Alto ataque físico (361)
-     * - Defensas moderadas
      */
     public Banette() {
         this.name = "Banette";
@@ -44,7 +41,6 @@ public class Banette extends AbstractPokemon implements Serializable {
 
     /**
      * Inicializa los movimientos que Banette puede aprender por defecto.
-     * Movimientos incluyen ataques físicos y técnicas de tipo fantasma.
      */
     @Override
     public void initializeMoves() {
@@ -57,29 +53,9 @@ public class Banette extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Habilidad especial: Canaliza energía maldita para aumentar permanentemente su ataque.
-     * Solo puede activarse una vez por combate.
-     * Efecto:
-     * - Aumenta el ataque en 30 puntos
-     */
-    public void cursedEnergy() {
-        if (!cursedActivated) {
-            System.out.println("Banette canaliza energía maldita al clavarse púas...");
-            this.attack += 30;
-            cursedActivated = true;
-            System.out.println("¡Su poder de ataque ha aumentado a " + this.attack + "!");
-        } else {
-            System.out.println("La energía maldita ya ha sido canalizada. Banette no puede potenciarse más.");
-        }
-    }
-
-    /**
      * Verifica si Banette ha sido debilitado y activa su maldición final.
-     * @param enemy El oponente que recibirá el daño de la maldición
+     * @param enemy El oponente que recibirá el daño de la maldición (puede ser null)
      * @return true si Banette está debilitado, false en caso contrario
-     * Efecto secundario:
-     * - Inflige hasta 50 puntos de daño al oponente al ser debilitado
-     * - Solo se activa una vez
      */
     public boolean isFainted(AbstractPokemon enemy) {
         if (currentHP == 0 && !triggeredCurse) {
@@ -96,9 +72,14 @@ public class Banette extends AbstractPokemon implements Serializable {
         return currentHP == 0;
     }
 
+    /**
+     * Crea y devuelve una copia exacta de este objeto Banette.
+     */
     @Override
     public Banette clone() {
         Banette cloned = (Banette) super.clone();
+        cloned.cursedActivated = this.cursedActivated;
+        cloned.triggeredCurse = this.triggeredCurse;
         return cloned;
     }
 }

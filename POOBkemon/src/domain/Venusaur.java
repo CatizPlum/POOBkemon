@@ -12,19 +12,11 @@ public class Venusaur extends AbstractPokemon implements Serializable {
 
     /**
      * Estado de la flor de Venusaur.
-     * true = flor en pleno esplendor (permite fotosíntesis)
-     * false = flor marchita (habilidades reducidas)
      */
     private boolean flowerBlossomed;
 
     /**
      * Constructor de Venusaur. Inicializa sus estadísticas base, tipo y movimientos.
-     * Estadísticas destacadas:
-     * - Defensas equilibradas (291 Defensa, 328 Defensa Especial)
-     * - Ataque especial alto (328)
-     * - HP considerable (364)
-     * - Tipo dual Planta/Veneno
-     * - Flor inicialmente en esplendor
      */
     public Venusaur() {
         this.name = "Venusaur";
@@ -48,12 +40,12 @@ public class Venusaur extends AbstractPokemon implements Serializable {
      */
     @Override
     public void initializeMoves() {
-        learnMove("Cross Poison");  // Ataque Veneno
-        learnMove("Air Slash");     // Ataque Volador
-        learnMove("Bite");          // Ataque Siniestro
-        learnMove("Mean Look");     // Movimiento de estado
-        learnMove("Screech");       // Reduce defensa
-        learnMove("Absorb");        // Ataque Planta que drena vida
+        learnMove("Cross Poison");
+        learnMove("Air Slash");
+        learnMove("Bite");
+        learnMove("Mean Look");
+        learnMove("Screech");
+        learnMove("Absorb");
     }
 
     /**
@@ -93,41 +85,9 @@ public class Venusaur extends AbstractPokemon implements Serializable {
         return currentHP == 0;
     }
 
-    // Métodos específicos de Venusaur
-
     /**
-     * Verifica el estado de la flor.
-     * @return true si la flor está en esplendor, false si está marchita
+     * Crea una copia exacta de este Venusaur.
      */
-    public boolean isFlowerBlossomed() {
-        return flowerBlossomed;
-    }
-
-    /**
-     * Habilidad especial: Fotosíntesis.
-     * Recupera 25% del HP máximo si la flor está en esplendor.
-     */
-    public void photosynthesis() {
-        if (flowerBlossomed) {
-            int healAmount = maxHP / 4;
-            heal(healAmount);
-            System.out.println("¡Venusaur realiza fotosíntesis y recupera " + healAmount + " PS!");
-        } else {
-            System.out.println("La flor de Venusaur no está en condiciones para realizar fotosíntesis efectiva.");
-        }
-    }
-
-    /**
-     * Habilidad especial: Liberación de Esporas.
-     * Aumenta defensa y defensa especial en 20%.
-     * Crea efectos visuales de nube de esporas.
-     */
-    public void powderRelease() {
-        System.out.println("¡Venusaur libera una nube de esporas desde su flor!");
-        this.defense = (int)(this.defense * 1.2);
-        this.specialDefense = (int)(this.specialDefense * 1.2);
-    }
-
     @Override
     public Venusaur clone() {
         Venusaur cloned = (Venusaur) super.clone();

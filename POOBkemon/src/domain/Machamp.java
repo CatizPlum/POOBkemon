@@ -12,11 +12,6 @@ public class Machamp extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Machamp. Inicializa sus estadísticas base y movimientos.
-     * Estadísticas destacadas:
-     * - Ataque físico extremadamente alto (394)
-     * - Defensa física sólida (284)
-     * - HP considerable (384)
-     * - Velocidad baja (207)
      */
     public Machamp() {
         this.name = "Machamp";
@@ -48,18 +43,8 @@ public class Machamp extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Aplica la habilidad pasiva de Machamp que potencia movimientos físicos.
-     * Incrementa el poder de los movimientos de categoría PHYSICAL en un 25%.
-     * @param move Movimiento a potenciar
+     * Crea una copia exacta de este Machamp.
      */
-    public void applyPassiveAbility(Move move) {
-        if (move.getCategory() == MoveCategory.PHYSICAL) {
-            double boostedPower = move.getPower() * 1.25;
-            move.setPower((int) boostedPower);
-            System.out.println(this.name + "'s BruteForceBoost increases " + move.getName() + "'s power to " + move.getPower());
-        }
-    }
-
     @Override
     public Machamp clone() {
         Machamp cloned = (Machamp) super.clone();

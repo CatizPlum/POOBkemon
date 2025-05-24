@@ -12,12 +12,6 @@ public class Moltres extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Moltres. Inicializa sus estadísticas base como Pokémon legendario.
-     * Características principales:
-     * - Ataque especial muy alto (350)
-     * - Defensas equilibradas (280)
-     * - HP legendario (380)
-     * - Tipo dual Fuego/Volador
-     * - Velocidad decente (290)
      */
     public Moltres() {
         this.name = "Moltres";
@@ -68,44 +62,9 @@ public class Moltres extends AbstractPokemon implements Serializable {
         super.heal(amount);
     }
 
-    // Métodos especiales de Moltres
-
     /**
-     * Ataque característico: Fire Blast.
-     * Movimiento de tipo Fuego con alta potencia y posibilidad de quemar.
-     * Potencia: 110 | Precisión: 85% | Probabilidad de quemar: 10%
+     * Crea una copia exacta de este Moltres.
      */
-    public void fireBlast() {
-        System.out.println("¡Moltres lanza un devastador Fire Blast! ¡Puede causar quemaduras!");
-    }
-
-    /**
-     * Ataque único: Burn Up.
-     * Libera todo su poder ígneo pero pierde temporalmente el tipo Fuego.
-     * Potencia: 130 | Elimina tipo Fuego hasta que descanse
-     */
-    public void burnUp() {
-        System.out.println("¡Moltres usa Burn Up, liberando todo su poder ígneo! (Pierde tipo Fuego temporalmente)");
-    }
-
-    /**
-     * Técnica solar: Solar Beam.
-     * Carga energía solar para un potente ataque de tipo Planta.
-     * Potencia: 120 | Requiere carga (excepto bajo luz solar intensa)
-     */
-    public void solarBeam() {
-        System.out.println("¡Moltres absorbe energía solar para lanzar un poderoso Solar Beam!");
-    }
-
-    /**
-     * Movimiento ancestral: Ancient Power.
-     * Ataque de tipo Roca con posibilidad de aumentar todas las estadísticas.
-     * Potencia: 60 | 10% de aumentar ataque/defensa/velocidad en 1 nivel
-     */
-    public void ancientPower() {
-        System.out.println("¡Moltres invoca poder ancestral! Puede aumentar todas sus estadísticas.");
-    }
-
     @Override
     public Moltres clone() {
         Moltres cloned = (Moltres) super.clone();

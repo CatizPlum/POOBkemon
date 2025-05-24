@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Zangoose extends AbstractPokemon  implements Serializable {
 
-    private boolean clawTemper;  // Indica si Zangoose está en estado de furia (por daño recibido)
+    private boolean clawTemper;
 
     /**
      * Constructor de Zangoose.
@@ -22,12 +22,12 @@ public class Zangoose extends AbstractPokemon  implements Serializable {
         this.secondaryType = null;
         this.maxHP = 350;
         this.currentHP = maxHP;
-        this.attack = 361;       // Alto ataque físico
+        this.attack = 361;
         this.defense = 240;
         this.specialAttack = 240;
         this.specialDefense = 240;
-        this.speed = 306;        // Alta velocidad
-        this.clawTemper = false; // Comienza calmado
+        this.speed = 306;
+        this.clawTemper = false;
 
         this.moves = new ArrayList<>();
         initializeMoves();
@@ -35,7 +35,6 @@ public class Zangoose extends AbstractPokemon  implements Serializable {
 
     /**
      * Inicializa los movimientos que Zangoose puede aprender.
-     * (Nota: Los movimientos actuales son placeholders y deberían ser reemplazados)
      */
     @Override
     public void initializeMoves() {
@@ -76,26 +75,8 @@ public class Zangoose extends AbstractPokemon  implements Serializable {
     }
 
     /**
-     * Verifica si Zangoose está en estado de furia.
-     * @return true si está furioso, false en caso contrario
+     * Crea una copia exacta de este Zangoose.
      */
-    public boolean isClawTemperActive() {
-        return clawTemper;
-    }
-
-    /**
-     * Acción especial donde Zangoose muestra sus garras.
-     * Tiene diferente comportamiento dependiendo de su estado emocional.
-     */
-    public void brandishClaws() {
-        if (clawTemper) {
-            System.out.println("¡Zangoose muestra sus garras con furia, listo para la batalla!");
-            // En una implementación completa, esto podría aumentar su ataque
-        } else {
-            System.out.println("Zangoose mantiene la calma, observando a su oponente.");
-        }
-    }
-
     @Override
     public Zangoose clone() {
         Zangoose cloned = (Zangoose) super.clone();

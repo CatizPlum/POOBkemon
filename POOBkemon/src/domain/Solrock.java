@@ -12,21 +12,11 @@ public class Solrock extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Solrock tiene energía solar acumulada.
-     * Cuando es true:
-     * - Potencia sus movimientos de tipo Fuego y Psíquico
-     * - Permite usar Solar Beam sin carga
-     * - Aumenta su capacidad defensiva
      */
     private boolean solarEnergy;
 
     /**
      * Constructor de Solrock. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Defensa física sólida (295)
-     * - Ataque físico considerable (317)
-     * - Tipo dual Roca/Psíquico
-     * - HP moderado (344)
-     * - Velocidad decente (262)
      */
     public Solrock() {
         this.name = "Solrock";
@@ -62,9 +52,6 @@ public class Solrock extends AbstractPokemon implements Serializable {
     /**
      * Método para recibir daño. Afecta su reserva de energía solar.
      * @param amount Cantidad de daño recibido
-     *
-     * Efecto secundario:
-     * - Pierde energía solar si recibe daño significativo (>25% HP máximo)
      */
     @Override
     public void takeDamage(int amount) {
@@ -89,40 +76,8 @@ public class Solrock extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica el estado de energía solar de Solrock.
-     * @return true si tiene energía solar acumulada, false en caso contrario
+     * Crea una copia exacta de este Solrock.
      */
-    public boolean hasSolarEnergy() {
-        return solarEnergy;
-    }
-
-    /**
-     * Ataque especial: Solar Beam.
-     * Solo funciona cuando Solrock tiene energía solar acumulada.
-     * Potencia: 120 | Tipo: Planta | Sin necesidad de carga con energía solar
-     */
-    public void solarBeam() {
-        if (solarEnergy) {
-            System.out.println("¡Solrock desata un rayo de energía solar!");
-        } else {
-            System.out.println("Solrock necesita recargar energía solar.");
-        }
-    }
-
-    /**
-     * Cambio climático: Sunny Day.
-     * Activa luz solar intensa y recarga energía solar.
-     * Efectos:
-     * - Recarga energía solar automáticamente
-     * - Potencia movimientos de tipo Fuego en 50%
-     * - Reduce potencia de movimientos Agua en 50%
-     * - Dura 5 turnos
-     */
-    public void sunnyDay() {
-        System.out.println("¡Solrock invoca el sol con Sunny Day!");
-        solarEnergy = true;
-    }
-
     @Override
     public Solrock clone() {
         Solrock cloned = (Solrock) super.clone();

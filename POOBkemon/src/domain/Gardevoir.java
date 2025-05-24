@@ -12,22 +12,11 @@ public class Gardevoir extends AbstractPokemon implements Serializable {
 
     /**
      * Indica el estado emocional de Gardevoir.
-     * Cuando es true:
-     * - Gardevoir puede usar sus habilidades al máximo potencial
-     * - Representa su estado de armonía mental
-     *
-     * Se pierde al recibir daño significativo (>25% HP máximo)
-     * Se recupera al estar por encima del 70% de salud
      */
     private boolean emotionalBalance;
 
     /**
      * Constructor de Gardevoir. Inicializa sus estadísticas base, tipos y movimientos.
-     * Estadísticas destacadas:
-     * - Ataque especial excepcional (383)
-     * - Defensa especial alta (361)
-     * - HP moderado (340)
-     * - Tipo dual Psíquico/Hada
      */
     public Gardevoir() {
         this.name = "Gardevoir";
@@ -62,9 +51,6 @@ public class Gardevoir extends AbstractPokemon implements Serializable {
     /**
      * Método para recibir daño. Afecta el equilibrio emocional de Gardevoir.
      * @param amount Cantidad de daño recibido
-     *
-     * Efecto secundario:
-     * - Pierde equilibrio emocional si el daño >25% HP máximo
      */
     @Override
     public void takeDamage(int amount) {
@@ -89,26 +75,8 @@ public class Gardevoir extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica el estado emocional de Gardevoir.
-     * @return true si está en equilibrio emocional, false en caso contrario
+     * Crea una copia exacta de este Gardevoir.
      */
-    public boolean isEmotionallyBalanced() {
-        return emotionalBalance;
-    }
-
-    /**
-     * Ataque especial: Psychic Burst.
-     * Solo funciona cuando Gardevoir está en equilibrio emocional.
-     * Representa la explosión de poder psíquico cuando está centrada.
-     */
-    public void psychicBurst() {
-        if (emotionalBalance) {
-            System.out.println("¡Gardevoir desata una explosión psíquica devastadora!");
-        } else {
-            System.out.println("Gardevoir no está centrada para usar su poder.");
-        }
-    }
-
     @Override
     public Gardevoir clone() {
         Gardevoir cloned = (Gardevoir) super.clone();

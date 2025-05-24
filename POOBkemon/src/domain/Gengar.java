@@ -13,23 +13,11 @@ public class Gengar extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Gengar está en su Forma Sombra.
-     * Cuando es true:
-     * - Reduce el daño físico recibido en 30%
-     * - Aumenta su velocidad en 20%
-     * - Aumenta su ataque especial en 10%
-     *
-     * Requiere al menos 30% de salud para activarse
-     * Se desactiva al curarse completamente
      */
     private boolean shadowForm;
 
     /**
      * Constructor de Gengar. Inicializa sus estadísticas base, tipos y movimientos.
-     * Estadísticas destacadas:
-     * - Velocidad muy alta (350)
-     * - Ataque especial excepcional (394)
-     * - Defensas moderadas
-     * - Tipo dual Fantasma/Veneno
      */
     public Gengar() {
         this.name = "Gengar";
@@ -100,53 +88,9 @@ public class Gengar extends AbstractPokemon implements Serializable {
         return currentHP == 0;
     }
 
-    // Métodos específicos de Gengar
-
     /**
-     * Verifica si Gengar está en Forma Sombra.
-     * @return true si está en Forma Sombra, false en caso contrario
+     * Crea una copia exacta de este Gengar.
      */
-    public boolean isInShadowForm() {
-        return shadowForm;
-    }
-
-    /**
-     * Activa la Forma Sombra de Gengar si tiene suficiente salud (>30% HP).
-     * Efectos:
-     * - Aumenta velocidad en 20%
-     * - Aumenta ataque especial en 10%
-     * - Reduce daño físico recibido
-     */
-    public void enterShadowForm() {
-        if (!shadowForm && currentHP > maxHP * 0.3) {
-            shadowForm = true;
-            this.speed = (int)(this.speed * 1.2);
-            this.specialAttack = (int)(this.specialAttack * 1.1);
-            System.out.println("¡Gengar se sumerge en las sombras! Su velocidad y ataque especial aumentan.");
-        } else {
-            System.out.println("Gengar no tiene suficiente energía para entrar en forma sombra.");
-        }
-    }
-
-    /**
-     * Ataque especial: Steal Soul.
-     * Drena vida del oponente y potencia temporalmente su ataque especial.
-     * Efectos:
-     * - Aumenta ataque especial en 30% (temporal)
-     * - Recupera 20% de su HP máximo
-     */
-    public void stealSoul() {
-        System.out.println("¡Gengar intenta robar el alma de su oponente!");
-
-        // Potenciación temporal
-        this.specialAttack = (int)(this.specialAttack * 1.3);
-
-        // Curación por drenaje
-        int healAmount = maxHP / 5;
-        heal(healAmount);
-        System.out.println("¡Gengar recupera " + healAmount + " PS!");
-    }
-
     @Override
     public Gengar clone() {
         Gengar cloned = (Gengar) super.clone();

@@ -9,8 +9,7 @@ import java.util.ArrayList;
  * daño significativo y le permite realizar ataques potenciados.
  */
 public class Absol extends AbstractPokemon implements Serializable {
-
-    /** Indica si Absol está bajo el efecto de un mal presagio (Superstición). */
+    // Indica si Absol está bajo el efecto de un mal presagio (Superstición)
     private boolean hasSuperstition;
 
     /**
@@ -77,25 +76,9 @@ public class Absol extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica si Absol está bajo el efecto de Superstición.
-     * @return `true` si está bajo el efecto, `false` en caso contrario.
+     * Crea y devuelve una copia de este objeto Absol.
+     * @return Un clon de esta instancia de Absol.
      */
-    public boolean hasSuperstition() {
-        return hasSuperstition;
-    }
-
-    /**
-     * Ataque especial de Absol que solo funciona si está bajo Superstición.
-     * Muestra un mensaje descriptivo dependiendo del estado.
-     */
-    public void darkFury() {
-        if (hasSuperstition) {
-            System.out.println("¡Absol desata su furia oscura con un ataque devastador!");
-        } else {
-            System.out.println("Absol no está bajo un mal presagio en este momento.");
-        }
-    }
-
     @Override
     public Absol clone() {
         Absol cloned = (Absol) super.clone();
@@ -103,4 +86,3 @@ public class Absol extends AbstractPokemon implements Serializable {
         return cloned;
     }
 }
-

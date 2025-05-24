@@ -13,10 +13,6 @@ public class Delibird extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Delibird. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Estadísticas generales bajas
-     * - Tipo dual Hielo/Volador
-     * - Movimientos variados que incluyen ataques rápidos y técnicas de apoyo
      */
     public Delibird() {
         this.name = "Delibird";
@@ -36,7 +32,6 @@ public class Delibird extends AbstractPokemon implements Serializable {
 
     /**
      * Inicializa los movimientos que Delibird puede aprender por defecto.
-     * Incluye movimientos de diversos tipos para versatilidad en combate.
      */
     @Override
     public void initializeMoves() {
@@ -50,37 +45,38 @@ public class Delibird extends AbstractPokemon implements Serializable {
 
     /**
      * Habilidad especial: Entrega un regalo con efectos aleatorios al oponente.
-     * Puede tener tres resultados posibles con igual probabilidad:
-     * 1. Daño (50 puntos)
-     * 2. Curación (30 puntos)
-     * 3. Mejora de ataque (+10 puntos)
-     *
-     * @param opponent El Pokémon oponente que recibirá el efecto
      */
     public void surpriseGift(Pokemon opponent) {
+        if (opponent == null) {
+            throw new IllegalArgumentException("El oponente no puede ser null");
+        }
+
         Random rand = new Random();
         int effect = rand.nextInt(3);  // Genera un valor aleatorio entre 0 y 2
 
         switch (effect) {
             case 0:
                 System.out.println("Delibird entrega un regalo explosivo al oponente.");
-                opponent.takeDamage(50);  // Inflige daño
+                opponent.takeDamage(50);  // Inflige daño fijo
                 break;
 
             case 1:
                 System.out.println("Delibird entrega un regalo curativo al oponente.");
-                opponent.heal(30);  // Cura
+                opponent.heal(30);  // Curación fija
                 break;
 
             case 2:
                 System.out.println("Delibird entrega un regalo que aumenta las estadísticas del oponente.");
                 if (opponent instanceof AbstractPokemon) {
-                    ((AbstractPokemon) opponent).incrementAttack(10);  // Aumenta ataque
+                    ((AbstractPokemon) opponent).incrementAttack(10);  // Mejora de ataque
                 }
                 break;
         }
     }
 
+    /**
+     * Crea y devuelve una copia exacta de este objeto Delibird.
+     */
     @Override
     public Delibird clone() {
         Delibird cloned = (Delibird) super.clone();

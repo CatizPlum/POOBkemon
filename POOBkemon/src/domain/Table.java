@@ -2,8 +2,20 @@ package domain;
 
 import java.io.Serializable;
 
+/**
+ * Clase que calcula la efectividad de un tipo de daño contra uno o dos tipos de defensa.
+ * Utiliza reglas basadas en los tipos Pokémon para determinar el multiplicador de daño,
+ * considerando resistencias, debilidades e inmunidades.
+ */
 public class Table implements Serializable {
-
+    /**
+     * Calcula el multiplicador de efectividad de un tipo de daño contra uno o dos tipos de defensa.
+     *
+     * @param damage El tipo de daño (tipo del ataque).
+     * @param a Primer tipo del Pokémon defensor.
+     * @param b Segundo tipo del Pokémon defensor (puede ser igual al primero si solo tiene un tipo).
+     * @return El multiplicador de daño resultante según la tabla de tipos.
+     */
     public static double adv(Type damage, Type a, Type b) {
         double primary = 1;
         double secondary = 1;
@@ -91,7 +103,7 @@ public class Table implements Serializable {
             }
             if (b == Type.DARK){
                 secondary = 0.5;
-            } 
+            }
             if (a == Type.GHOST || a == Type.PSYCHIC){
                 primary = 2;
             }
@@ -103,7 +115,7 @@ public class Table implements Serializable {
             }
             if (b == Type.DARK){
                 secondary = 0.5;
-            } 
+            }
             if (a == Type.NORMAL){
                 primary = 0;
             }
@@ -279,7 +291,7 @@ public class Table implements Serializable {
                 secondary = 2;
             }
         }
-    
+
         return primary * secondary;
     }
 }

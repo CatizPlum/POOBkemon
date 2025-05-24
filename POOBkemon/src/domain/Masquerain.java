@@ -14,11 +14,6 @@ public class Masquerain extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Masquerain. Inicializa sus estadísticas base y movimientos.
-     * Estadísticas destacadas:
-     * - Defensa especial notable (289)
-     * - Ataque especial decente (284)
-     * - Tipos duales (Bicho/Volador)
-     * - Velocidad moderada (240)
      */
     public Masquerain(){
         this.name = "Masquerain";
@@ -60,13 +55,8 @@ public class Masquerain extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica el estado de intimidación ocular.
-     * @return true si está en modo de intimidación, false en caso contrario
+     * Crea una copia exacta de este Masquerain.
      */
-    public boolean isEyeThreatenedMode() {
-        return eyeThreatenedMode;
-    }
-
     @Override
     public Masquerain clone() {
         Masquerain cloned = (Masquerain) super.clone();

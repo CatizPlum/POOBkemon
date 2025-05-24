@@ -14,10 +14,6 @@ public class Manectric extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Manectric. Inicializa sus estadísticas base y movimientos.
-     * Estadísticas destacadas:
-     * - Alta velocidad y ataque especial (339)
-     * - HP moderado (344)
-     * - Defensas equilibradas (240)
      */
     public Manectric() {
         this.name = "Manectric";
@@ -59,32 +55,8 @@ public class Manectric extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Activa el estado de sobrecarga, aumentando la velocidad en un 30%.
+     * Crea una copia exacta de este Manectric.
      */
-    public void enterOverchargeState() {
-        if (!overcharged) {
-            this.speed = (int)(this.speed * 1.3);
-            this.overcharged = true;
-            System.out.println("⚡ Manectric entra en estado de sobrecarga: ¡su velocidad se incrementa un 30%!");
-        } else {
-            System.out.println("Manectric ya está en estado de sobrecarga.");
-        }
-    }
-
-    /**
-     * Aplica el bonus de sobrecarga a movimientos eléctricos.
-     * Potencia el movimiento en un 30% y consume el estado de sobrecarga.
-     * @param move Movimiento a potenciar
-     */
-    public void applyOverchargeBonus(Move move) {
-        if (overcharged && move.getType() == Type.ELECTRIC) {
-            int boostedPower = (int)(move.getPower() * 1.3);
-            move.setPower(boostedPower);
-            System.out.println("El estado de sobrecarga potencia " + move.getName() + " a " + boostedPower + " de poder.");
-            this.overcharged = false;
-        }
-    }
-
     @Override
     public Manectric clone() {
         Manectric cloned = (Manectric) super.clone();

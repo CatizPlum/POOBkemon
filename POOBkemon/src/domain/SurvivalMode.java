@@ -3,8 +3,15 @@ package domain;
 import java.io.Serializable;
 import java.util.*;
 
-
+/**
+ * Clase que gestiona la generación de equipos de Pokémon en el modo Supervivencia.
+ * Permite crear equipos aleatorios de seis Pokémon con estadísticas escaladas al nivel 100,
+ * asegurando que cada Pokémon tenga exactamente cuatro movimientos.
+ */
 public class SurvivalMode implements Serializable {
+    /**
+     * Lista de clases de Pokémon disponibles para el modo Supervivencia.
+     */
     private static final List<Class<? extends AbstractPokemon>> POKEMON_CLASSES = Arrays.asList(
             Absol.class, Altaria.class, Banette.class, Blastoise.class, Blaziken.class,
             Charizard.class, Crobat.class, Delibird.class, Donphan.class, Dragonite.class,
@@ -16,7 +23,11 @@ public class SurvivalMode implements Serializable {
             Zangoose.class
     );
 
-
+    /**
+     * Genera un equipo aleatorio de seis Pokémon para el modo Supervivencia.
+     * Cada Pokémon tiene sus estadísticas escaladas al nivel 100 y exactamente cuatro movimientos.
+     * @return Lista con seis Pokémon generados aleatoriamente.
+     */
     public static List<Pokemon> generateRandomTeam() {
         List<Class<? extends AbstractPokemon>> shuffledClasses = new ArrayList<>(POKEMON_CLASSES);
         Collections.shuffle(shuffledClasses);
@@ -38,9 +49,13 @@ public class SurvivalMode implements Serializable {
         return team;
     }
 
+    /**
+     * Escala las estadísticas de un Pokémon al nivel 100.
+     * @param pokemon El Pokémon cuyas estadísticas serán escaladas.
+     */
     private static void scalePokemonToLevel100(AbstractPokemon pokemon) {
         // Escalar estadísticas a nivel 100 (simplificado)
-        double scale = 2.0; // Factor de escala aproximado de nivel 50 a 100
+        double scale = 2.0;
 
         pokemon.maxHP = (int)(pokemon.maxHP * scale);
         pokemon.currentHP = pokemon.maxHP;
@@ -51,6 +66,11 @@ public class SurvivalMode implements Serializable {
         pokemon.speed = (int)(pokemon.speed * scale);
     }
 
+    /**
+     * Asegura que un Pokémon tenga exactamente cuatro movimientos.
+     * Si tiene menos, se agregan movimientos aleatorios; si tiene más, se eliminan.
+     * @param pokemon El Pokémon al que se ajustarán los movimientos.
+     */
     private static void ensureFourMoves(AbstractPokemon pokemon) {
         // Asegurar que el Pokémon tenga exactamente 4 movimientos
         while (pokemon.getMoves().size() < 4) {
@@ -64,6 +84,10 @@ public class SurvivalMode implements Serializable {
         }
     }
 
+    /**
+     * Obtiene el nombre de un movimiento aleatorio de una lista predefinida.
+     * @return Nombre de un movimiento aleatorio.
+     */
     private static String getRandomMoveName() {
         // Movimientos disponibles (simplificado)
         String[] moves = {

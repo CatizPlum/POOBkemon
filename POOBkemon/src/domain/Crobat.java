@@ -12,22 +12,18 @@ public class Crobat extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Crobat. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Velocidad extremadamente alta (394)
-     * - Estadísticas defensivas moderadas
-     * - Movimientos que aprovechan su velocidad y tipo dual
      */
     public Crobat() {
         this.name = "Crobat";
         this.primaryType = Type.POISON;
         this.secondaryType = Type.FLYING;
-        this.maxHP = 374;  // HP ligeramente menor que Seviper
+        this.maxHP = 374;
         this.currentHP = maxHP;
-        this.attack = 306;  // Ataque físico más bajo
-        this.defense = 284;  // Defensa más baja
-        this.specialAttack = 262;  // Ataque especial más bajo
-        this.specialDefense = 284;  // Defensa especial más baja
-        this.speed = 394;  // Velocidad mucho mayor (Crobat es uno de los Pokémon más rápidos)
+        this.attack = 306;
+        this.defense = 284;
+        this.specialAttack = 262;
+        this.specialDefense = 284;
+        this.speed = 394;
 
         this.moves = new ArrayList<>();
 
@@ -36,7 +32,6 @@ public class Crobat extends AbstractPokemon implements Serializable {
 
     /**
      * Inicializa los movimientos que Crobat puede aprender por defecto.
-     * Movimientos enfocados en su tipo Veneno/Volador y ataques rápidos.
      */
     @Override
     public void initializeMoves() {
@@ -50,47 +45,17 @@ public class Crobat extends AbstractPokemon implements Serializable {
 
     /**
      * Cura a Crobat. Sobreescribe el método base sin modificaciones adicionales.
-     * @param amount Cantidad de HP a recuperar
+     * @param amount Cantidad de HP a recuperar (debe ser un valor positivo)
      */
     @Override
     public void heal(int amount) {
         super.heal(amount);
     }
 
-    // Métodos especiales de Crobat
 
     /**
-     * Ataque característico de Crobat: Cross Poison.
-     * Tiene alta probabilidad de golpe crítico gracias a la velocidad de Crobat.
+     * Crea y devuelve una copia exacta de este objeto Crobat.
      */
-    public void crossPoison() {
-        System.out.println("¡Crobat usa Cross Poison con alta probabilidad de golpe crítico!");
-    }
-
-    /**
-     * Ataque aéreo que puede hacer retroceder al oponente.
-     * Aprovecha el tipo Volador y la velocidad de Crobat.
-     */
-    public void airSlash() {
-        System.out.println("¡Crobat corta el aire con sus alas! Puede hacer retroceder al oponente.");
-    }
-
-    /**
-     * Ataque táctico que permite cambiar de Pokémon después de atacar.
-     * Ideal para estrategias de rotación de equipo.
-     */
-    public void uTurn() {
-        System.out.println("¡Crobat usa U-turn, atacando y luego cambiando de Pokémon!");
-    }
-
-    /**
-     * Ataque poderoso con efecto de retroceso.
-     * Representa el estilo de ataque de alto riesgo/recompensa de Crobat.
-     */
-    public void braveBird() {
-        System.out.println("¡Crobat se lanza en picado con Brave Bird! Causa daño pero también recibe retroceso.");
-    }
-
     @Override
     public Crobat clone() {
         Crobat cloned = (Crobat) super.clone();

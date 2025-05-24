@@ -6,8 +6,8 @@ import java.io.Serializable;
  * Enumeración que representa los tipos elementales en el sistema Pokémon.
  * Implementa Serializable para permitir la serialización de objetos que lo contengan.
  *
- * <p>Los tipos determinan fortalezas, debilidades e inmunidades en los combates,
- * siguiendo las reglas estándar de la franquicia Pokémon.</p>
+ * Los tipos determinan fortalezas, debilidades e inmunidades en los combates,
+ * siguiendo las reglas estándar de la franquicia Pokémon.
  */
 public enum Type implements Serializable {
     /** Tipo Fuego - Efectivo contra Planta, Hielo, Bicho, Acero */

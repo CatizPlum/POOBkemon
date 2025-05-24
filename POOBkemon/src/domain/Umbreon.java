@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Umbreon extends AbstractPokemon implements Serializable {
 
-    private boolean isInDarkness;  // Indica si Umbreon está en estado de oscuridad (HP < 50%)
+    private boolean isInDarkness;
 
     /**
      * Constructor de Umbreon.
@@ -27,7 +27,6 @@ public class Umbreon extends AbstractPokemon implements Serializable {
         this.specialAttack = 240;
         this.specialDefense = 394;
         this.speed = 251;
-
         this.moves = new ArrayList<>();
         this.isInDarkness = false;
 
@@ -76,33 +75,8 @@ public class Umbreon extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica si Umbreon está en estado de oscuridad.
-     * @return true si está en oscuridad (HP < 50%), false en caso contrario
+     * Crea una copia exacta de este Umbreon.
      */
-    public boolean isInDarkness() {
-        return isInDarkness;
-    }
-
-    /**
-     * Habilidad especial Moonlight que recupera salud cuando está en oscuridad.
-     * Recupera un 25% de su salud máxima.
-     */
-    public void moonlight() {
-        if (isInDarkness) {
-            System.out.println("¡Umbreon se recupera en la oscuridad con Moonlight!");
-            heal(maxHP / 4);
-        } else {
-            System.out.println("Umbreon necesita estar en la oscuridad para utilizar Moonlight.");
-        }
-    }
-
-    /**
-     * Habilidad Sincronía que comparte efectos negativos con el oponente.
-     */
-    public void synchronizeStatus() {
-        System.out.println("¡Umbreon utiliza Sincronía para compartir efectos negativos con el oponente!");
-    }
-
     @Override
     public Umbreon clone() {
         Umbreon cloned = (Umbreon) super.clone();

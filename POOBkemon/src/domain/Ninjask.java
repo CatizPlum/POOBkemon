@@ -18,11 +18,6 @@ public class Ninjask extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Ninjask. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Velocidad extremadamente alta (460 - la más alta de todos los Pokémon)
-     * - Ataque físico decente (306)
-     * - Defensas moderadas (~210)
-     * - Tipo dual Bicho/Volador
      */
     public Ninjask() {
         this.name = "Ninjask";
@@ -35,7 +30,7 @@ public class Ninjask extends AbstractPokemon implements Serializable {
         this.defense = 207;
         this.specialAttack = 218;
         this.specialDefense = 218;
-        this.speed = 460; // Velocidad más alta de todos los Pokémon
+        this.speed = 460;
 
         this.moves = new ArrayList<>();
         initializeMoves();
@@ -58,9 +53,6 @@ public class Ninjask extends AbstractPokemon implements Serializable {
     /**
      * Método que se ejecuta al inicio de cada turno.
      * Implementa la habilidad Speed Boost que aumenta la velocidad cada turno.
-     * Efecto:
-     * - A partir del segundo turno, aumenta velocidad en +10 puntos por turno
-     * - Muestra mensaje cuando aumenta la velocidad
      */
     public void onTurnStart() {
         turnsPassed++;
@@ -70,6 +62,9 @@ public class Ninjask extends AbstractPokemon implements Serializable {
         }
     }
 
+    /**
+     * Crea una copia exacta de este Ninjask.
+     */
     @Override
     public Ninjask clone() {
         Ninjask cloned = (Ninjask) super.clone();

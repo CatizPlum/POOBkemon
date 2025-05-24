@@ -3,9 +3,22 @@ package domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Clase que representa al Pokémon Swampert, la evolución final de Mudkip.
+ * Pokémon de tipo Agua/Tierra conocido por su gran resistencia y fuerza física.
+ * Posee una habilidad especial llamada "Armadura Fangosa" que se activa al recibir
+ * ataques eléctricos, aumentando su defensa.
+ */
 public class Swampert extends AbstractPokemon implements Serializable {
+
+    /**
+     * Indica si la Armadura Fangosa está activa.
+     */
     private boolean muddyArmor;
 
+    /**
+     * Constructor de Swampert. Inicializa sus estadísticas base, tipos y movimientos.
+     */
     public Swampert() {
         this.name = "Swampert";
         this.primaryType = Type.WATER;
@@ -17,12 +30,15 @@ public class Swampert extends AbstractPokemon implements Serializable {
         this.specialAttack = 295;
         this.specialDefense = 306;
         this.speed = 240;
+        this.muddyArmor = false;
 
         this.moves = new ArrayList<>();
-
         initializeMoves();
     }
 
+    /**
+     * Inicializa los movimientos que Swampert puede aprender por defecto.
+     */
     @Override
     public void initializeMoves() {
         learnMove("Leer");
@@ -33,21 +49,13 @@ public class Swampert extends AbstractPokemon implements Serializable {
         learnMove("Water Pulse");
     }
 
-    public void receiveElectricAttack(int amount) {
-        System.out.println("El ataque eléctrico no afecta a Swampert, ¡pero activa su armadura fangosa!");
-        this.defense = (int)(this.defense * 1.2);
-        this.muddyArmor = true;
-    }
-
-    public boolean isMuddyArmorActive() {
-        return muddyArmor;
-    }
-
-
+    /**
+     * Crea y devuelve una copia exacta de este objeto Swampert.
+     */
     @Override
     public Swampert clone() {
         Swampert cloned = (Swampert) super.clone();
+        cloned.muddyArmor = this.muddyArmor;
         return cloned;
     }
-
 }

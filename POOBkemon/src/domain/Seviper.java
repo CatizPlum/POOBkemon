@@ -12,12 +12,6 @@ public class Seviper extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Seviper. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Ataque físico y especial equilibrados (328)
-     * - Tipo dual Veneno/Bicho
-     * - HP decente (350)
-     * - Velocidad moderada (251)
-     * - Defensas moderadas (240)
      */
     public Seviper() {
         this.name = "Seviper";
@@ -67,44 +61,9 @@ public class Seviper extends AbstractPokemon implements Serializable {
         super.heal(amount);
     }
 
-    // === Movimientos Especiales ===
-
     /**
-     * Ataque característico: Sludge Bomb.
-     * Movimiento de tipo Veneno con alta potencia y posibilidad de envenenar.
-     * Potencia: 90 | Probabilidad de envenenar: 30%
+     * Crea una copia exacta de este Seviper.
      */
-    public void sludgeBomb() {
-        System.out.println("¡Seviper lanza Sludge Bomb, cubriendo al oponente en veneno!");
-    }
-
-    /**
-     * Ataque físico: Bug Bite.
-     * Muerde al oponente y consume su baya (si la tiene equipada).
-     * Potencia: 60 | Efecto adicional: Roba efecto de baya del oponente
-     */
-    public void bugBite() {
-        System.out.println("¡Seviper usa Bug Bite, mordiendo con sus poderosas mandíbulas!");
-    }
-
-    /**
-     * Movimiento de estado: Toxic.
-     * Envenena gravemente al oponente con daño incremental.
-     * Precisión: 90% | Daño inicial: 1/16 HP, incrementando cada turno
-     */
-    public void toxic() {
-        System.out.println("¡Seviper usa Toxic y envenena al oponente!");
-    }
-
-    /**
-     * Técnica evasiva: Double Team.
-     * Aumenta la evasión creando ilusiones de sí mismo.
-     * Efecto: Aumenta evasión en 1 nivel (multiplica precisión enemiga por 0.75)
-     */
-    public void doubleTeam() {
-        System.out.println("¡Seviper usa Double Team, aumentando su evasión!");
-    }
-
     @Override
     public Seviper clone() {
         Seviper cloned = (Seviper) super.clone();

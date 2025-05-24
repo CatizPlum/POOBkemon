@@ -12,11 +12,6 @@ public class Medicham extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Medicham. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Velocidad alta (284)
-     * - Ataque físico considerable (295)
-     * - Tipo dual Lucha/Psíquico
-     * - HP relativamente bajo (284) compensado por su agilidad
      */
     public Medicham() {
         this.name = "Medicham";
@@ -49,17 +44,8 @@ public class Medicham extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Habilidad especial: Aura Vision.
-     * Permite a Medicham anticipar los movimientos del oponente.
-     * En un sistema completo, podría:
-     * - Aumentar la evasión
-     * - Revelar el próximo movimiento del oponente
-     * - Mejorar la precisión de sus ataques
+     * Crea una copia exacta de este Medicham.
      */
-    public void auraVision() {
-        System.out.println("Medicham utiliza su visión del aura para anticipar los movimientos del oponente.");
-    }
-
     @Override
     public Medicham clone() {
         Medicham cloned = (Medicham) super.clone();

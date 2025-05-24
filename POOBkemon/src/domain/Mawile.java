@@ -12,20 +12,11 @@ public class Mawile extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Mawile está usando su postura engañosa.
-     * Cuando es true:
-     * - Puede confundir o intimidar al oponente
-     * - Representa su estrategia de combate característica
-     * - Aumenta su efectividad en ataques sorpresa
      */
     private boolean deceivingStance;
 
     /**
      * Constructor de Mawile. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - Ataque y defensa equilibrados (295)
-     * - Tipo dual Acero/Hada con múltiples resistencias
-     * - Postura engañosa activada por defecto
-     * - Velocidad baja (218) pero compensada por su durabilidad
      */
     public Mawile() {
         this.name = "Mawile";
@@ -58,14 +49,10 @@ public class Mawile extends AbstractPokemon implements Serializable {
         learnMove("Water Pulse");
     }
 
-    /**
-     * Verifica el estado de postura engañosa de Mawile.
-     * @return true si está usando su apariencia engañosa, false en caso contrario
-     */
-    public boolean isDeceivingStance() {
-        return deceivingStance;
-    }
 
+    /**
+     * Crea una copia exacta de este Mawile.
+     */
     @Override
     public Mawile clone() {
         Mawile cloned = (Mawile) super.clone();

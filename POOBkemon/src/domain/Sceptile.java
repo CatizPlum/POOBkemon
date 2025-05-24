@@ -12,23 +12,11 @@ public class Sceptile extends AbstractPokemon implements Serializable {
 
     /**
      * Indica si Sceptile tiene sus hojas afiladas.
-     * Cuando es true:
-     * - Sus ataques de tipo Planta son más potentes
-     * - Representa su estado de preparación óptima
-     *
-     * Se pierde al recibir daño significativo (>25% HP máximo)
-     * Se recupera al estar por encima del 70% de salud
      */
     private boolean bladesSharpened;
 
     /**
      * Constructor de Sceptile. Inicializa sus estadísticas base, tipo y movimientos.
-     * Características principales:
-     * - Velocidad muy alta (350)
-     * - Ataque especial considerable (300)
-     * - Tipo Planta puro
-     * - HP moderado (310)
-     * - Hojas inicialmente afiladas
      */
     public Sceptile() {
         this.name = "Sceptile";
@@ -64,9 +52,6 @@ public class Sceptile extends AbstractPokemon implements Serializable {
     /**
      * Método para recibir daño. Afecta el estado de sus hojas.
      * @param amount Cantidad de daño recibido
-     *
-     * Efecto secundario:
-     * - Pierde el filo de sus hojas si el daño >25% HP máximo
      */
     @Override
     public void takeDamage(int amount) {
@@ -91,27 +76,8 @@ public class Sceptile extends AbstractPokemon implements Serializable {
     }
 
     /**
-     * Verifica el estado de las hojas de Sceptile.
-     * @return true si tiene las hojas afiladas, false en caso contrario
+     * Crea una copia exacta de este Sceptile.
      */
-    public boolean areBladesSharpened() {
-        return bladesSharpened;
-    }
-
-    /**
-     * Ataque especial: Leaf Storm.
-     * Tormenta de hojas cuya potencia depende del estado de sus hojas.
-     * Potencia base: 130 (afiladas) | 90 (no afiladas)
-     * Efecto secundario: Reduce el ataque especial en 2 niveles
-     */
-    public void leafStorm() {
-        if (bladesSharpened) {
-            System.out.println("¡Sceptile lanza una tormenta de hojas afiladas devastadora!");
-        } else {
-            System.out.println("Sceptile no ha afilado sus hojas. ¡El ataque pierde potencia!");
-        }
-    }
-
     @Override
     public Sceptile clone() {
         Sceptile cloned = (Sceptile) super.clone();

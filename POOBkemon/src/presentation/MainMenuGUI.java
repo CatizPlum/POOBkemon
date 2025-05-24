@@ -17,10 +17,20 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 import domain.PokemonDefault;
 
+/**
+ * Clase que representa la interfaz gráfica del menú principal del juego POOBkemon.
+ *
+ * Esta clase extiende {@link JFrame} y maneja la carga de fuentes personalizadas,
+ * configuración de la ventana, y la inicialización de la pantalla de inicio con
+ * botones y navegación por teclado.
+ * Contiene los componentes principales del menú, como botones para iniciar el juego
+ * y salir, así como campos para ingreso de nombre y control de selección.
+ *
+ */
 public class MainMenuGUI extends JFrame {
     private Font pokemonEmeraldFont;
     private Font pokemonFontBold;
-    private int selectedButtonIndex = 0; // 0 para START, 1 para SALIR
+    private int selectedButtonIndex = 0;
     private JButton startButton;
     private JButton exitButton;
     private JPanel buttonPanel;
@@ -34,6 +44,24 @@ public class MainMenuGUI extends JFrame {
         configureWindow();
         initStartScreen();
     }
+
+    /**
+     * Carga las fuentes personalizadas necesarias para la aplicación.
+     *
+     * Intenta cargar la fuente "Pokemon Emerald Latin FC" desde las fuentes
+     * instaladas en el sistema con dos estilos:
+     *
+     *   Normal (plain) tamaño 24
+     *   Negrita (bold) tamaño 16
+     *
+     *
+     * Si la fuente personalizada no está disponible o no se puede cargar,
+     * captura la excepción y establece fuentes de respaldo estándar
+     * ("Arial Rounded MT Bold") con estilos y tamaños equivalentes.
+     *
+     * Los objetos {@code pokemonEmeraldFont} y {@code pokemonFontBold} se actualizan
+     * con las fuentes cargadas o con las fuentes de respaldo.
+     * */
 
     private void loadPokemonFonts() {
         try {
@@ -54,6 +82,21 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
+    /**
+     * Configura la ventana principal de la aplicación.
+     *
+     * Este método establece el título, tamaño, comportamiento de cierre,
+     * posición inicial y propiedades de redimensionamiento de la ventana.
+     *
+     * Además, intenta cargar un ícono personalizado para la ventana desde los
+     * recursos internos del proyecto (en la ruta "/front/pokeball.png"). Si la carga
+     * falla, imprime un mensaje de error en la consola.
+     *
+     * Se añade un listener para el evento de redimensionamiento del componente,
+     * el cual llama a {@code revalidate()} para actualizar el layout si fuera necesario.
+     *
+     * Finalmente, invoca {@code initStartScreen()} para inicializar la pantalla de inicio.
+     */
     private void configureWindow() {
         setTitle("POOBkemon - Menú Principal");
         setSize(800, 600);
@@ -80,6 +123,28 @@ public class MainMenuGUI extends JFrame {
         initStartScreen();
     }
 
+    /**
+     * Inicializa la pantalla de inicio de la aplicación.
+     *
+     * Este método limpia el contenido actual del contenedor principal,
+     * resetea las variables de control para el menú y crea una nueva interfaz
+     * con un panel de fondo que muestra una imagen de portada o un fondo colorido
+     * con título en texto si no hay imagen.
+     *
+     * Además, crea un panel con dos botones estilizados ("START" y "SALIR"),
+     * con dibujo personalizado que incluye sombra sutil para el texto y tamaño
+     * adaptativo.
+     *
+     * Se dibuja una flecha negra al lado del botón actualmente seleccionado
+     * para indicar la selección del usuario, y se configuran las teclas de
+     * navegación y acción mediante bindings de teclado.
+     *
+     * El botón "START" inicia la pantalla principal del menú, y el botón "SALIR"
+     * cierra la aplicación.
+     *
+     * Se utiliza un diseño GridBagLayout para el panel de botones para facilitar
+     * la alineación y espaciado de los mismos.
+     */
     private void initStartScreen() {
         getContentPane().removeAll();
         currentMenuButtons.clear();
@@ -254,6 +319,21 @@ public class MainMenuGUI extends JFrame {
     // Variable de clase para almacenar el tamaño de fuente calculado
     private float calculatedFontSize = 22f; // Tamaño base inicial
 
+    /**
+     * Crea un JButton personalizado con un estilo inspirado en Pokémon Esmeralda,
+     * que incluye una fuente específica, sombreado del texto y tamaño dinámico
+     * basado en la longitud del texto.
+     *
+     * El botón calcula el tamaño óptimo de la fuente para ajustarse al texto,
+     * dibuja el texto con sombra para un efecto visual más atractivo y ajusta
+     * el tamaño preferido para que haya un padding adecuado, especialmente en textos largos.
+     *
+     * El botón no muestra el área de contenido ni el enfoque por defecto,
+     * y usa un borde vacío para crear espacio adicional alrededor del texto.
+     *
+     * @param text El texto que se mostrará en el botón.
+     * @return Un JButton con el estilo personalizado y el texto proporcionado.
+     */
     private JButton createEmeraldStyleButton(String text) {
         // Primero calculamos el tamaño de fuente óptimo para el texto más largo
         calculateOptimalFontSize(text);
@@ -315,6 +395,25 @@ public class MainMenuGUI extends JFrame {
         return button;
     }
 
+    /**
+     * Calcula y ajusta el tamaño óptimo de la fuente para el texto del menú,
+     * basándose en un conjunto predefinido de textos que podrían ser los más largos.
+     *
+     * Este método solo realiza el cálculo la primera vez que se llama, usando
+     * una variable de control {@code calculatedFontSize} que inicialmente es 22f.
+     *
+     * El proceso consiste en:
+     *
+     *   Derivar una fuente base con tamaño 22f.
+     *   Medir el ancho de varios textos de ejemplo representativos.
+     *   Determinar el texto más ancho entre esos ejemplos.
+     *   Comparar el ancho máximo con el ancho disponible en el panel (80% del ancho menos un padding de 60px).
+     *   Ajustar el tamaño de fuente proporcionalmente si el texto más ancho no cabe en el espacio disponible.
+     *   Garantizar que el tamaño no sea menor a 16 puntos para mantener legibilidad.
+     *
+     *
+     * @param text El texto para el que se calcula el tamaño de fuente (no se usa directamente en el cálculo actual).
+     */
     private void calculateOptimalFontSize(String text) {
         // Solo calcular una vez (la primera vez que se llama)
         if (calculatedFontSize == 22f) {
@@ -346,7 +445,28 @@ public class MainMenuGUI extends JFrame {
     }
 
 
-
+    /**
+     * Configura los atajos de teclado para el panel dado, permitiendo la navegación
+     * y selección en el menú usando las teclas Enter, Flecha Arriba, Flecha Abajo
+     * y Escape.
+     *
+     * Las acciones asignadas son:
+     *
+     *   Enter: Ejecuta la acción del botón actualmente seleccionado.
+     *   Flecha Arriba: Mueve la selección hacia arriba en la lista de botones.
+     *       Si está en el primer botón, salta al último.
+     *   Flecha Abajo:Mueve la selección hacia abajo en la lista de botones.
+     *       Si está en el último botón, salta al primero.
+     *   Escape: Sale de la aplicación inmediatamente.
+     *
+     *
+     * La selección actual se controla mediante las variables
+     * {@code currentMenuButtons} (lista de botones) y {@code selectedButtonIndex}
+     * (índice del botón seleccionado). Después de cambiar la selección, se
+     * repinta el panel {@code currentButtonPanel} para reflejar visualmente la selección.
+     *
+     * @param panel El {@link JPanel} sobre el que se configuran los atajos de teclado.
+     */
     private void setupKeyBindings(JPanel panel) {
         InputMap inputMap = panel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = panel.getActionMap();
@@ -394,6 +514,14 @@ public class MainMenuGUI extends JFrame {
         });
     }
 
+    /**
+     * Intenta cargar la imagen "Portada.png" desde varias ubicaciones:
+     * 1. Desde el classpath en "/front/" y "/resources/front/".
+     * 2. Desde el sistema de archivos en la ruta relativa al directorio actual.
+     *
+     * @return BufferedImage cargada o null si no se encuentra.
+     * @throws IOException si ocurre un error al leer la imagen.
+     */
     private BufferedImage loadCoverImage() throws IOException {
         String imageName = "Portada.png";
         String[] possiblePaths = {
@@ -414,6 +542,24 @@ public class MainMenuGUI extends JFrame {
         }
         return null;
     }
+
+    /**
+     * Muestra el menú principal de la aplicación con opciones para iniciar un nuevo juego,
+     * ver instrucciones o volver a la pantalla inicial.
+     *
+     * El menú incluye:
+     *
+     *   Botón "NUEVO JUEGO" que lleva a la selección de modo de juego.
+     *   Botón "COMO JUGAR" que muestra instrucciones.
+     *   Botón "VOLVER" que regresa a la pantalla de inicio.
+     *
+     * El panel principal pinta un fondo con una imagen escalada o un color sólido si no hay imagen.
+     * Además, el panel de opciones dibuja una flecha negra al lado del botón seleccionado para
+     * indicar la opción activa.
+     *
+     * Se configuran atajos de teclado para facilitar la navegación por las opciones.
+     *
+     */
 
     private void showMainMenu() {
         getContentPane().removeAll();
@@ -516,6 +662,32 @@ public class MainMenuGUI extends JFrame {
         revalidate();
         repaint();
     }
+    /**
+     * Muestra la interfaz para la selección del jugador 1 o la configuración inicial
+     * según el modo de juego seleccionado.
+     *
+     * Este método soporta diferentes modos:
+     *
+     *   MvsM (Máquina vs Máquina): no se solicita nombre, solo color.
+     *   PvsM (Jugador vs Máquina): se solicita nombre y color del jugador.
+     *   Modo para dos jugadores: se solicita nombre y color para el jugador 1.
+     *   Modo de un jugador: se solicita nombre y color del jugador.
+     *
+     * Dependiendo del modo, al confirmar se ejecutan diferentes acciones:
+     *
+     *   Iniciar modo automático Máquina vs Máquina.
+     *   Mostrar selección de tipo de IA para jugador contra máquina.
+     *   Pasar a la selección del segundo jugador en modo PvP.
+     *
+     * La interfaz incluye un fondo con imagen o color, campos para nombre (según modo),
+     * selector de color y botones para volver o confirmar.
+     *
+     *
+     * @param forTwoPlayers indica si la selección es para un modo de dos jugadores (true)
+     *                      o un solo jugador (false)
+     * @param isSurvivalMode indica si el modo actual es modo supervivencia (true) o no (false)
+     * @param mode cadena que indica el modo de juego, puede ser "MvsM", "PvsM", u otro para modos normales
+     */
     private void showPlayerSelection(boolean forTwoPlayers, boolean isSurvivalMode, String mode) {
         getContentPane().removeAll();
         currentMenuButtons.clear();
@@ -691,6 +863,25 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Muestra la interfaz para la selección del segundo jugador.
+     *
+     * Permite al usuario ingresar el nombre y seleccionar un color para el segundo jugador.
+     * Según el modo de juego (supervivencia o normal), al confirmar:
+     *
+     *   Inicia el juego en modo supervivencia llamando a {@code startGame}.
+     *   Abre la ventana de selección de Pokémon para PvP y cierra la ventana actual.
+     *
+     * Incluye controles para volver a la pantalla anterior y para confirmar la selección.
+     * La ventana tiene un fondo con imagen o color sólido, y los elementos están estilizados
+     * con fuentes y colores personalizados.
+     *
+     *
+     * @param player1Name nombre del primer jugador, usado para pasar a la siguiente pantalla o modo
+     * @param player1Color color asignado al primer jugador
+     * @param isSurvivalMode indica si la selección es para el modo supervivencia (true) o modo normal (false)
+     */
+
     private void showSecondPlayerSelection(String player1Name, Color player1Color, boolean isSurvivalMode) {
         getContentPane().removeAll();
         currentMenuButtons.clear();
@@ -820,6 +1011,28 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Inicia una partida en modo Jugador contra Jugador (PvP).
+     *
+     * Crea dos entrenadores con los nombres y colores proporcionados, asignándoles un equipo completo
+     * de Pokémon (generado por {@link #createAllPokemons()}) y una lista de ítems específica para cada uno.
+     *
+     *
+     * Los ítems para cada entrenador están limitados de la siguiente manera:
+     *
+     *   Jugador 1: hasta 2 pociones y 1 revive
+     *   Jugador 2: hasta 2 superpociones y 1 revive
+     *
+     * Luego crea y muestra la interfaz gráfica del juego {@link GameGUI} con la instancia de {@link Game}
+     * configurada para PvP, pasando ambos entrenadores.
+     * En caso de que ocurra alguna excepción relacionada con el dominio del juego ({@link PoobkemonException}),
+     * se captura y muestra un cuadro de diálogo de error.
+     *
+     * @param player1Name nombre del primer jugador
+     * @param player1Color color asociado al primer jugador
+     * @param player2Name nombre del segundo jugador
+     * @param player2Color color asociado al segundo jugador
+     */
     private void startPvPMode(String player1Name, Color player1Color,
                               String player2Name, Color player2Color) {
         try {
@@ -862,55 +1075,37 @@ public class MainMenuGUI extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    private JButton createPokemonButton(String text) {
-        JButton button = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                if (getModel().isPressed()) {
-                    g2.setColor(new Color(160, 0, 0));
-                } else if (getModel().isRollover()) {
-                    g2.setColor(new Color(200, 0, 0));
-                } else {
-                    g2.setColor(new Color(160, 0, 0));
-                }
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
 
-                g2.setColor(Color.BLACK);
-                g2.setStroke(new BasicStroke(3));
-                g2.drawRoundRect(1, 1, getWidth()-3, getHeight()-3, 10, 10);
+    /**
+     * Muestra el panel con las opciones disponibles para el "Modo Normal" de juego.
+     *
+     * Este método limpia el contenido actual del contenedor principal y configura
+     * una interfaz gráfica que permite al usuario elegir entre las siguientes opciones:
+     *
+     *   JUGADOR vs JUGADOR
+     *   JUGADOR vs MAQUINA
+     *   MAQUINA vs MAQUINA
+     *   VOLVER al menú anterior
+     *
+     * El panel principal utiliza un fondo con imagen escalada si está disponible, o un color sólido en caso contrario.
+     * En el centro, se presenta un título estilizado y botones para cada opción.
+     * Además, se dibuja una flecha negra para indicar visualmente cuál es la opción seleccionada.
+     *
+     * También se configuran atajos de teclado para navegar y seleccionar las opciones usando el teclado.
+     *
+     *
+     * Cada botón ejecuta una acción específica:
+     *
+     *   "JUGADOR vs JUGADOR" muestra la selección de jugadores para partida PvP.
+     *   "JUGADOR vs MAQUINA" muestra la selección de jugador para partida PvM.
+     *   "MAQUINA vs MAQUINA" muestra la selección para partida MvM.
+     *   "VOLVER" regresa al menú de selección de modo de juego.
+     *
+     *
+     * Finalmente, actualiza la interfaz para mostrar la nueva pantalla.
+     */
 
-                g2.setFont(pokemonFontBold);
-                g2.setColor(Color.WHITE);
-
-                // Sombra del texto
-                g2.setColor(new Color(0, 0, 0, 100));
-                g2.drawString(text,
-                        (getWidth() - g2.getFontMetrics().stringWidth(text))/2 + 2,
-                        (getHeight() + g2.getFontMetrics().getAscent() - g2.getFontMetrics().getDescent())/2 + 2);
-
-                // Texto principal
-                g2.setColor(Color.WHITE);
-                g2.drawString(text,
-                        (getWidth() - g2.getFontMetrics().stringWidth(text))/2,
-                        (getHeight() + g2.getFontMetrics().getAscent() - g2.getFontMetrics().getDescent())/2);
-            }
-
-            @Override
-            protected void paintBorder(Graphics g) {
-                // No pintar borde por defecto
-            }
-        };
-
-        button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
-        button.setPreferredSize(new Dimension(250, 50));
-
-        return button;
-    }
 
     private void showNormalModeOptions() {
         getContentPane().removeAll();
@@ -1035,6 +1230,37 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Muestra el panel de selección del modo de juego en la ventana principal.
+     *
+     * Este método limpia el contenido actual del contenedor principal y configura
+     * una nueva interfaz gráfica donde el usuario puede elegir entre diferentes modos
+     * de juego: "Modo Normal", "Modo Supervivencia" o volver al menú principal.
+     *
+     * El panel principal de selección incluye un fondo con una imagen escalada (si está disponible),
+     * un título estilizado y botones para cada opción de modo de juego.
+     * Además, se dibuja una flecha negra indicando el botón actualmente seleccionado para
+     * mejorar la navegación visual con teclado.
+     *
+     * Se configuran también los atajos de teclado para navegar entre los botones y seleccionar opciones.
+     *
+     *
+     * Componentes principales:
+     *
+     *   Fondo con imagen escalada o color sólido si la imagen no está disponible.
+     *   Panel central con título y botones para cada modo de juego.
+     *   Dibujo de una flecha indicando el botón seleccionado.
+     *
+     *
+     * Botones configurados:
+     *
+     *   "MODO NORMAL": Invoca opciones de modo normal.
+     *   "MODO SUPERVIVENCIA": Muestra selección para modo supervivencia (jugador vs jugador).
+     *   "VOLVER": Regresa al menú principal.
+     *
+     *
+     * Este método actualiza y refresca la ventana para mostrar la nueva interfaz.
+     */
     private void showGameModeSelection() {
         getContentPane().removeAll();
         currentMenuButtons.clear();
@@ -1105,22 +1331,22 @@ public class MainMenuGUI extends JFrame {
         JButton survivalModeButton = createEmeraldStyleButton("MODO SUPERVIVENCIA");
         JButton backButton = createEmeraldStyleButton("VOLVER");
 
-// Configurar acciones de los botones
+        // Configurar acciones de los botones
         normalModeButton.addActionListener(e -> showNormalModeOptions());
         survivalModeButton.addActionListener(e -> showPlayerSelection(true, true,"PvsP"));
         backButton.addActionListener(e -> showMainMenu());;
 
-// Añadir botones a la lista de navegación
+        // Añadir botones a la lista de navegación
         currentMenuButtons.add(normalModeButton);
         currentMenuButtons.add(survivalModeButton);
         currentMenuButtons.add(backButton);
 
-// Configurar alineación
+        // Configurar alineación
         normalModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         survivalModeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-// Organizar componentes en el panel
+        // Organizar componentes en el panel
         centerPanel.add(titleLabel);
         centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         centerPanel.add(normalModeButton);
@@ -1143,6 +1369,14 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Aplica un estilo visual personalizado a una etiqueta JLabel para el tema Pokémon.
+     * El estilo incluye una fuente específica en negrita, un color de texto personalizado,
+     * y un borde compuesto que combina un borde negro sólido con un espacio interno.
+     *
+     * @param label La etiqueta JLabel que será estilizada.
+     * @param color El color que se aplicará al texto de la etiqueta.
+     */
     private void stylePokemonLabel(JLabel label, Color color) {
         label.setFont(pokemonFontBold);
         label.setForeground(color);
@@ -1152,6 +1386,13 @@ public class MainMenuGUI extends JFrame {
         ));
     }
 
+    /**
+     * Muestra una ventana emergente con las instrucciones del juego.
+     * El mensaje está formateado en HTML para mejorar la presentación visual,
+     * incluyendo estilos como colores, bordes y tamaños de texto.
+     * Describe brevemente los modos de juego disponibles y los controles básicos.
+     * La ventana utiliza un ícono personalizado escalado para acompañar el mensaje.
+     */
     private void showPokemonInstructions() {
         String message = "<html><div style='width:400px;color:#000;font-family:Arial Rounded MT Bold;'>"
                 + "<div style='background-color:#e8e8e8;border:4px solid #404040;border-radius:10px;padding:15px;'>"
@@ -1170,6 +1411,18 @@ public class MainMenuGUI extends JFrame {
                 createScaledIcon("POOBkemon/resources/front/battle.png", 48, 48));
     }
 
+    /**
+     * Carga una imagen desde un recurso dado y la escala al tamaño especificado.
+     * El método intenta obtener un flujo de entrada del recurso ubicado en la ruta proporcionada,
+     * luego lee la imagen y la escala suavemente a las dimensiones indicadas (ancho x alto).
+     * Si ocurre algún error durante la carga o la lectura, se captura la excepción, se imprime
+     * un mensaje de error y se devuelve {@code null}.
+     *
+     * @param path  la ruta del recurso de la imagen dentro del classpath (ejemplo: "/images/icon.png")
+     * @param width el ancho deseado para la imagen escalada
+     * @param height la altura deseada para la imagen escalada
+     * @return un {@link ImageIcon} con la imagen escalada, o {@code null} si no pudo cargarse o procesarse la imagen
+     */
     private ImageIcon createScaledIcon(String path, int width, int height) {
         try {
             InputStream stream = getClass().getResourceAsStream(path);
@@ -1198,15 +1451,6 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
-    // Sobrecarga para modos single-player
-    private void startGame(String mode, String playerName, Color playerColor) {
-        startGame(mode, playerName, playerColor, "Maquina", new Color(200, 50, 100));
-    }
-
-    // Sobrecarga para compatibilidad (valores por defecto)
-    private void startGame(String mode) {
-        startGame(mode, "Jugador", Color.BLUE, "Maquina", new Color(200, 50, 100));
-    }
 
     /**
      * Inicia el modo supervivencia donde los jugadores no tienen ítems.
@@ -1328,75 +1572,6 @@ public class MainMenuGUI extends JFrame {
 
 
 
-// Métodos auxiliares
-
-    private List<Item> createDefaultItems() {
-        return List.of(
-                new Potion(),
-                new SuperPotion(),
-                new HyperPotion(),
-                new Revive()
-        );
-    }
-
-    /**
-     * Crea un entrenador con un equipo específico de Pokémon e ítems.
-     *
-     * @param name Nombre del entrenador
-     * @param color Color asociado al entrenador
-     * @param items Lista de ítems (debe cumplir con las restricciones: max 2 pociones, 1 revive)
-     * @param pokemonIndices Índices de los Pokémon en la lista completa
-     * @param allPokemons Lista completa de Pokémon disponibles
-     * @return Objeto Trainer configurado
-     * @throws PoobkemonException Si hay problemas al crear el entrenador (ítems inválidos, etc.)
-     */
-    private Trainer createTrainerWithTeam(String name, Color color, List<Item> items,
-                                          List<Integer> pokemonIndices, List<Pokemon> allPokemons)
-            throws PoobkemonException {
-        // Validar parámetros
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del entrenador no puede estar vacío");
-        }
-        if (pokemonIndices == null || allPokemons == null) {
-            throw new IllegalArgumentException("Listas de Pokémon no pueden ser nulas");
-        }
-
-        // Crear equipo clonando los Pokémon seleccionados
-        List<Pokemon> team = new ArrayList<>();
-        for (int index : pokemonIndices) {
-            if (index >= 0 && index < allPokemons.size()) {
-                Pokemon cloned = allPokemons.get(index).clone();
-                team.add(cloned);
-            } else {
-                // Añadir Pokémon por defecto si el índice es inválido
-                team.add(new domain.PokemonDefault());
-            }
-        }
-
-        // Completar equipo con Pokémon por defecto si es necesario
-        while (team.size() < 6) {
-            team.add(new domain.PokemonDefault());
-        }
-
-        // Verificar que los ítems cumplan con las restricciones antes de crear el Trainer
-        Map<String, List<Item>> tempItemMap = new HashMap<>();
-        for (Item item : items) {
-            String key = item.getClass().getSimpleName();
-            List<Item> itemGroup = tempItemMap.computeIfAbsent(key, k -> new ArrayList<>());
-
-            int maxAllowed = (item instanceof Revive) ? 1 : 2;
-            if (itemGroup.size() >= maxAllowed) {
-                throw new PoobkemonException(
-                        "No puedes tener más de " + maxAllowed + " " + key + "(s). " +
-                                "Se intentó añadir: " + items);
-            }
-            itemGroup.add(item);
-        }
-
-        // Crear y retornar el Trainer
-        return new Trainer(name, color, team, new ArrayList<>(items));
-    }
-
     // Sobrecarga para compatibilidad con llamadas existentes
     private void startStandardMode(String mode, String playerName, Color playerColor) {
         startStandardMode(
@@ -1408,6 +1583,15 @@ public class MainMenuGUI extends JFrame {
         );
     }
 
+    /**
+     * Crea y devuelve una lista con todas las instancias de los Pokémon disponibles.
+     * Cada Pokémon se instancia individualmente y se añade a una lista mutable. En caso de
+     * ocurrir alguna excepción durante la creación, se captura el error, se imprime un mensaje
+     * en la consola y se devuelve una lista básica con un conjunto reducido de Pokémon como respaldo.
+     *
+     * @return una lista de objetos {@link Pokemon} que representa todos los Pokémon disponibles;
+     *         en caso de error, devuelve una lista con tres Pokémon básicos (Charizard, Blastoise, Venusaur).
+     */
     private List<Pokemon> createAllPokemons() {
         try {
             // Crear una lista mutable para manejar posibles errores
@@ -1460,96 +1644,23 @@ public class MainMenuGUI extends JFrame {
     }
 
     /**
-     * Crea un entrenador configurado según el modo de juego, con validación de ítems y Pokémon.
+     * Muestra la pantalla de selección del tipo de entrenador de inteligencia artificial (IA).
      *
-     * @param mode Modo de juego ("PvsP", "PvsM", etc.)
-     * @param playerName Nombre del jugador humano (para modos PvsP)
-     * @param aiName Nombre de la IA (para modos contra máquina)
-     * @param color Color asociado al entrenador
-     * @param pokemons Lista de Pokémon para el equipo
-     * @param items Lista de ítems (debe cumplir límites: max 2 pociones, 1 revive)
-     * @return Trainer configurado
-     * @throws PoobkemonException Si los ítems exceden los límites permitidos
-     * @throws IllegalArgumentException Si parámetros son inválidos
+     * Este método limpia el contenido actual del contenedor principal, crea un panel vertical con
+     * botones que representan los diferentes tipos de entrenadores IA disponibles, y permite
+     * al usuario seleccionar uno para iniciar una partida contra dicha IA.
+     * *
+     * El panel contiene:
+     *   Un título que indica la acción a realizar.
+     *   Un botón para cada tipo de entrenador IA ("Agresivo", "Defensivo", "Cambiante", "Experto").
+     *   Un botón para volver al menú anterior.
+     * Al seleccionar un tipo de IA, se crea un objeto {AbstractMachine} correspondiente y
+     * se lanza la partida PvM (Player vs Machine) con el jugador actual y el entrenador IA seleccionado.
+     * En caso de error durante la creación o lanzamiento del juego, se muestra un diálogo de error.
+     *
+     * @param playerName   Nombre del jugador humano actual, usado para iniciar el juego.
+     * @param playerColor  Color asociado al jugador humano, usado para personalización visual.
      */
-    private Trainer createTrainer(String mode, String playerName, String aiName,
-                                  Color color, List<Pokemon> pokemons, List<Item> items)
-            throws PoobkemonException, IllegalArgumentException {
-        // Validaciones básicas de parámetros
-        Objects.requireNonNull(mode, "El modo no puede ser nulo");
-        Objects.requireNonNull(color, "El color no puede ser nulo");
-        Objects.requireNonNull(pokemons, "La lista de Pokémon no puede ser nula");
-        Objects.requireNonNull(items, "La lista de ítems no puede ser nula");
-
-        // Determinar nombre según modo
-        String trainerName = determineTrainerName(mode, playerName, aiName);
-
-        // Validar y clonar Pokémon
-        List<Pokemon> validatedTeam = validateAndClonePokemons(pokemons);
-
-        // Validar ítems antes de crear el Trainer
-        validateItems(items);
-
-        return new Trainer(trainerName, color, validatedTeam, new ArrayList<>(items));
-    }
-
-    /**
-     * Determina el nombre del entrenador según el modo de juego.
-     */
-    private String determineTrainerName(String mode, String playerName, String aiName) {
-        if ("PvsP".equals(mode)) {
-            return (playerName == null || playerName.trim().isEmpty()) ?
-                    "Jugador" : playerName.trim();
-        }
-        return (aiName == null || aiName.trim().isEmpty()) ?
-                "Máquina" : aiName.trim();
-    }
-
-    /**
-     * Valida y clona la lista de Pokémon, asegurando 6 Pokémon válidos.
-     */
-    private List<Pokemon> validateAndClonePokemons(List<Pokemon> pokemons) {
-        List<Pokemon> validated = new ArrayList<>(6);
-
-        // Clonar Pokémon existentes
-        for (Pokemon p : pokemons) {
-            if (p != null) {
-                Pokemon cloned = p.clone(); // Eliminado el try-catch innecesario
-                validated.add(cloned);
-                if (validated.size() >= 6) break;
-            }
-        }
-
-        // Completar con Pokémon por defecto si es necesario
-        while (validated.size() < 6) {
-            validated.add(new domain.PokemonDefault());
-        }
-
-        return validated;
-    }
-
-    /**
-     * Valida que los ítems cumplan con las restricciones (max 2 pociones, 1 revive).
-     * @throws PoobkemonException Si se exceden los límites
-     */
-    private void validateItems(List<Item> items) throws PoobkemonException {
-        Map<String, Integer> itemCounts = new HashMap<>();
-
-        for (Item item : items) {
-            String key = item.getClass().getSimpleName();
-            int maxAllowed = (item instanceof Revive) ? 1 : 2;
-
-            int currentCount = itemCounts.getOrDefault(key, 0);
-            if (currentCount >= maxAllowed) {
-                throw new PoobkemonException(
-                        "Límite excedido: Máximo " + maxAllowed + " " + key +
-                                "(s) permitidos. Intentó agregar: " + items);
-            }
-
-            itemCounts.put(key, currentCount + 1);
-        }
-    }
-
     private void showAITypeSelection(String playerName, Color playerColor) {
         getContentPane().removeAll();
         currentMenuButtons.clear();
@@ -1601,6 +1712,18 @@ public class MainMenuGUI extends JFrame {
         repaint();
     }
 
+    /**
+     * Crea un entrenador controlado por IA según el tipo especificado.
+     *
+     * El equipo base es una sublista de los primeros 6 Pokémon generados por createAllPokemons().
+     * Asocia cada Pokémon con sus movimientos actuales para inicializar el mapa de movimientos.
+     *
+     * @param type Tipo de IA: "Agresivo", "Defensivo", "Cambiante", "Experto".
+     * @param name Nombre del entrenador IA.
+     * @param color Color representativo del entrenador.
+     * @return Instancia concreta de AbstractTrainer según el tipo.
+     * @throws IllegalArgumentException si el tipo es desconocido.
+     */
     private AbstractMachine createAITrainer(String type, String name, Color color) {
         List<Pokemon> team = createAllPokemons().subList(0, 6); // por simplicidad
         Map<Pokemon, List<Move>> moveMap = new HashMap<>();
@@ -1612,7 +1735,7 @@ public class MainMenuGUI extends JFrame {
             case "Agresivo":
                 return new AttackingMachine(name, color, team, moveMap);
             case "Defensivo":
-                return new AttackingMachine(name, color, team, moveMap);
+                return new DefensiveMachine(name, color, team, moveMap);
             case "Cambiante":
                 return new ChangingMachine(name, color, team, moveMap);
             case "Experto":
@@ -1622,6 +1745,23 @@ public class MainMenuGUI extends JFrame {
         }
     }
 
+    /**
+     * Inicia una partida jugador contra máquina (PvM).
+     *
+     * Construye un equipo de 6 Pokémon para el jugador clonando
+     * Pokémon predeterminados (índices 6 a 11 de la lista general).
+     * Asigna al jugador un conjunto de ítems estándar.
+     *
+     * Luego crea un entrenador humano y lanza la interfaz de juego con el entrenador
+     * AI proporcionado.
+     *
+     * Finalmente, cierra la ventana actual.
+     *
+     * @param playerName Nombre del jugador humano.
+     * @param playerColor Color representativo del jugador.
+     * @param aiTrainer Entrenador controlado por IA para el oponente.
+     * @throws PoobkemonException si hay un error al configurar el juego.
+     */
     private void launchPvMGame(String playerName, Color playerColor, AbstractMachine aiTrainer) throws PoobkemonException {
         List<Item> items = List.of(new Potion(), new SuperPotion(), new Revive());
         List<Pokemon> playerTeam = new ArrayList<>();
@@ -1636,7 +1776,18 @@ public class MainMenuGUI extends JFrame {
     }
 
 
-
+    /**
+     * Método principal para iniciar la aplicación POOBkemon.
+     *
+     * Ejecuta la creación de la interfaz gráfica en el hilo de eventos de Swing.
+     *
+     * Se configura el "look and feel" a un tema multiplataforma antes de mostrar
+     * la ventana principal del menú.
+     *
+     * En caso de error al iniciar, muestra un diálogo de error.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {

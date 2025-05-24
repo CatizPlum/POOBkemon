@@ -12,12 +12,6 @@ public class Granbull extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Granbull. Inicializa sus estadísticas base, tipo y movimientos.
-     * Características principales:
-     * - Ataque físico extremadamente alto (372)
-     * - Defensa decente (273)
-     * - HP considerable (384)
-     * - Velocidad baja (207)
-     * - Tipo Hada puro
      */
     public Granbull() {
         this.name = "Granbull";
@@ -49,30 +43,10 @@ public class Granbull extends AbstractPokemon implements Serializable {
         learnMove("Water Pulse");
     }
 
+
     /**
-     * Habilidad especial: Powerful Bite.
-     * Potencia los movimientos de mordida (Bite/Crunch) en un 50%.
-     *
-     * Efecto:
-     * - Aumenta temporalmente el poder de movimientos de mordida
-     * - Muestra mensaje informando del aumento de poder
-     *
-     * Nota: Requiere que Granbull tenga aprendidos los movimientos Bite o Crunch
-     * para que tenga efecto.
+     * Crea una copia exacta de este Granbull.
      */
-    public void powerfulBite() {
-        System.out.println("Granbull ataca con una mordida poderosa.");
-
-        for (Move move : moves) {
-            if (move.getName().equalsIgnoreCase("Bite") || move.getName().equalsIgnoreCase("Crunch")) {
-                int originalPower = move.getPower();
-                int boostedPower = (int)(originalPower * 1.5); // Aumenta el poder en un 50%
-                System.out.println("El poder de " + move.getName() + " aumenta temporalmente de " +
-                        originalPower + " a " + boostedPower + ".");
-            }
-        }
-    }
-
     @Override
     public Granbull clone() {
         Granbull cloned = (Granbull) super.clone();

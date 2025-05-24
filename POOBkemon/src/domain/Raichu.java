@@ -12,12 +12,6 @@ public class Raichu extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Raichu. Inicializa sus estadísticas base, tipo y movimientos.
-     * Características principales:
-     * - Velocidad muy alta (350)
-     * - Ataque físico y especial equilibrados (306)
-     * - Defensa especial considerable (284)
-     * - Tipo Eléctrico puro
-     * - HP moderado (324)
      */
     public Raichu() {
         this.name = "RAICHU";
@@ -63,6 +57,9 @@ public class Raichu extends AbstractPokemon implements Serializable {
         return false;
     }
 
+    /**
+     * Crea una copia exacta de este Raichu.
+     */
     @Override
     public Raichu clone() {
         Raichu cloned = (Raichu) super.clone();

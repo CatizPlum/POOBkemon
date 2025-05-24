@@ -12,12 +12,6 @@ public class Pidgeot extends AbstractPokemon implements Serializable {
 
     /**
      * Constructor de Pidgeot. Inicializa sus estadísticas base, tipos y movimientos.
-     * Características principales:
-     * - HP alto (370) para un Pokémon volador común
-     * - Velocidad considerable (331)
-     * - Ataque físico decente (284)
-     * - Defensas equilibradas (~260)
-     * - Tipo dual Normal/Volador
      */
     public Pidgeot() {
         this.name = "Pidgeot";
@@ -67,43 +61,9 @@ public class Pidgeot extends AbstractPokemon implements Serializable {
         super.heal(amount);
     }
 
-    // === Movimientos Especiales ===
-
     /**
-     * Ataque característico: Hurricane.
-     * Movimiento de tipo Volador con alta potencia y posibilidad de confusión.
-     * Potencia: 110 | Precisión: 70% | Probabilidad de confusión: 30%
+     * Crea una copia exacta de este Pidgeot.
      */
-    public void hurricane() {
-        System.out.println("¡Pidgeot crea un poderoso Hurricane! Puede confundir al oponente.");
-    }
-
-    /**
-     * Técnica de recuperación: Roost.
-     * Cura 50% del HP máximo y pierde temporalmente el tipo Volador.
-     */
-    public void roost() {
-        System.out.println("¡Pidgeot se posa para descansar y recuperar HP!");
-        this.heal(maxHP / 2);
-    }
-
-    /**
-     * Movimiento de estado: Feather Dance.
-     * Reduce el ataque del oponente en 2 niveles.
-     */
-    public void featherDance() {
-        System.out.println("¡Pidgeot realiza un Feather Dance, reduciendo el ataque del oponente!");
-    }
-
-    /**
-     * Ataque poderoso: Sky Attack.
-     * Movimiento de dos turnos con alta potencia y posibilidad de hacer retroceder.
-     * Turno 1: Preparación | Turno 2: Ataque (140 potencia, 30% chance de retroceso)
-     */
-    public void skyAttack() {
-        System.out.println("¡Pidgeot se prepara para un devastador Sky Attack en el próximo turno!");
-    }
-
     @Override
     public Pidgeot clone() {
         Pidgeot cloned = (Pidgeot) super.clone();

@@ -14,7 +14,29 @@ import java.util.*;
 import java.util.List;
 
 import static domain.Type.*;
-
+/**
+ * Interfaz gráfica para la selección del equipo de Pokémon por parte del jugador.
+ *
+ * Esta clase permite al jugador elegir un equipo de 6 Pokémon, seleccionar los movimientos
+ * para cada uno, y maneja tanto los modos jugador contra jugador (PvP) como jugador contra máquina (PvM).
+ *
+ * Atributos principales:
+ * - mode: modo de juego ("PvsP" o "PvsM").
+ * - playerName, playerColor: datos del jugador actual.
+ * - opponentName, opponentColor: datos del oponente.
+ * - isSecondPlayer: indica si esta instancia es para el segundo jugador en PvP.
+ * - firstPlayerTeam, firstPlayerMoves: datos del equipo y movimientos del primer jugador en PvP.
+ * - selectedPokemons, selectedMoves: lista y movimientos del equipo seleccionado actualmente.
+ *
+ * Constructor:
+ *
+ * @param //mode          modo de juego (ej. "PvsP" o "PvsM")
+ * @param //playerName    nombre del jugador actual
+ * @param //playerColor   color asociado al jugador actual
+ * @param //opponentName  nombre del oponente
+ * @param //opponentColor color asociado al oponente
+ * @param //isSecondPlayer indica si esta instancia es para el segundo jugador (PvP)
+ */
 public class PokemonSelectionGUI extends JFrame {
     private static final int POKEMON_PER_TRAINER = 6;
     private static final int MOVES_PER_POKEMON = 4;
@@ -32,52 +54,6 @@ public class PokemonSelectionGUI extends JFrame {
     private List<Pokemon> selectedPokemons = new ArrayList<>();
     private Map<Pokemon, List<Move>> selectedMoves = new HashMap<>();
 
-    public static void main(String[] args) {
-        // 1. PRIMERO verifica recursos
-        testResourceLoading();
-
-        // 2. Solo después inicia la GUI
-        SwingUtilities.invokeLater(() -> {
-            new PokemonSelectionGUI("PvP", "Ash", Color.RED, "Misty", Color.BLUE, false)
-                    .setVisible(true);
-        });
-    }
-
-    private static void testResourceLoading() {
-        System.out.println("=== DIAGNÓSTICO DE RECURSOS ===");
-
-        // Verifica imágenes clave
-        testResource("/pokemon_sprites/6.gif");  // Charizard
-        testResource("/pokemon_sprites/unknown.png");
-
-        // Verifica estructura de directorios
-        URL dirUrl = PokemonSelectionGUI.class.getResource("/pokemon_sprites");
-        System.out.println("Directorio '/pokemon_sprites': " +
-                (dirUrl != null ? "✅ ENCONTRADO" : "❌ NO ENCONTRADO"));
-    }
-
-
-
-    private static void testResource(String path) {
-        // Método 1: Usando getResource (para JARs)
-        URL url = PokemonSelectionGUI.class.getResource(path);
-
-        // Método 2: Ruta física (para desarrollo)
-        String physicalPath = "src/main/resources" + path;
-        File file = new File(physicalPath);
-
-        System.out.println(path + ":");
-        System.out.println("  Como recurso: " + (url != null ? "✅" : "❌"));
-        System.out.println("  Ruta física: " + (file.exists() ? "✅ " + file.getAbsolutePath() : "❌"));
-    }
-
-    private static void checkResource(String path) {
-        URL url = PokemonSelectionGUI.class.getResource(path);
-        System.out.println(path + " → " + (url != null ? "ENCONTRADO" : "NO ENCONTRADO"));
-        if (url != null) {
-            System.out.println("   Ruta física: " + url.getPath());
-        }
-    }
 
     public PokemonSelectionGUI(String mode, String playerName, Color playerColor,
                                String opponentName, Color opponentColor, boolean isSecondPlayer) {
@@ -92,6 +68,15 @@ public class PokemonSelectionGUI extends JFrame {
         initComponents();
     }
 
+    /**
+     * Configura las propiedades básicas de la ventana principal.
+     *
+     * - Establece el título de la ventana incluyendo el nombre del jugador.
+     * - Define el tamaño inicial de la ventana (1000x700 píxeles).
+     * - Configura la operación por defecto al cerrar la ventana (DISPOSE_ON_CLOSE).
+     * - Centra la ventana en la pantalla.
+     * - Permite que la ventana sea redimensionable por el usuario.
+     */
     private void configureWindow() {
         setTitle("POOBkemon - Selección para " + playerName);
         setSize(1000, 700);
@@ -100,6 +85,16 @@ public class PokemonSelectionGUI extends JFrame {
         setResizable(true);
     }
 
+    /**
+     * Inicializa y configura los componentes gráficos principales de la ventana.
+     *
+     * Crea un panel principal con un layout BorderLayout que contiene:
+     * - Un título centrado en la parte superior con el nombre del jugador y la instrucción para seleccionar 6 Pokémon.
+     * - Un panel central con la selección de Pokémon dentro de un JScrollPane para facilitar la navegación.
+     * - Un panel inferior con controles (como el botón para confirmar el equipo).
+     *
+     * Finalmente, añade el panel principal al contenedor de la ventana.
+     */
     private void initComponents() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -121,6 +116,15 @@ public class PokemonSelectionGUI extends JFrame {
         add(mainPanel);
     }
 
+    /**
+     * Crea un panel que muestra una cuadrícula de botones para seleccionar Pokémon.
+     *
+     * Este panel carga todos los Pokémon disponibles, los ordena alfabéticamente
+     * y genera un botón personalizado para cada uno utilizando el método `createPokemonButton`.
+     * Si ocurre algún error al cargar o crear los botones, se muestra un mensaje de error.
+     *
+     * @return Un JPanel que contiene una cuadrícula de botones para la selección de Pokémon.
+     */
     private JPanel createPokemonSelectionPanel() {
         JPanel panel = new JPanel(new GridLayout(0, 4, 15, 15));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -167,6 +171,15 @@ public class PokemonSelectionGUI extends JFrame {
         return panel;
     }
 
+    /**
+     * Crea un botón personalizado para un Pokémon dado.
+     *
+     * El botón incluye la imagen del Pokémon, su nombre y un color de fondo
+     * basado en su tipo principal. Al hacer clic, selecciona ese Pokémon para el equipo.
+     *
+     * @param pokemon El objeto Pokémon para el cual se crea el botón.
+     * @return Un JButton configurado con la imagen, nombre y color representativo del Pokémon.
+     */
     private JButton createPokemonButton(Pokemon pokemon) {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setOpaque(false);
@@ -195,63 +208,17 @@ public class PokemonSelectionGUI extends JFrame {
         return button;
     }
 
-    private ImageIcon loadPokemonImage(String pokemonName) {
-        // 1. Normalizar nombre
-        String normalizedName = pokemonName.toLowerCase().trim();
-
-        // 2. Mapeo de nombres a archivos (completo)
-        Map<String, String> pokemonGifs = Map.ofEntries(
-                Map.entry("charizard", "6.gif"),
-                Map.entry("blastoise", "9.gif"),
-                Map.entry("venusaur", "3.gif"),
-                // ... (todos los demás Pokémon)
-                Map.entry("unknown", "unknown.png")
-        );
-
-        // 3. Obtener nombre de archivo
-        String fileName = pokemonGifs.getOrDefault(normalizedName, "unknown.png");
-        String imagePath = "/pokemon_sprites/" + fileName;
-
-        // 4. Debugging: Verificar ruta
-        System.out.println("Buscando imagen en: " + imagePath);
-
-        // 5. Cargar imagen con ClassLoader
-        InputStream imgStream = getClass().getResourceAsStream(imagePath);
-
-        if (imgStream != null) {
-            try {
-                byte[] bytes = imgStream.readAllBytes();
-                ImageIcon originalIcon = new ImageIcon(bytes);
-                Image scaledImage = originalIcon.getImage()
-                        .getScaledInstance(80, 80, Image.SCALE_SMOOTH);
-                return new ImageIcon(scaledImage);
-            } catch (IOException e) {
-                System.err.println("Error leyendo imagen: " + e.getMessage());
-            }
-        }
-
-        // 6. Si falla, crear imagen de error
-        System.err.println("No se pudo cargar: " + imagePath);
-        return createErrorImage();
-    }
-
-    private ImageIcon createErrorImage() {
-        BufferedImage img = new BufferedImage(80, 80, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = img.createGraphics();
-
-        // Fondo rojo
-        g2d.setColor(Color.RED);
-        g2d.fillRect(0, 0, 80, 80);
-
-        // Texto de error
-        g2d.setColor(Color.WHITE);
-        g2d.setFont(new Font("Arial", Font.BOLD, 10));
-        g2d.drawString("ERROR", 30, 40);
-
-        g2d.dispose();
-        return new ImageIcon(img);
-    }
-
+    /**
+     * Devuelve un color representativo para un tipo de Pokémon dado.
+     *
+     * Cada tipo tiene un color asociado que puede ser usado en la interfaz gráfica
+     * para mejorar la identificación visual del tipo.
+     *
+     * Si el tipo es `null` o no está definido, retorna un color gris claro por defecto.
+     *
+     * @param type El tipo de Pokémon (domain.Type) del que se quiere obtener el color.
+     * @return Un objeto Color que representa visualmente el tipo.
+     */
     private Color getTypeColor(domain.Type type) {
         if (type == null) return Color.LIGHT_GRAY;
 
@@ -278,81 +245,18 @@ public class PokemonSelectionGUI extends JFrame {
         }
     }
 
-    private String getPokemonGifPath(String pokemonName) {
-        // Mapa completo de todos los Pokémon con sus archivos correspondientes
-        Map<String, String> pokemonGifs = new HashMap<String, String>() {{
-            put("charizard", "6.gif");
-            put("blastoise", "9.gif");
-            put("venusaur", "3.gif");
-            put("gengar", "94.gif");
-            put("machamp", "68.gif");
-            put("raichu", "26.gif");
-            put("snorlax", "143.gif");
-            put("tyranitar", "248.gif");
-            put("donphan", "232.gif");
-            put("delibird", "225.gif");
-            put("togetic", "176.gif");
-            put("dragonite", "149.gif");
-            put("metagross", "376.gif");
-            put("gardevoir", "282.gif");
-            put("mawile", "303.gif");
-            put("swampert", "260.gif");
-            put("ninjask", "291.gif");
-            put("altaria", "334.gif");
-            put("manectric", "310.gif");
-            put("banette", "354.gif");
-            put("blaziken", "257.gif");
-            put("granbull", "210.gif");
-            put("glalie", "362.gif");
-            put("medicham", "308.gif");
-            put("zangoose", "335.gif");
-            put("sceptile", "254.gif");
-            put("grumpig", "326.gif");
-            put("solrock", "338.gif");
-            put("umbreon", "197.gif");
-            put("flygon", "330.gif");
-            put("crobat", "169.gif");
-            put("moltres", "146.gif");
-            put("absol", "359.gif");
-            put("seviper", "336.gif");
-            put("pidgeot", "18g.gif");
-            put("masquerain", "284.gif");
-            // Imagen por defecto
-            put("unknown", "unknown.png");
-        }};
-
-        // Normalizar el nombre (minúsculas, sin espacios)
-        String normalizedName = pokemonName.toLowerCase().trim();
-
-        // Verificar existencia en el mapa
-        if (!pokemonGifs.containsKey(normalizedName)) {
-            System.err.println("Pokémon no encontrado en el mapa: " + pokemonName);
-        }
-
-        return "/pokemon_sprites/" + pokemonGifs.getOrDefault(normalizedName, "unknown.png");
-    }
-
-
-
-    private ImageIcon createPlaceholderImage() {
-        // Crear una imagen de placeholder (cuadro rojo con 'X' blanca)
-        BufferedImage img = new BufferedImage(80, 80, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = img.createGraphics();
-
-        // Fondo rojo
-        g2d.setColor(Color.RED);
-        g2d.fillRect(0, 0, 80, 80);
-
-        // 'X' blanca
-        g2d.setColor(Color.WHITE);
-        g2d.setStroke(new BasicStroke(3));
-        g2d.drawLine(10, 10, 70, 70);
-        g2d.drawLine(10, 70, 70, 10);
-
-        g2d.dispose();
-        return new ImageIcon(img);
-    }
-
+    /**
+     * Crea y devuelve un panel de control que contiene un contador
+     * de Pokémon seleccionados y un botón para confirmar la selección del equipo.
+     *
+     * El contador muestra cuántos Pokémon han sido seleccionados hasta el momento
+     * y el límite máximo permitido.
+     *
+     * El botón "Confirmar Equipo" llama al método `confirmSelection` para
+     * proceder con la validación y el siguiente paso en la selección del equipo.
+     *
+     * @return Un JPanel con el contador y el botón de confirmación.
+     */
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
@@ -371,6 +275,18 @@ public class PokemonSelectionGUI extends JFrame {
         return panel;
     }
 
+    /**
+     * Permite seleccionar un Pokémon para añadirlo al equipo del entrenador.
+     *
+     * Este método verifica que no se haya alcanzado el límite máximo de Pokémon seleccionados (6).
+     * Luego clona el Pokémon original para evitar modificarlo directamente, carga sus movimientos,
+     * y abre un diálogo para que el usuario seleccione los movimientos específicos para ese Pokémon.
+     *
+     * Si la selección de movimientos es válida, asigna los movimientos seleccionados al clon,
+     * agrega el clon a la lista de Pokémon seleccionados y guarda los movimientos en el mapa correspondiente.
+     *
+     * @param pokemon El Pokémon que se desea seleccionar para el equipo.
+     */
     private void selectPokemon(Pokemon pokemon) {
         if (selectedPokemons.size() >= POKEMON_PER_TRAINER) {
             JOptionPane.showMessageDialog(this,
@@ -404,6 +320,23 @@ public class PokemonSelectionGUI extends JFrame {
         }
     }
 
+    /**
+     * Muestra un diálogo para que el usuario seleccione exactamente 4 movimientos
+     * de un Pokémon dado. El método crea un Pokémon temporal para cargar todos los movimientos
+     * posibles del Pokémon original y presenta una lista con checkboxes coloreados según
+     * la categoría de cada movimiento (Físico, Especial, Estado).
+     *
+     * El usuario debe seleccionar exactamente 4 movimientos, incluyendo al menos uno de cada categoría:
+     * - Al menos 1 movimiento Físico
+     * - Al menos 1 movimiento Especial
+     * - Al menos 1 movimiento de Estado
+     *
+     * Si la selección no cumple con estas reglas, se mostrará un mensaje de error y se devolverá null.
+     *
+     * @param pokemon El Pokémon para el cual se seleccionarán movimientos.
+     * @return Una lista con los 4 movimientos seleccionados si la selección es válida, o null si
+     *         hubo error, cancelación o selección inválida.
+     */
     private List<Move> selectMovesForPokemon(Pokemon pokemon) {
         // Crear Pokémon temporal con todos sus movimientos posibles
         Pokemon tempPokemon;
@@ -558,7 +491,16 @@ public class PokemonSelectionGUI extends JFrame {
         return null;
     }
 
-    // Método auxiliar para obtener texto de categoría
+    /**
+     * Convierte una categoría de movimiento (MoveCategory) a su representación en texto en español.
+     *
+     * @param category La categoría del movimiento.
+     * @return Una cadena con la representación textual de la categoría:
+     *         "Físico" para PHYSICAL,
+     *         "Especial" para SPECIAL,
+     *         "Estado" para STATUS,
+     *         o "Desconocido" si la categoría no coincide con ninguna conocida.
+     */
     private String getCategoryText(MoveCategory category) {
         switch(category) {
             case PHYSICAL: return "Físico";
@@ -568,6 +510,13 @@ public class PokemonSelectionGUI extends JFrame {
         }
     }
 
+    /**
+     * Verifica si una lista de movimientos contiene al menos un movimiento de cada categoría:
+     * física, especial y estado.
+     *
+     * @param moves Lista de movimientos a evaluar.
+     * @return true si la lista contiene movimientos de las tres categorías; false en caso contrario.
+     */
     private boolean hasAllMoveCategories(List<Move> moves) {
         boolean hasPhysical = false, hasSpecial = false, hasStatus = false;
 
@@ -583,25 +532,21 @@ public class PokemonSelectionGUI extends JFrame {
         return hasPhysical && hasSpecial && hasStatus;
     }
 
-    private void showError(String message) {
-        JOptionPane.showMessageDialog(
-                this,
-                message,
-                "Error en selección",
-                JOptionPane.ERROR_MESSAGE
-        );
-    }
-
-    // Método auxiliar para actualizar el contador
-    private void updateCounterLabel(JLabel label, int selectedCount) {
-        label.setText("<html><b>Seleccionados: " + selectedCount + "/" + MOVES_PER_POKEMON + "</b></html>");
-        if (selectedCount == MOVES_PER_POKEMON) {
-            label.setForeground(new Color(0, 100, 0)); // Verde cuando está completo
-        } else {
-            label.setForeground(Color.BLACK);
-        }
-    }
-
+    /**
+     * Confirma la selección de Pokémon por parte del jugador.
+     *
+     * Valida que se hayan seleccionado exactamente 6 Pokémon.
+     *
+     * Según el modo de juego, maneja la transición adecuada:
+     * - En modo jugador vs jugador (PvsP), guarda el equipo del primer jugador,
+     *   abre la ventana de selección para el segundo jugador y transfiere los datos necesarios.
+     * - En modo jugador vs máquina (PvsM), genera un equipo aleatorio para la máquina,
+     *   inicializa sus movimientos y lanza la ventana del juego.
+     * - En otros casos, asume que es la selección del segundo jugador en PvsP,
+     *   clona y usa los equipos y movimientos para iniciar la partida.
+     *
+     * Muestra mensajes de error si el equipo seleccionado no es válido o si ocurre un error durante la configuración.
+     */
     private void confirmSelection() {
         if (selectedPokemons.size() != 6) {
             JOptionPane.showMessageDialog(this,
@@ -692,57 +637,29 @@ public class PokemonSelectionGUI extends JFrame {
         }
     }
 
+    /**
+     * Selecciona una cantidad específica de movimientos al azar de la lista de movimientos disponibles de un Pokémon.
+     *
+     * @param p     El Pokémon del cual se seleccionarán los movimientos.
+     * @param count La cantidad máxima de movimientos a seleccionar.
+     * @return      Una lista con movimientos seleccionados aleatoriamente, hasta un máximo de {@code count}.
+     */
     private List<Move> selectRandomMoves(Pokemon p, int count) {
         List<Move> available = new ArrayList<>(p.getMoves());
         Collections.shuffle(available);
         return available.subList(0, Math.min(count, available.size()));
     }
 
-
-
-
-    // Añadir estos campos y métodos a la clase PokemonSelectionGUI
-
-
-    public void setFirstPlayerData(List<Pokemon> team, Map<Pokemon, List<Move>> moves) {
-        this.firstPlayerTeam = team;
-        this.firstPlayerMoves = moves;
-    }
-
-    private void startGame() throws PoobkemonException {
-        List<Item> items = List.of(
-                new Potion(),
-                new SuperPotion(),
-                new Revive()  // Eliminé HyperPotion para cumplir con el límite de 2 pociones/1 revive
-        );
-
-        // Clonar los Pokémon seleccionados para cada entrenador
-        List<Pokemon> team1 = new ArrayList<>();
-        List<Pokemon> team2 = new ArrayList<>();
-
-        for (Pokemon p : selectedPokemons) {
-            team1.add(p.clone());
-            team2.add(p.clone());
-        }
-
-        Trainer trainer1 = new Trainer(
-                playerName,
-                playerColor,
-                team1,
-                items
-        );
-
-        Trainer trainer2 = new Trainer(
-                opponentName,
-                opponentColor,
-                team2,
-                items
-        );
-
-        dispose();
-        new GameGUI(new Game(trainer1, trainer2), mode).setVisible(true);
-    }
-
+    /**
+     * Crea y devuelve una lista con instancias de todos los Pokémon disponibles en el juego.
+     *
+     * Este método utiliza reflexión para instanciar cada clase de Pokémon definida en
+     * el arreglo interno {@code pokemonClasses}. Si ocurre algún error durante la creación
+     * de alguna instancia, se captura la excepción, se imprime la traza y se muestra un mensaje
+     * de error al usuario.
+     *
+     * @return una lista de objetos {@link Pokemon} con todos los Pokémon creados
+     */
     private List<Pokemon> createAllPokemons() {
         List<Pokemon> allPokemons = new ArrayList<>();
 
@@ -776,23 +693,7 @@ public class PokemonSelectionGUI extends JFrame {
         return allPokemons;
     }
 
-    private static class MoveListRenderer extends DefaultListCellRenderer {
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if (value instanceof Move) {
-                Move move = (Move) value;
-                setText(String.format("%-20s %-10s Pwr:%-3d PP:%-2d %s",
-                        move.getName(),
-                        move.getType(),
-                        move.getPower(),
-                        move.getPp(),
-                        move.getCategory()));
-            }
-            return this;
-        }
-    }
+
     /**
      * Carga y escala la imagen de un Pokémon, con manejo robusto de errores
      * @param pokemonName Nombre del Pokémon (ej. "charizard")
@@ -869,8 +770,10 @@ public class PokemonSelectionGUI extends JFrame {
         return createErrorIcon();
     }
 
-    /** Crea una imagen de error visible */
-
+    /**
+     * Crea un ícono de imagen personalizado que indica un error o la ausencia de imagen.
+     * @return un {@link ImageIcon} que representa un ícono de error o marcador de posición
+     */
     private ImageIcon createErrorIcon() {
         BufferedImage errorImg = new BufferedImage(80, 80, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = errorImg.createGraphics();

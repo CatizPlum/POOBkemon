@@ -58,7 +58,7 @@ public class Game implements Serializable {
     public Game(Trainer t1, AbstractMachine t2) {
         this.trainer1 = t1;
         this.machineAttacker = t2;
-        this.trainer2 = new TrainerAdapter(t2);  // nueva clase adaptadora
+        this.trainer2 = new TrainerAdapter(t2);
         this.currentTrainer = trainer1;
         this.waitingTrainer = trainer2;
     }
@@ -68,7 +68,8 @@ public class Game implements Serializable {
     public Game(String player1Name, String player2Name,
                 Color color1, Color color2,
                 List<Pokemon> team1, Map<Pokemon, List<Move>> moves1,
-                List<Pokemon> team2, Map<Pokemon, List<Move>> moves2) throws PoobkemonException {
+                List<Pokemon> team2,
+                Map<Pokemon, List<Move>> moves2) throws PoobkemonException {
 
         this.trainer1 = new Trainer(player1Name, color1, team1, moves1);
         this.trainer2 = new Trainer(player2Name, color2, team2, moves2);
@@ -228,20 +229,6 @@ public class Game implements Serializable {
     }
 
 
-    /**
-     * Activa la habilidad especial de Delibird (Regalo Sorpresa)
-     * @throws PoobkemonException si el Pokémon activo no es un Delibird
-     */
-    public void triggerDelibirdGift() throws PoobkemonException {
-        Pokemon current = currentTrainer.getCurrentPokemon();
-        Pokemon opponent = waitingTrainer.getCurrentPokemon();
-
-        if (current instanceof Delibird) {
-            ((Delibird) current).surpriseGift(opponent);
-        } else {
-            throw new PoobkemonException("El Pokémon activo no es Delibird.");
-        }
-    }
 
     /**
      * Establece el callback para cuando se agote el tiempo
